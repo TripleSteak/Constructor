@@ -6,6 +6,7 @@
 #include "../common/trade.h"
 #include <vector>
 #include <unordered_map>
+#include <string>
 
 class Builder final {
   private:
@@ -13,11 +14,11 @@ class Builder final {
     char builderColour;
     Dice* dice;
     
-    std::vector<Residence*> residences; // Residences owned by this Builder
-    std::vector<Road*> roads; // Roads owned by this Builder
+    std::vector<Residence*> residences;
+    std::vector<Road*> roads;
 
   public:
-    std::unordered_map<Resource, int> inventory; // How many copies of each Resource this Builder owns
+    std::unordered_map<Resource, int> inventory;
 
     Builder(int, char);
     ~Builder();
@@ -27,7 +28,7 @@ class Builder final {
     std::string getStatus();
 
     int rollDice();
-    void setDice(bool); // Parameter set to true means LoadedDice, otherwise FairDice
+    void setDice(bool);
 
     int chooseGeeseSpot();
     char steal();
