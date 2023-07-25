@@ -23,8 +23,9 @@ class Tile final : public AbstractTile {
 
     int getTileNumber() override;
     int getTileValue() override;
+
     Resource getResource() override;
-    std::vector<Resource> getResourcesFromDiceRoll(Builder&, int) override;
+    std::vector<Resource> getResourcesFromDiceRoll(Builder&, int) override; // Resources to give to the Builder when dice are rolled
 };
 
 #endif

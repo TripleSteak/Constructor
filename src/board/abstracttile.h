@@ -16,6 +16,7 @@ class AbstractTile {
 
     virtual int getTileNumber() = 0;
     virtual int getTileValue() = 0;
+
     virtual Resource getResource() = 0;
     virtual std::vector<Resource> getResourcesFromDiceRoll(Builder&, int) = 0; // Resources to give to the Builder when dice are rolled
 };
