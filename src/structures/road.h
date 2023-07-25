@@ -12,8 +12,8 @@ class Road final {
     Road(int, Edge*);
     ~Road();
 
-    int getOwner();
-    Edge* getLocation();
+    int getOwner() const;
+    Edge* getLocation() const;
 };
 
 #endif

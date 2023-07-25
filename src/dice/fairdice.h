@@ -9,7 +9,7 @@ class FairDice final : public Dice {
     FairDice();
     ~FairDice();
 
-    int rollDice() override;
+    int rollDice() const override;
 };
 
 #endif

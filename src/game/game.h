@@ -11,15 +11,15 @@ class Game final {
     Builder* currentTurn;
     FileHandler* fileHandler;
 
-    void beginTurn(Builder&);
+    void beginTurn(const Builder&);
     void buildInitialResidences();
-    void discardHalfOfTotalResources(Builder&);
+    void discardHalfOfTotalResources(const Builder&);
     void nextTurn();
 
-    void printBoard();
-    void printBuilderStatuses();
-    void printResidences();
-    void printHelp();
+    void printBoard() const;
+    void printBuilderStatuses() const;
+    void printResidences() const;
+    void printHelp() const;
 
   public:
     Game();

@@ -19,19 +19,19 @@ class Board final {
 
     void initBoard();
 
-    bool canBuildRoad(Builder&, int);
-    bool canBuildResidence(Builder&, int);
-    bool canBuildInitialResidence(int);
-    bool canUpgradeResidence(Builder&, int);
+    bool canBuildRoad(const Builder&, int) const;
+    bool canBuildResidence(const Builder&, int) const;
+    bool canBuildInitialResidence(int) const;
+    bool canUpgradeResidence(const Builder&, int) const;
 
-    void buildRoad(Builder&, int);
-    void buildResidence(Builder&, int);
-    void buildInitialResidence(Builder&, int);
+    void buildRoad(const Builder&, int);
+    void buildResidence(const Builder&, int);
+    void buildInitialResidence(const Builder&, int);
     void upgradeResidence(int);
 
-    std::vector<Resource> getResourcesFromDiceRoll(Builder&, int);
+    std::vector<Resource> getResourcesFromDiceRoll(const Builder&, int) const;
 
-    int getGeeseTile();
+    int getGeeseTile() const;
     void setGeeseTile(int);
 
     void printBoard();

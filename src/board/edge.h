@@ -10,18 +10,18 @@ class Edge final {
     int edgeNumber;
     Road* road;
 
-    std::vector<AbstractTile*> getNeighbouringTiles();
-    std::vector<Vertex*> getNeighbouringVertices();
+    std::vector<AbstractTile*> getNeighbouringTiles() const;
+    std::vector<Vertex*> getNeighbouringVertices() const;
 
   public:
     Edge(Board*, int);
     ~Edge();
 
-    int getEdgeNumber();
-    Road* getRoad();
+    int getEdgeNumber() const;
+    Road* getRoad() const;
 
-    bool canBuildRoad(Builder&);
-    void buildRoad(Builder&);
+    bool canBuildRoad(const Builder&);
+    void buildRoad(const Builder&);
 };
 
 #endif

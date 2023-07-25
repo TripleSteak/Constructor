@@ -23,17 +23,17 @@ class Builder final {
     Builder(int, char);
     ~Builder();
 
-    int getBuilderNumber();
-    char getBuilderColour();
-    std::string getStatus();
+    int getBuilderNumber() const;
+    char getBuilderColour() const;
+    std::string getStatus() const;
 
-    int rollDice();
+    int rollDice() const;
     void setDice(bool);
 
-    int chooseGeeseSpot();
-    char steal();
-    Trade proposeTrade();
-    bool respondToTrade();
+    int chooseGeeseSpot() const;
+    char steal() const;
+    Trade proposeTrade() const;
+    bool respondToTrade() const;
 
     int buildRoad();
     int buildResidence();

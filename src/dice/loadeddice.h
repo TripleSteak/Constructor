@@ -9,7 +9,7 @@ public:
     LoadedDice();
     ~LoadedDice();
 
-    int rollDice() override;
+    int rollDice() const override;
 };
 
 #endif

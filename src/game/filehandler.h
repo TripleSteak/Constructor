@@ -14,7 +14,7 @@ class FileHandler final {
 
     Game* loadFromGame(std::string);
     Game* loadFromBoard(std::string);
-    void save(Game&, std::string);
+    void save(const Game&, std::string);
 };
 
 #endif

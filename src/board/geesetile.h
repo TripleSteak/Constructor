@@ -11,18 +11,17 @@ class GeeseTile final : public AbstractTile {
     AbstractTile* tile;
 
   protected:
-    std::vector<Edge*> getNeighbouringEdges() override;
-    std::vector<Vertex*> getNeighbouringVertices() override;
+    std::vector<Edge*> getNeighbouringEdges() const override;
+    std::vector<Vertex*> getNeighbouringVertices() const override;
 
   public:
     GeeseTile(AbstractTile*);
     ~GeeseTile();
 
-    int getTileNumber() override;
-    int getTileValue() override;
-
-    Resource getResource() override;
-    std::vector<Resource> getResourcesFromDiceRoll(Builder&, int) override;
+    int getTileNumber() const override;
+    int getTileValue() const override;
+    Resource getResource() const override;
+    std::vector<Resource> getResourcesFromDiceRoll(const Builder&, int) const override;
 };
 
 #endif

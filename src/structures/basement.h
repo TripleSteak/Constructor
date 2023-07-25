@@ -9,9 +9,9 @@ class Basement final : public Residence {
     Basement(int, Vertex*);
     ~Basement();
 
-    int getBuildingPoints() override;
-    char getResidenceLetter() override;
-    int getResourceMultiplier() override;
+    int getBuildingPoints() const override;
+    char getResidenceLetter() const override;
+    int getResourceMultiplier() const override;
 };
 
 #endif

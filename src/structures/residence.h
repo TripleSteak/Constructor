@@ -12,12 +12,12 @@ class Residence {
     Residence(int, Vertex*);
     virtual ~Residence();
 
-    int getOwner();
-    Vertex* getLocation();
+    int getOwner() const;
+    Vertex* getLocation() const;
 
-    virtual int getBuildingPoints() = 0;
-    virtual char getResidenceLetter() = 0;
-    virtual int getResourceMultiplier() = 0;
+    virtual int getBuildingPoints() const = 0;
+    virtual char getResidenceLetter() const = 0;
+    virtual int getResourceMultiplier() const = 0;
 };
 
 #endif

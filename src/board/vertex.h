@@ -10,22 +10,22 @@ class Vertex final {
     int vertexNumber;
     Residence* residence;
 
-    std::vector<Edge*> getNeighbouringEdges();
-    std::vector<AbstractTile*> getNeighbouringTiles();
+    std::vector<Edge*> getNeighbouringEdges() const;
+    std::vector<AbstractTile*> getNeighbouringTiles() const;
 
   public:
     Vertex(Board*, int);
     ~Vertex();
 
-    int getVertexNumber();
-    Residence* getResidence();
+    int getVertexNumber() const;
+    Residence* getResidence() const;
 
-    bool canBuildResidence(Builder&);
-    bool canBuildInitialResidence();
-    bool canUpgradeResidence(Builder&);
+    bool canBuildResidence(const Builder&) const;
+    bool canBuildInitialResidence() const;
+    bool canUpgradeResidence(const Builder&) const;
 
-    void buildResidence(Builder&);
-    void buildInitialResidence(Builder&);
+    void buildResidence(const Builder&);
+    void buildInitialResidence(const Builder&);
     void upgradeResidence();
 };
 
