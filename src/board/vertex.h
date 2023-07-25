@@ -2,7 +2,6 @@
 #define VERTEX_H
 
 #include "../common/forward.h"
-#include "../common/resource.h"
 #include <vector>
 
 class Vertex final {
