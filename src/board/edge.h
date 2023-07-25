@@ -14,8 +14,10 @@ class Edge final {
     std::vector<Vertex*> getNeighbouringVertices() const;
 
   public:
-    Edge(Board*, int);
+    Edge(int);
     ~Edge();
+
+    void setBoard(const Board&);
 
     int getEdgeNumber() const;
     Road* getRoad() const;

@@ -14,6 +14,6 @@ TEST(Builder, GetBuilderColour) {
 }
 
 TEST(Builder, GetBuildingPointsEmpty) {
-    Buidler builder = Builder(3, 'G');
+    Builder builder = Builder(3, 'G');
     EXPECT_EQ(builder.getBuildingPoints(), 0);
 }

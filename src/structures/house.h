@@ -6,7 +6,7 @@
 
 class House final : public Residence {
 public:
-    House(int, Vertex*);
+    House(int, Vertex&);
     ~House();
 
     int getBuildingPoints() const override;

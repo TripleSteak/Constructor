@@ -6,13 +6,12 @@
 
 class Tower final : public Residence {
 public:
-    Tower(int, Vertex*);
+    Tower(int, Vertex&);
     ~Tower();
 
     int getBuildingPoints() const override;
     char getResidenceLetter() const override;
     int getResourceMultiplier() const override;
 };
-
 
 #endif

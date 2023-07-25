@@ -6,7 +6,7 @@
 
 class Basement final : public Residence {
   public:
-    Basement(int, Vertex*);
+    Basement(int, Vertex&);
     ~Basement();
 
     int getBuildingPoints() const override;

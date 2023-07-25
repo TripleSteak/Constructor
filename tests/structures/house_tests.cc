@@ -1,27 +1,36 @@
 #include "gtest/gtest.h"
 #include "../../src/structures/residence.h"
 #include "../../src/structures/house.h"
+#include "../../src/board/vertex.h"
 
 TEST(House, GetOwner) {
-    int owner = 2;
-    House house = House(owner, nullptr);
-    EXPECT_EQ(house.getOwner(), owner);
+    Vertex location = Vertex(14);
+    House house = House(2, location);
+
+    EXPECT_EQ(house.getOwner(), 2);
 }
 
-// TODO:
-// TEST(House, GetLocation) {}
+TEST(House, GetLocation) {
+    Vertex location = Vertex(15);
+    House house = House(1, location);
+
+    EXPECT_EQ(house.getLocation(), &location);
+}
 
 TEST(House, GetBuildingPoints) {
-    House house = House(0, nullptr);
+    Vertex location = Vertex(16);
+    House house = House(3, location);
     EXPECT_EQ(house.getBuildingPoints(), 2);
 }
 
 TEST(House, GetResidenceLetter) {
-    House house = House(0, nullptr);
+    Vertex location = Vertex(17);
+    House house = House(2, location);
     EXPECT_EQ(house.getResidenceLetter(), 'H');
 }
 
 TEST(House, GetResourceMultiplier) {
-    House house = House(0, nullptr);
+    Vertex location = Vertex(18);
+    House house = House(1, location);
     EXPECT_EQ(house.getResourceMultiplier(), 2);
 }

@@ -14,8 +14,10 @@ class Vertex final {
     std::vector<AbstractTile*> getNeighbouringTiles() const;
 
   public:
-    Vertex(Board*, int);
+    Vertex(int);
     ~Vertex();
+
+    void setBoard(const Board&);
 
     int getVertexNumber() const;
     Residence* getResidence() const;

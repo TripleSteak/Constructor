@@ -9,7 +9,7 @@ class Residence {
     Vertex* location;
 
   public:
-    Residence(int, Vertex*);
+    Residence(int, Vertex&);
     virtual ~Residence();
 
     int getOwner() const;

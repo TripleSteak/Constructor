@@ -18,8 +18,10 @@ class Tile final : public AbstractTile {
     std::vector<Vertex*> getNeighbouringVertices() const override;
 
   public:
-    Tile(Board*, int, int, Resource);
+    Tile(int, int, Resource);
     ~Tile();
+
+    void setBoard(const Board&);
 
     int getTileNumber() const override;
     int getTileValue() const override;
