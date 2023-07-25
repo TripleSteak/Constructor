@@ -1,7 +1,7 @@
-#include "gtest/gtest.h"
+#include "../../src/board/vertex.h"
 #include "../../src/structures/residence.h"
 #include "../../src/structures/tower.h"
-#include "../../src/board/vertex.h"
+#include "gtest/gtest.h"
 
 TEST(Tower, GetOwner) {
     Vertex location = Vertex(14);

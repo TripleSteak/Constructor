@@ -9,5 +9,5 @@ ${EXEC}:${OBJECTS}
 -include ${DEPENDS}
 
 PHONY:clean
-clean :
+clean:
 	rm ${OBJECTS} ${EXEC} ${DEPENDS}

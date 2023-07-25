@@ -1,10 +1,10 @@
-#include "gtest/gtest.h"
 #include "../../src/game/builder.h"
 #include "../../src/structures/residence.h"
 #include "../../src/structures/basement.h"
 #include "../../src/structures/house.h"
 #include "../../src/structures/tower.h"
 #include "../../src/board/vertex.h"
+#include "gtest/gtest.h"
 
 TEST(Builder, GetBuilderNumber) {
     int builderNumber = 3;
