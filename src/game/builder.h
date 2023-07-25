@@ -7,6 +7,7 @@
 #include <vector>
 #include <unordered_map>
 #include <string>
+#include <iostream>
 
 class Builder final {
   private:
@@ -14,10 +15,9 @@ class Builder final {
     char builderColour;
     Dice* dice;
 
+  public:
     std::vector<Residence*> residences;
     std::vector<Road*> roads;
-
-  public:
     std::unordered_map<Resource, int> inventory;
 
     Builder(int, char);
@@ -31,15 +31,15 @@ class Builder final {
     int rollDice() const;
     void setDice(bool);
 
-    int chooseGeeseSpot() const;
-    char steal() const;
-    Trade proposeTrade() const;
-    bool respondToTrade() const;
+    int chooseGeeseSpot(std::istream&, std::ostream&) const;
+    char steal(std::istream&, std::ostream&) const;
+    Trade proposeTrade(std::istream&, std::ostream&) const;
+    bool respondToTrade(std::istream&, std::ostream&) const;
 
-    int buildRoad();
-    int buildResidence();
-    int buildInitialResidence();
-    int upgradeResidence();
+    int tryBuildRoad(std::istream&, std::ostream&);
+    int tryBuildResidence(std::istream&, std::ostream&);
+    int tryBuildInitialResidence(std::istream&, std::ostream&);
+    int tryUpgradeResidence(std::istream&, std::ostream&);
 };
 
 #endif
