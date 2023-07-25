@@ -1,5 +1,5 @@
-#include "gtest/gtest.h"
 #include "../../src/game/builder.h"
+#include "gtest/gtest.h"
 
 TEST(Builder, GetBuilderNumber) {
     int builderNumber = 3;
