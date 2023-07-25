@@ -13,7 +13,7 @@ class Builder final {
     int builderNumber;
     char builderColour;
     Dice* dice;
-    
+
     std::vector<Residence*> residences;
     std::vector<Road*> roads;
 
@@ -25,6 +25,7 @@ class Builder final {
 
     int getBuilderNumber() const;
     char getBuilderColour() const;
+    int getBuildingPoints() const;
     std::string getStatus() const;
 
     int rollDice() const;

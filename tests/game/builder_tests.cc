@@ -1,9 +1,19 @@
 #include "gtest/gtest.h"
+#include "../../src/game/builder.h"
 
-TEST(SampleTest, TestingTestPass) {
-    EXPECT_EQ(0, 0);
+TEST(Builder, GetBuilderNumber) {
+    int builderNumber = 3;
+    Builder builder = Builder(builderNumber, 'G');
+    EXPECT_EQ(builder.getBuilderNumber(), builderNumber);
 }
 
-TEST(SampleTest, TestingTestFail) {
-    EXPECT_EQ(0, 1);
+TEST(Builder, GetBuilderColour) {
+    char builderColour = 'B';
+    Builder builder = Builder(2, builderColour);
+    EXPECT_EQ(builder.getBuilderColour(), builderColour);
+}
+
+TEST(Builder, GetBuildingPointsEmpty) {
+    Buidler builder = Builder(3, 'G');
+    EXPECT_EQ(builder.getBuildingPoints(), 0);
 }

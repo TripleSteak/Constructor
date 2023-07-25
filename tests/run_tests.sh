@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Compiling tests..."
-g++ -pthread */*.cc -lgtest -lgtest_main -o tests.out
+g++ -g -std=c++17 -Wall ../src/*/*.cc -pthread */*.cc -lgtest -lgtest_main -o tests.out
 
 echo "Running tests..."
 ./tests.out
