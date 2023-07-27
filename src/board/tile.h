@@ -21,7 +21,7 @@ class Tile final : public AbstractTile {
     Tile(int, int, Resource);
     ~Tile();
 
-    void setBoard(const Board&);
+    void setBoard(Board&);
 
     int getTileNumber() const override;
     int getTileValue() const override;

@@ -17,7 +17,7 @@ class Edge final {
     Edge(int);
     ~Edge();
 
-    void setBoard(const Board&);
+    void setBoard(Board&);
 
     int getEdgeNumber() const;
     Road* getRoad() const;
