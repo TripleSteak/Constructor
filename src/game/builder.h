@@ -28,7 +28,7 @@ class Builder final {
     int getBuildingPoints() const;
     std::string getStatus() const;
 
-    int rollDice() const;
+    int rollDice(int) const;
     void setDice(bool);
 
     int chooseGeeseSpot(std::istream&, std::ostream&) const; // Select tile number to place geese on

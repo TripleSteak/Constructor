@@ -2,8 +2,7 @@
 
 LoadedDice::LoadedDice() : Dice() {}
 LoadedDice::~LoadedDice() {}
-
-int LoadedDice::rollDice() const {
-    // TODO: Implement!
-    return 5;
+ 
+int LoadedDice::rollDice(int roll) const {
+    return roll;
 }

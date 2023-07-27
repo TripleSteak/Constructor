@@ -46,8 +46,8 @@ std::string Builder::getStatus() const {
     return oss.str();
 }
 
-int Builder::rollDice() const {
-    return dice->rollDice();
+int Builder::rollDice(int roll) const {
+    return dice->rollDice(roll);
 }
 
 void Builder::setDice(bool isLoaded) {
