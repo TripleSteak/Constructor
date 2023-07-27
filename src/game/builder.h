@@ -36,10 +36,10 @@ class Builder final {
     Trade proposeTrade(std::istream&, std::ostream&) const;
     bool respondToTrade(std::istream&, std::ostream&) const;
 
-    int tryBuildRoad(std::istream&, std::ostream&);
-    int tryBuildResidence(std::istream&, std::ostream&);
-    int tryBuildInitialResidence(std::istream&, std::ostream&);
-    int tryUpgradeResidence(std::istream&, std::ostream&);
+    int tryBuildRoad(std::istream&) const;
+    int tryBuildResidence(std::istream&) const;
+    int tryBuildInitialResidence(std::istream&) const;
+    int tryUpgradeResidence(std::istream&) const;
 };
 
 #endif

@@ -109,3 +109,35 @@ TEST(Builder, RespondToTradeWithYes) {
     EXPECT_EQ(out.str(), "Does B accept this offer?\n");
     EXPECT_EQ(tradeResponse, true);
 }
+
+TEST(Builder, TryBuildRoad) {
+    Builder builder = Builder(2, 'G');
+    std::istringstream in("27");
+
+    int edgeNumber = builder.tryBuildRoad(in);
+    EXPECT_EQ(edgeNumber, 27);
+}
+
+TEST(Builder, TryBuildResidence) {
+    Builder builder = Builder(3, 'Y');
+    std::istringstream in("46");
+
+    int vertexNumber = builder.tryBuildResidence(in);
+    EXPECT_EQ(vertexNumber, 46);
+}
+
+TEST(Builder, TryBuildInitialResidence) {
+    Builder builder = Builder(2, 'G');
+    std::istringstream in("33");
+
+    int vertexNumber = builder.tryBuildInitialResidence(in);
+    EXPECT_EQ(vertexNumber, 33);
+}
+
+TEST(Builder, TryUpgradeResidence) {
+    Builder builder = Builder(1, 'B');
+    std::istringstream in("34");
+
+    int vertexNumber = builder.tryUpgradeResidence(in);
+    EXPECT_EQ(vertexNumber, 34);
+}

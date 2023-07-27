@@ -83,3 +83,27 @@ bool Builder::respondToTrade(std::istream& in, std::ostream& out) const {
     in >> response;
     return response == "yes";
 }
+
+int Builder::tryBuildRoad(std::istream& in) const {
+    int edgeNumber;
+    in >> edgeNumber;
+    return edgeNumber;
+}
+
+int Builder::tryBuildResidence(std::istream& in) const {
+    int vertexNumber;
+    in >> vertexNumber;
+    return vertexNumber;
+}
+
+int Builder::tryBuildInitialResidence(std::istream& in) const {
+    int vertexNumber;
+    in >> vertexNumber;
+    return vertexNumber;
+}
+
+int Builder::tryUpgradeResidence(std::istream& in) const {
+    int vertexNumber;
+    in >> vertexNumber;
+    return vertexNumber;
+}
