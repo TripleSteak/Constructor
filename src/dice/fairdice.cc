@@ -10,5 +10,5 @@ int FairDice::rollDice(int roll) const {
     srand(time(0));
     int rollone = rand() % 6 + 1;
     int rolltwo = rand() % 6 + 1;
-    return rollone + rolltwo
+    return rollone + rolltwo;
 }
