@@ -11,12 +11,12 @@ std::istream& operator>> (std::istream& in, Resource& resource) {
     else if(str == "GLASS") { resource = GLASS; }
     else if(str == "HEAT") { resource = HEAT; }
     else if(str == "WIFI") { resource = WIFI; }
-    else { std::invalid_argument("Received invalid Resource from input!"); }
+    else { throw std::invalid_argument("Received invalid Resource from input!"); }
 
     return in;
 }
 
-std::ostream& operator<< (std::ostream& out, Resource& resource) {
+std::ostream& operator<< (std::ostream& out, const Resource resource) {
     switch(resource) {
         case BRICK:
             out << "BRICK";

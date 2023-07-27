@@ -6,6 +6,6 @@
 enum Resource { BRICK, ENERGY, GLASS, HEAT, PARK, WIFI };
 
 std::istream& operator>> (std::istream&, Resource&);
-std::ostream& operator<< (std::ostream&, Resource&);
+std::ostream& operator<< (std::ostream&, const Resource);
 
 #endif
