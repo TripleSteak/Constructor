@@ -1,6 +1,7 @@
 #include "resource.h"
 #include <algorithm>
 
+// "PARK" is considered an invalid resource for input purposes, since the Builder will never have any reason to input "PARK."
 std::istream& operator>> (std::istream& in, Resource& resource) {
     std::string str;
     in >> str;
@@ -16,6 +17,7 @@ std::istream& operator>> (std::istream& in, Resource& resource) {
     return in;
 }
 
+// Output operator overload is needed, as C++ prints enums as integers by default
 std::ostream& operator<< (std::ostream& out, const Resource resource) {
     switch(resource) {
         case BRICK:

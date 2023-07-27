@@ -8,7 +8,7 @@
 
 class GeeseTile final : public AbstractTile {
   private:
-    AbstractTile* tile;
+    AbstractTile* tile; // Decorator pointer
 
   protected:
     std::vector<Edge*> getNeighbouringEdges() const override;

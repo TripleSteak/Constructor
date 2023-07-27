@@ -17,7 +17,7 @@ class Residence {
 
     virtual int getBuildingPoints() const = 0;
     virtual char getResidenceLetter() const = 0;
-    virtual int getResourceMultiplier() const = 0;
+    virtual int getResourceMultiplier() const = 0; // How many copies of each Resource does a Builder obtain from adjacent Tiles during each dice roll?
 };
 
 #endif

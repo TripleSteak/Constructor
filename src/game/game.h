@@ -13,7 +13,7 @@ class Game final {
 
     void beginTurn(const Builder&);
     void buildInitialResidences();
-    void discardHalfOfTotalResources(const Builder&);
+    void discardHalfOfTotalResources(const Builder&); // Invoked when a 7 is rolled and Builders' hands are too large
     void nextTurn();
 
     void printBoard() const;

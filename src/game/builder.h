@@ -18,7 +18,7 @@ class Builder final {
   public:
     std::vector<Residence*> residences;
     std::vector<Road*> roads;
-    std::unordered_map<Resource, int> inventory;
+    std::unordered_map<Resource, int> inventory; // "PARK" should never be one of the keys in this map
 
     Builder(int, char);
     ~Builder();
@@ -31,8 +31,8 @@ class Builder final {
     int rollDice() const;
     void setDice(bool);
 
-    int chooseGeeseSpot(std::istream&, std::ostream&) const;
-    char steal(std::istream&, std::ostream&) const;
+    int chooseGeeseSpot(std::istream&, std::ostream&) const; // Select tile number to place geese on
+    char steal(std::istream&, std::ostream&) const; // Select which other Builder to steal from
     Trade proposeTrade(std::istream&, std::ostream&) const;
     bool respondToTrade(std::istream&, std::ostream&) const;
 
