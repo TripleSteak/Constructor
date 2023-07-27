@@ -1,5 +1,4 @@
 #include "../../src/board/vertex.h"
-#include "../../src/structures/residence.h"
 #include "../../src/structures/tower.h"
 #include "gtest/gtest.h"
 
