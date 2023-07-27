@@ -13,10 +13,6 @@ class Tile final : public AbstractTile {
     int tileValue;
     Resource resource;
 
-  protected:
-    std::vector<Edge*> getNeighbouringEdges() const override;
-    std::vector<Vertex*> getNeighbouringVertices() const override;
-
   public:
     Tile(int, int, Resource);
     ~Tile();

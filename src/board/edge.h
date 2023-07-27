@@ -6,23 +6,23 @@
 
 class Edge final {
   private:
-    Board* board;
+    const Board* board;
     int edgeNumber;
     Road* road;
-
-    std::vector<AbstractTile*> getNeighbouringTiles() const;
-    std::vector<Vertex*> getNeighbouringVertices() const;
+    std::vector<AbstractTile*> neighbouringTiles;
+    std::vector<Vertex*> neighbouringVertices;
 
   public:
-    Edge(int);
+    Edge(const Board&, int);
     ~Edge();
 
-    void setBoard(const Board&);
+    void addNeighbouringTile(AbstractTile*);
+    void addNeighbouringVertex(Vertex*);
 
     int getEdgeNumber() const;
     Road* getRoad() const;
 
-    bool canBuildRoad(const Builder&);
+    bool canBuildRoad(int);
     void buildRoad(const Builder&);
 };
 

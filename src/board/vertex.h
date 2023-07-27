@@ -10,8 +10,8 @@ class Vertex final {
     int vertexNumber;
     Residence* residence;
 
-    std::vector<Edge*> getNeighbouringEdges() const;
-    std::vector<AbstractTile*> getNeighbouringTiles() const;
+    std::vector<AbstractTile*> neighbouringTiles;
+    std::vector<Edge*> neighbouringEdges;
 
   public:
     Vertex(int);
@@ -21,6 +21,7 @@ class Vertex final {
 
     int getVertexNumber() const;
     Residence* getResidence() const;
+    std::vector<Edge*> getNeighbouringEdges() const;
 
     bool canBuildResidence(const Builder&) const;
     bool canBuildInitialResidence() const;
