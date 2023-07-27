@@ -14,11 +14,11 @@ class Builder final {
     char builderColour;
     Dice* dice;
 
+  public:
     std::vector<Residence*> residences;
     std::vector<Road*> roads;
-
-  public:
-    std::unordered_map<Resource, int> inventory;
+    std::unordered_map<Resource, int>
+        inventory; // "PARK" should never be one of the keys in this map
 
     Builder(int, char);
     ~Builder();
@@ -28,18 +28,20 @@ class Builder final {
     int getBuildingPoints() const;
     std::string getStatus() const;
 
-    int rollDice() const;
+    int rollDice(int) const;
     void setDice(bool);
 
-    int chooseGeeseSpot() const;
-    char steal() const;
-    Trade proposeTrade() const;
-    bool respondToTrade() const;
+    int chooseGeeseSpot(std::istream&, std::ostream&)
+        const; // Select tile number to place geese on
+    char steal(std::istream&,
+               std::ostream&) const; // Select which other Builder to steal from
+    Trade proposeTrade(std::istream&, std::ostream&) const;
+    bool respondToTrade(std::istream&, std::ostream&) const;
 
-    int buildRoad();
-    int buildResidence();
-    int buildInitialResidence();
-    int upgradeResidence();
+    int tryBuildRoad(std::istream&) const;
+    int tryBuildResidence(std::istream&) const;
+    int tryBuildInitialResidence(std::istream&) const;
+    int tryUpgradeResidence(std::istream&) const;
 };
 
 #endif

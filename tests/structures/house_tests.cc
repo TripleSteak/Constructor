@@ -1,6 +1,5 @@
 #include "../../src/board/vertex.h"
 #include "../../src/structures/house.h"
-#include "../../src/structures/residence.h"
 #include "gtest/gtest.h"
 
 TEST(House, GetOwner) {

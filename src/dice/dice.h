@@ -8,7 +8,7 @@ class Dice {
     Dice();
     virtual ~Dice();
 
-    virtual int rollDice() const = 0;
+    virtual int rollDice(int) const = 0;
 };
 
 #endif

@@ -17,7 +17,7 @@ class Vertex final {
     Vertex(int);
     ~Vertex();
 
-    void setBoard(const Board&);
+    void setBoard(Board&);
 
     int getVertexNumber() const;
     Residence* getResidence() const;
