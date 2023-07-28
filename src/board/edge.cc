@@ -24,25 +24,23 @@ std::shared_ptr<Road> Edge::getRoad() const {
 
 std::vector<Vertex*> Edge::getNeighbouringVertices() const {
     return neighbouringVertices;
-}  
+}
 
 bool Edge::canBuildRoad(int builderNumber) const {
-    if (road != nullptr){
+    if (road != nullptr) {
         // Road already exists!
         return false;
     }
 
     for (Vertex* vertex : neighbouringVertices) {
         // Vertex has residence owned by the builder
-        if (vertex->getResidence() != nullptr &&
-            vertex->getResidence()->getOwner() == builderNumber) {
+        if (vertex->getResidence() != nullptr && vertex->getResidence()->getOwner() == builderNumber) {
             return true;
         }
 
         // Vertex is connected to a road owned by the builder
         for (Edge* edge : vertex->getNeighbouringEdges()) {
-            if (edge->getRoad() != nullptr &&
-                edge->getRoad()->getOwner() == builderNumber) {
+            if (edge->getRoad() != nullptr && edge->getRoad()->getOwner() == builderNumber) {
                 return true;
             }
         }
@@ -50,7 +48,7 @@ bool Edge::canBuildRoad(int builderNumber) const {
 
     // No adjacent road or residence!
     return false;
-}   
+}
 
 void Edge::buildRoad(std::shared_ptr<Road> road) {
     this->road = road;

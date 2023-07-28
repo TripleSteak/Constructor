@@ -1,8 +1,8 @@
 #include "vertex.h"
-#include "edge.h"
-#include "../structures/road.h"
-#include "../structures/residence.h"
 #include "../structures/basement.h"
+#include "../structures/residence.h"
+#include "../structures/road.h"
+#include "edge.h"
 
 Vertex::Vertex(int vertexNumber) : vertexNumber{vertexNumber}, residence{nullptr} {}
 Vertex::~Vertex() {}
@@ -23,7 +23,7 @@ std::shared_ptr<Residence> Vertex::getResidence() const {
     return residence;
 }
 
-std::vector<Edge*> Vertex::getNeighbouringEdges() const{
+std::vector<Edge*> Vertex::getNeighbouringEdges() const {
     return neighbouringEdges;
 }
 
@@ -36,11 +36,10 @@ bool Vertex::canBuildResidence(int builderNumber) const {
     bool hasConnectingRoad = false;
 
     for (Edge* edge : neighbouringEdges) {
-        if (edge->getRoad() != nullptr &&
-            edge->getRoad()->getOwner() == builderNumber) {
+        if (edge->getRoad() != nullptr && edge->getRoad()->getOwner() == builderNumber) {
             hasConnectingRoad = true;
         }
-            
+
         for (Vertex* vertex : edge->getNeighbouringVertices()) {
             if (vertex->getResidence() != nullptr) {
                 // Residence too close to another residence
@@ -53,7 +52,7 @@ bool Vertex::canBuildResidence(int builderNumber) const {
     return hasConnectingRoad;
 }
 
-bool Vertex::canBuildInitialResidence() const{
+bool Vertex::canBuildInitialResidence() const {
     if (residence != nullptr) {
         // Residence already exists at this vertex!
         return false;
@@ -69,7 +68,7 @@ bool Vertex::canBuildInitialResidence() const{
     }
 
     return true;
- }
+}
 
 bool Vertex::canUpgradeResidence(int builderNumber) const {
     /*
@@ -78,9 +77,7 @@ bool Vertex::canUpgradeResidence(int builderNumber) const {
      * - The residence must not already be max level (i.e. Tower)
      * - The residence must be owned by the builder
      */
-    return residence != nullptr
-        && residence->getResidenceLetter() != 'T'
-        && residence->getOwner() == builderNumber;
+    return residence != nullptr && residence->getResidenceLetter() != 'T' && residence->getOwner() == builderNumber;
 }
 
 void Vertex::buildResidence(std::shared_ptr<Residence> residence) {

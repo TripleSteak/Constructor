@@ -1,8 +1,8 @@
 #include "board.h"
+#include "../game/builder.h"
 #include "edge.h"
 #include "tile.h"
 #include "vertex.h"
-#include "../game/builder.h"
 
 const int NUM_TILES = 19;
 const int NUM_EDGES = 72;
@@ -52,19 +52,19 @@ void Board::initBoard(std::vector<TileInitData> tileInitData) {
     }
 }
 
-bool Board::buildRoad (const Builder &builder, int edgeNumber, std::ostream &out) {
-    Edge *edge = getEdge(edgeNumber);
+bool Board::buildRoad(const Builder& builder, int edgeNumber, std::ostream& out) {
+    Edge* edge = getEdge(edgeNumber);
 
-    //check if can build road on edge
-    if(!edge->canBuildRoad(builder.getBuilderNumber())) {
+    // check if can build road on edge
+    if (!edge->canBuildRoad(builder.getBuilderNumber())) {
         out << "You cannot build here." << std::endl;
         return false;
     }
 
-    //check if builder has resources to build road
+    // check if builder has resources to build road
     std::shared_ptr<Road> road = builder.tryBuildRoad(*edge);
 
-    if(road != nullptr) {
+    if (road != nullptr) {
         edge->buildRoad(road);
         return true;
     }
@@ -73,54 +73,54 @@ bool Board::buildRoad (const Builder &builder, int edgeNumber, std::ostream &out
     return false;
 }
 
-bool Board::buildResidence(const Builder &builder, int vertexNumber, std::ostream &out) {
-    Vertex *vertex = getVertex(vertexNumber);
+bool Board::buildResidence(const Builder& builder, int vertexNumber, std::ostream& out) {
+    Vertex* vertex = getVertex(vertexNumber);
 
-    //check if can build residence on vertex
-    if(!vertex->canBuildResidence(builder.getBuilderNumber())) {
+    // check if can build residence on vertex
+    if (!vertex->canBuildResidence(builder.getBuilderNumber())) {
         out << "You cannot build here." << std::endl;
         return false;
     }
 
-    //check if builder has resources to build residence
+    // check if builder has resources to build residence
     std::shared_ptr<Residence> residence = builder.tryBuildResidence(*vertex);
 
-    if(residence != nullptr) {
+    if (residence != nullptr) {
         vertex->buildResidence(residence);
         return true;
     }
 
     out << "You do not have enough resources." << std::endl;
     return false;
-}       
+}
 
-bool Board::buildInitialResidence(const Builder &builder, int vertexNumber, std::ostream &out) {
-    Vertex *vertex = getVertex(vertexNumber);
+bool Board::buildInitialResidence(const Builder& builder, int vertexNumber, std::ostream& out) {
+    Vertex* vertex = getVertex(vertexNumber);
 
-    //check if can build residence on vertex
-    if(!vertex->canBuildInitialResidence()) {
+    // check if can build residence on vertex
+    if (!vertex->canBuildInitialResidence()) {
         out << "You cannot build here." << std::endl;
         return false;
     }
 
-    std::shared_ptr<Residence> residence = builder.tryBuildInitialResidence(*vertex); 
+    std::shared_ptr<Residence> residence = builder.tryBuildInitialResidence(*vertex);
     vertex->buildResidence(residence);
     return true;
 }
 
-bool Board::upgradeResidence(const Builder &builder, int vertexNumber, std::ostream &out) {
-    Vertex *vertex = getVertex(vertexNumber);
+bool Board::upgradeResidence(const Builder& builder, int vertexNumber, std::ostream& out) {
+    Vertex* vertex = getVertex(vertexNumber);
 
-    //check if can upgrade residence on vertex
-    if(!vertex->canUpgradeResidence(builder.getBuilderNumber())) {
+    // check if can upgrade residence on vertex
+    if (!vertex->canUpgradeResidence(builder.getBuilderNumber())) {
         out << "You cannot build here." << std::endl;
         return false;
     }
 
-    //check if builder has resources to upgrade residence
+    // check if builder has resources to upgrade residence
     std::shared_ptr<Residence> residence = builder.tryUpgradeResidence(*vertex);
 
-    if(residence != nullptr) {
+    if (residence != nullptr) {
         vertex->upgradeResidence(residence);
         return true;
     }

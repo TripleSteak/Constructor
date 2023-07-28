@@ -1,7 +1,6 @@
 #include "tile.h"
 
-Tile::Tile(int tileNumber, int tileValue, Resource resource)
-    : AbstractTile(), tileNumber{tileNumber}, tileValue{tileValue}, resource{resource} {}
+Tile::Tile(int tileNumber, int tileValue, Resource resource) : AbstractTile(), tileNumber{tileNumber}, tileValue{tileValue}, resource{resource} {}
 
 Tile::~Tile() {}
 
@@ -25,8 +24,7 @@ Resource Tile::getResource() const {
     return resource;
 }
 
-std::vector<Resource> Tile::getResourcesFromDiceRoll(const Builder& builder,
-                                                     int rollNumber) const {
+std::vector<Resource> Tile::getResourcesFromDiceRoll(const Builder& builder, int rollNumber) const {
     // TODO: Implement!
     std::vector<Resource> returnVector;
     return returnVector;
