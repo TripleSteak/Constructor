@@ -3,7 +3,14 @@
 #include "../dice/fairdice.h"
 #include "../dice/loadeddice.h"
 #include "../structures/residence.h"
+#include "../structures/road.h"
+#include "../structures/basement.h"
+#include "../structures/house.h"
+#include "../structures/tower.h"
+#include "../board/edge.h"  
+#include "../board/vertex.h"
 #include <sstream>
+#include <memory>
 
 Builder::Builder(int builderNumber, char builderColour)
     : builderNumber{builderNumber}, builderColour{builderColour},
@@ -85,26 +92,42 @@ bool Builder::respondToTrade(std::istream& in, std::ostream& out) const {
     return response == "yes";
 }
 
-int Builder::tryBuildRoad(std::istream& in) const {
-    int edgeNumber;
-    in >> edgeNumber;
-    return edgeNumber;
+std::shared_ptr<Road> Builder::tryBuildRoad(Edge edge) const {
+    if (inventory.at(HEAT) < 1 || inventory.at(WIFI) < 1) {
+        throw std::logic_error("Not enough resources to build road.");
+    }
+    std::shared_ptr<Road> road = std::make_shared<Road>(new Road(builderNumber, edge));
+    // inventory.at(HEAT) -= 1; 
+    // inventory.at(WIFI) -= 1;
+    // roads.push_back(road);
+    return road;
 }
 
-int Builder::tryBuildResidence(std::istream& in) const {
-    int vertexNumber;
-    in >> vertexNumber;
-    return vertexNumber;
+std::shared_ptr<Residence> Builder::tryBuildResidence(Vertex vertex) const {
+    if (inventory.at(BRICK) < 1 || inventory.at(ENERGY) < 1 ||
+        inventory.at(GLASS) < 1 || inventory.at(WIFI) < 1) {
+            throw std::logic_error("Not enough resources to build residence.");
+    }
+    return std::make_shared<Residence>(new Basement(builderNumber, vertex));
 }
 
-int Builder::tryBuildInitialResidence(std::istream& in) const {
-    int vertexNumber;
-    in >> vertexNumber;
-    return vertexNumber;
+std::shared_ptr<Residence> Builder::tryBuildInitialResidence(Vertex vertex) const {
+    return std::make_shared<Residence>(new Basement(builderNumber, vertex));    
 }
 
-int Builder::tryUpgradeResidence(std::istream& in) const {
-    int vertexNumber;
-    in >> vertexNumber;
-    return vertexNumber;
+std::shared_ptr<Residence> Builder::tryUpgradeResidence(Vertex vertex) const {
+    switch (vertex.getResidence()->getResidenceLetter()) {
+    case 'B':
+        if (inventory.at(GLASS) < 2 || inventory.at(HEAT) < 3) {
+            throw std::logic_error("Not enough resources to upgrade residence.");
+        }
+        return std::make_shared<Residence>(new House(builderNumber, vertex));   
+    case 'H':
+        if (inventory.at(BRICK) < 3 || inventory.at(ENERGY) < 2 || inventory.at(GLASS) < 2 || inventory.at(HEAT) < 2 || inventory.at(WIFI) < 1) {
+            throw std::logic_error("Not enough resources to upgrade residence.");
+        }
+        return std::make_shared<Residence>(new Tower(builderNumber, vertex));
+    default:
+        break;
+    }
 }

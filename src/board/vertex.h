@@ -24,13 +24,12 @@ class Vertex final {
     std::shared_ptr<Residence> getResidence() const;
     std::vector<Edge*> getNeighbouringEdges() const;
 
-    bool canBuildResidence(const Builder&) const;
-    bool canBuildInitialResidence() const;
-    bool canUpgradeResidence(const Builder&) const;
+    void canBuildResidence(int) const;
+    void canBuildInitialResidence() const;
+    void canUpgradeResidence(int) const;
 
-    void buildResidence(const Builder&);
-    void buildInitialResidence(const Builder&);
-    void upgradeResidence();
+    void buildResidence(std::shared_ptr<Residence>);  
+    void upgradeResidence(std::shared_ptr<Residence>);
 };
 
 #endif

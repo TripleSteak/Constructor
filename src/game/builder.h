@@ -16,8 +16,8 @@ class Builder final {
     std::unique_ptr<Dice> dice;
 
   public:
-    std::vector<std::unique_ptr<Residence>> residences;
-    std::vector<std::unique_ptr<Road>> roads;
+    std::vector<std::shared_ptr <Residence>> residences;
+    std::vector<std::shared_ptr <Road>> roads;
     std::unordered_map<Resource, int>
         inventory; // "PARK" should never be one of the keys in this map
 
@@ -39,10 +39,10 @@ class Builder final {
     Trade proposeTrade(std::istream&, std::ostream&) const;
     bool respondToTrade(std::istream&, std::ostream&) const;
 
-    int tryBuildRoad(std::istream&) const;
-    int tryBuildResidence(std::istream&) const;
-    int tryBuildInitialResidence(std::istream&) const;
-    int tryUpgradeResidence(std::istream&) const;
+    std::shared_ptr<Road> tryBuildRoad(Edge) const;
+    std::shared_ptr<Residence> tryBuildResidence(Vertex) const;
+    std::shared_ptr<Residence> tryBuildInitialResidence(Vertex) const;
+    std::shared_ptr<Residence> tryUpgradeResidence(Vertex) const;
 };
 
 #endif

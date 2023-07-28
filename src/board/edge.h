@@ -22,9 +22,10 @@ class Edge final {
 
     int getEdgeNumber() const;
     std::shared_ptr<Road> getRoad() const;
-
-    bool canBuildRoad(int);
-    void buildRoad(int);
+    std::vector<Vertex*> getNeighbouringVertices() const;
+    
+    void canBuildRoad(int) const;
+    void buildRoad(std::shared_ptr<Road>);
 };
 
 #endif
