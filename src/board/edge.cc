@@ -30,7 +30,7 @@ Road* Edge::getRoad() const {
     return road;
 }
 
-bool Edge::canBuildRoad(int builder) {
+bool Edge::canBuildRoad(int builderNum) {
     if (road != nullptr) {
         return false;
     }
@@ -39,12 +39,12 @@ bool Edge::canBuildRoad(int builder) {
         // Vertex has residence owned by builder or is connected to a road owned
         // by builder
         if (vertex->getResidence() != nullptr &&
-            vertex->getResidence()->getOwner() == builder) {
+            vertex->getResidence()->getOwner() == builderNum) {
             return true;
         }
         for (Edge* edge : vertex->getNeighbouringEdges()) {
             if (edge->getRoad() != nullptr &&
-                edge->getRoad()->getOwner() == builder) {
+                edge->getRoad()->getOwner() == builderNum) {
                 return true;
             }
         }
@@ -53,6 +53,6 @@ bool Edge::canBuildRoad(int builder) {
     return false;
 }
 
-void Edge::buildRoad(const Builder& builder) {
-    road = new Road(builder.getBuilderNumber(), this);
+void Edge::buildRoad(int builderNum) {
+    road = new Road(builderNum, this);
 }

@@ -23,7 +23,7 @@ class Edge final {
     Road* getRoad() const;
 
     bool canBuildRoad(int);
-    void buildRoad(const Builder&);
+    void buildRoad(int);
 };
 
 #endif
