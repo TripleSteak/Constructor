@@ -6,7 +6,7 @@
 
 class Vertex final {
   private:
-    Board* board;
+    const Board* board;
     int vertexNumber;
     Residence* residence;
 
@@ -14,10 +14,11 @@ class Vertex final {
     std::vector<Edge*> neighbouringEdges;
 
   public:
-    Vertex(int);
+    Vertex(const Board*, int);
     ~Vertex();
 
-    void setBoard(Board&);
+    void addNeighbouringTile(AbstractTile*);
+    void addNeighbouringEdge(Edge*);
 
     int getVertexNumber() const;
     Residence* getResidence() const;

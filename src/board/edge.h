@@ -13,7 +13,7 @@ class Edge final {
     std::vector<Vertex*> neighbouringVertices;
 
   public:
-    Edge(const Board&, int);
+    Edge(const Board*, int);
     ~Edge();
 
     void addNeighbouringTile(AbstractTile*);

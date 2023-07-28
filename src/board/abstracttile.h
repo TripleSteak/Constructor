@@ -6,16 +6,17 @@
 #include <vector>
 
 class AbstractTile {
-  protected:
-    virtual std::vector<Edge*> getNeighbouringEdges() const = 0;
-    virtual std::vector<Vertex*> getNeighbouringVertices() const = 0;
-
   public:
     AbstractTile();
     virtual ~AbstractTile();
 
-    virtual int getTileNumber() const = 0; // Unique identifier assigned to each tile on the board
-    virtual int getTileValue() const = 0; // The dice roll needed to obtain resources from this tile
+    virtual void addNeighbouringVertex(Vertex*) = 0;
+    virtual void addNeighbouringEdge(Edge*) = 0;
+
+    virtual int getTileNumber()
+        const = 0; // Unique identifier assigned to each tile on the board
+    virtual int getTileValue()
+        const = 0; // The dice roll needed to obtain resources from this tile
     virtual Resource getResource() const = 0;
     virtual std::vector<Resource> getResourcesFromDiceRoll(const Builder&,
                                                            int) const = 0;

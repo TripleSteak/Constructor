@@ -1,11 +1,19 @@
 #include "vertex.h"
 #include "../structures/residence.h"
 
-Vertex::Vertex(int vertexNumber) : vertexNumber{vertexNumber}, residence{nullptr} {}
-Vertex::~Vertex() { delete residence; }
+Vertex::Vertex(const Board* owner, int vertexNumber)
+    : board{owner}, vertexNumber{vertexNumber}, residence{nullptr} {}
 
-void Vertex::setBoard(Board& board) {
-    this->board = &board;
+Vertex::~Vertex() {
+    delete residence;
+}
+
+void Vertex::addNeighbouringTile(AbstractTile* tile) {
+    neighbouringTiles.emplace_back(tile);
+}
+
+void Vertex::addNeighbouringEdge(Edge* edge) {
+    neighbouringEdges.emplace_back(edge);
 }
 
 int Vertex::getVertexNumber() const {

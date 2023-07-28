@@ -1,22 +1,18 @@
 #include "tile.h"
+#include <vector>
 
-Tile::Tile(int tileNumber, int tileValue, Resource resource) : AbstractTile(), tileNumber{tileNumber}, tileValue{tileValue}, resource{resource} {}
+Tile::Tile(const Board* owner, int tileNumber, int tileValue, Resource resource)
+    : AbstractTile(), board{owner}, tileNumber{tileNumber},
+      tileValue{tileValue}, resource{resource} {}
+
 Tile::~Tile() {}
 
-std::vector<Edge*> Tile::getNeighbouringEdges() const {
-    // TODO: Implement!
-    std::vector<Edge*> returnVector;
-    return returnVector;
+void Tile::addNeighbouringVertex(Vertex* vertex) {
+    neighbouringVertices.emplace_back(vertex);
 }
 
-std::vector<Vertex*> Tile::getNeighbouringVertices() const {
-    // TODO: Implement!
-    std::vector<Vertex*> returnVector;
-    return returnVector;
-}
-
-void Tile::setBoard(Board& board) {
-    this->board = &board;
+void Tile::addNeighbouringEdge(Edge* edge) {
+    neighbouringEdges.emplace_back(edge);
 }
 
 int Tile::getTileNumber() const {
@@ -31,7 +27,8 @@ Resource Tile::getResource() const {
     return resource;
 }
 
-std::vector<Resource> Tile::getResourcesFromDiceRoll(const Builder& builder, int rollNumber) const {
+std::vector<Resource> Tile::getResourcesFromDiceRoll(const Builder& builder,
+                                                     int rollNumber) const {
     // TODO: Implement!
     std::vector<Resource> returnVector;
     return returnVector;

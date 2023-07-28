@@ -9,7 +9,7 @@ class Road final {
     Edge* location;
 
   public:
-    Road(int, Edge&);
+    Road(int, Edge*);
     ~Road();
 
     int getOwner() const;

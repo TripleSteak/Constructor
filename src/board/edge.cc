@@ -7,8 +7,8 @@
 
 using namespace std;
 
-Edge::Edge(const Board& owner, int edgeNumber)
-    : board{&owner}, edgeNumber{edgeNumber} {}
+Edge::Edge(const Board* owner, int edgeNumber)
+    : board{owner}, edgeNumber{edgeNumber}, road{nullptr} {}
 
 Edge::~Edge() {
     delete road;

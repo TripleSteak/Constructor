@@ -1,14 +1,20 @@
 #include "board.h"
-#include "tile.h"
 #include "edge.h"
+#include "tile.h"
 #include "vertex.h"
 
 Board::Board() {}
 
 Board::~Board() {
-    for(auto tile : tiles) { delete tile; }
-    for(auto edge : edges) { delete edge; }
-    for(auto vertex : vertices) { delete vertex; }
+    for (auto tile : tiles) {
+        delete tile;
+    }
+    for (auto edge : edges) {
+        delete edge;
+    }
+    for (auto vertex : vertices) {
+        delete vertex;
+    }
 
     tiles.clear();
     edges.clear();
@@ -28,11 +34,16 @@ Edge* Board::getEdge(int edgeNumber) const {
 }
 
 void Board::initBoard(std::vector<TileInitData> tileInitData) {
-    for(int i = 0; i < 19; i++) {
-        tiles.push_back(new Tile(i, tileInitData.at(i).tileValue, tileInitData.at(i).resource));
+    for (int i = 0; i < 19; i++) {
+        tiles.push_back(new Tile(this, i, tileInitData.at(i).tileValue,
+                                 tileInitData.at(i).resource));
         // TODO: If tileInitData.at(i) is a PARK, set the tile to geeseTile
     }
 
-    for(int i = 0; i < 72; i++) { edges.push_back(new Edge(i)); }
-    for(int i = 0; i < 54; i++) { vertices.push_back(new Vertex(i)); }
+    for (int i = 0; i < 72; i++) {
+        edges.push_back(new Edge(this, i));
+    }
+    for (int i = 0; i < 54; i++) {
+        vertices.push_back(new Vertex(this, i));
+    }
 }
