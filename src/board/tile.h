@@ -8,7 +8,7 @@
 
 class Tile final : public AbstractTile {
   private:
-    const Board* board;
+    const Board& board;
     int tileNumber;
     int tileValue;
     Resource resource;
@@ -16,7 +16,7 @@ class Tile final : public AbstractTile {
     std::vector<Edge*> neighbouringEdges;
 
   public:
-    Tile(const Board*, int, int, Resource);
+    Tile(const Board&, int, int, Resource);
     ~Tile();
 
     void addNeighbouringVertex(Vertex*) override;

@@ -1,7 +1,7 @@
 #include "tile.h"
 #include <vector>
 
-Tile::Tile(const Board* owner, int tileNumber, int tileValue, Resource resource)
+Tile::Tile(const Board& owner, int tileNumber, int tileValue, Resource resource)
     : AbstractTile(), board{owner}, tileNumber{tileNumber},
       tileValue{tileValue}, resource{resource} {}
 

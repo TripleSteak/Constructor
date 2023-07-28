@@ -4,18 +4,15 @@
 #include "../common/forward.h"
 #include "../common/resource.h"
 #include "abstracttile.h"
+#include <memory>
 #include <vector>
 
 class GeeseTile final : public AbstractTile {
   private:
-    AbstractTile* tile; // Decorator pointer
-
-  protected:
-    std::vector<Edge*> getNeighbouringEdges() const override;
-    std::vector<Vertex*> getNeighbouringVertices() const override;
+    std::unique_ptr<AbstractTile> tile; // Decorator pointer
 
   public:
-    GeeseTile(AbstractTile*);
+    GeeseTile(std::unique_ptr<AbstractTile>);
     ~GeeseTile();
 
     int getTileNumber() const override;

@@ -3,16 +3,13 @@
 #include "../structures/residence.h"
 #include "../structures/road.h"
 #include "vertex.h"
+#include <memory>
 #include <vector>
 
-using namespace std;
-
-Edge::Edge(const Board* owner, int edgeNumber)
+Edge::Edge(const Board& owner, int edgeNumber)
     : board{owner}, edgeNumber{edgeNumber}, road{nullptr} {}
 
-Edge::~Edge() {
-    delete road;
-}
+Edge::~Edge() {}
 
 void Edge::addNeighbouringTile(AbstractTile* tile) {
     neighbouringTiles.emplace_back(tile);
@@ -26,7 +23,7 @@ int Edge::getEdgeNumber() const {
     return edgeNumber;
 }
 
-Road* Edge::getRoad() const {
+std::shared_ptr<Road> Edge::getRoad() const {
     return road;
 }
 
@@ -54,5 +51,5 @@ bool Edge::canBuildRoad(int builderNum) {
 }
 
 void Edge::buildRoad(int builderNum) {
-    road = new Road(builderNum, this);
+    road = std::make_shared<Road>(new Road(builderNum, *this));
 }

@@ -6,15 +6,17 @@
 
 class FileHandler final {
   private:
-    Game* game;
+    Game& game;
 
   public:
-    FileHandler();
+    FileHandler(Game&);
     ~FileHandler();
 
-    Game* loadFromGame(std::string); // Pre-existing game data, which includes Builder turns, residences, points, etc.
-    Game* loadFromBoard(std::string); // Pre-existing board configuration, which only includes resource placement
-    void save(const Game&, std::string);
+    void loadFromGame(std::string);  // Pre-existing game data, which includes
+                                     // Builder turns, residences, points, etc.
+    void loadFromBoard(std::string); // Pre-existing board configuration, which
+                                     // only includes resource placement
+    void save(std::string);
 };
 
 #endif

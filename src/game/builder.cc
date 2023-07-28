@@ -1,11 +1,13 @@
 #include "builder.h"
 #include "../dice/dice.h"
-#include "../dice/loadeddice.h"
 #include "../dice/fairdice.h"
+#include "../dice/loadeddice.h"
 #include "../structures/residence.h"
 #include <sstream>
 
-Builder::Builder(int builderNumber, char builderColour) : builderNumber{builderNumber}, builderColour{builderColour}, dice{new LoadedDice()} {
+Builder::Builder(int builderNumber, char builderColour)
+    : builderNumber{builderNumber}, builderColour{builderColour},
+      dice{new LoadedDice()} {
     inventory.insert(std::make_pair(BRICK, 0));
     inventory.insert(std::make_pair(ENERGY, 0));
     inventory.insert(std::make_pair(GLASS, 0));
@@ -13,9 +15,7 @@ Builder::Builder(int builderNumber, char builderColour) : builderNumber{builderN
     inventory.insert(std::make_pair(WIFI, 0));
 }
 
-Builder::~Builder() {
-    delete dice;
-}
+Builder::~Builder() {}
 
 int Builder::getBuilderNumber() const {
     return builderNumber;
@@ -26,7 +26,7 @@ char Builder::getBuilderColour() const {
 
 int Builder::getBuildingPoints() const {
     int buildingPoints = 0;
-    for(auto& residence : residences) {
+    for (auto& residence : residences) {
         buildingPoints += residence->getBuildingPoints();
     }
 
@@ -36,11 +36,10 @@ int Builder::getBuildingPoints() const {
 std::string Builder::getStatus() const {
     std::ostringstream oss;
 
-    oss << builderColour << " has " << getBuildingPoints() << " building points, "
-        << inventory.at(BRICK) << " brick, "
-        << inventory.at(ENERGY) << " energy, "
-        << inventory.at(GLASS) << " glass, "
-        << inventory.at(HEAT) << " heat, and "
+    oss << builderColour << " has " << getBuildingPoints()
+        << " building points, " << inventory.at(BRICK) << " brick, "
+        << inventory.at(ENERGY) << " energy, " << inventory.at(GLASS)
+        << " glass, " << inventory.at(HEAT) << " heat, and "
         << inventory.at(WIFI) << " WiFi.";
 
     return oss.str();
@@ -51,10 +50,12 @@ int Builder::rollDice(int roll) const {
 }
 
 void Builder::setDice(bool isLoaded) {
-    delete dice;
-
-    if(isLoaded) { dice = new LoadedDice(); }
-    else { dice = new FairDice(); }
+    if (isLoaded) {
+        dice.reset(new LoadedDice());
+    }
+    else {
+        dice.reset(new FairDice());
+    }
 }
 
 int Builder::chooseGeeseSpot(std::istream& in, std::ostream& out) const {
@@ -64,7 +65,7 @@ int Builder::chooseGeeseSpot(std::istream& in, std::ostream& out) const {
     return geesePosition;
 }
 
-char Builder::steal(std::istream&in, std::ostream& out) const {
+char Builder::steal(std::istream& in, std::ostream& out) const {
     char stealFrom;
     out << "Choose a builder to steal from." << std::endl;
     in >> stealFrom;

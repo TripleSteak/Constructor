@@ -1,12 +1,11 @@
 #include "vertex.h"
 #include "../structures/residence.h"
+#include <memory>
 
-Vertex::Vertex(const Board* owner, int vertexNumber)
+Vertex::Vertex(const Board& owner, int vertexNumber)
     : board{owner}, vertexNumber{vertexNumber}, residence{nullptr} {}
 
-Vertex::~Vertex() {
-    delete residence;
-}
+Vertex::~Vertex() {}
 
 void Vertex::addNeighbouringTile(AbstractTile* tile) {
     neighbouringTiles.emplace_back(tile);
@@ -20,6 +19,6 @@ int Vertex::getVertexNumber() const {
     return vertexNumber;
 }
 
-Residence* Vertex::getResidence() const {
+std::shared_ptr<Residence> Vertex::getResidence() const {
     return residence;
 }

@@ -4,6 +4,7 @@
 #include "../common/forward.h"
 #include "../common/resource.h"
 #include "../common/trade.h"
+#include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -12,11 +13,11 @@ class Builder final {
   private:
     int builderNumber;
     char builderColour;
-    Dice* dice;
+    std::unique_ptr<Dice> dice;
 
   public:
-    std::vector<Residence*> residences;
-    std::vector<Road*> roads;
+    std::vector<std::unique_ptr<Residence>> residences;
+    std::vector<std::unique_ptr<Road>> roads;
     std::unordered_map<Resource, int>
         inventory; // "PARK" should never be one of the keys in this map
 

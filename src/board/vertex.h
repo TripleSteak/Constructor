@@ -6,22 +6,22 @@
 
 class Vertex final {
   private:
-    const Board* board;
+    const Board& board;
     int vertexNumber;
-    Residence* residence;
+    std::shared_ptr<Residence> residence;
 
     std::vector<AbstractTile*> neighbouringTiles;
     std::vector<Edge*> neighbouringEdges;
 
   public:
-    Vertex(const Board*, int);
+    Vertex(const Board&, int);
     ~Vertex();
 
     void addNeighbouringTile(AbstractTile*);
     void addNeighbouringEdge(Edge*);
 
     int getVertexNumber() const;
-    Residence* getResidence() const;
+    std::shared_ptr<Residence> getResidence() const;
     std::vector<Edge*> getNeighbouringEdges() const;
 
     bool canBuildResidence(const Builder&) const;
