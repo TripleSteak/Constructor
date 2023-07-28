@@ -1,15 +1,9 @@
 #include "edge.h"
-#include "../game/builder.h"
 #include "../structures/residence.h"
 #include "../structures/road.h"
 #include "vertex.h"
-#include <memory>
-#include <vector>
-#include <stdexcept>
 
-Edge::Edge(const Board& owner, int edgeNumber)
-    : board{owner}, edgeNumber{edgeNumber}, road{nullptr} {}
-
+Edge::Edge(int edgeNumber) : edgeNumber{edgeNumber}, road{nullptr} {}
 Edge::~Edge() {}
 
 void Edge::addNeighbouringTile(AbstractTile* tile) {
@@ -32,25 +26,30 @@ std::vector<Vertex*> Edge::getNeighbouringVertices() const {
     return neighbouringVertices;
 }  
 
-void Edge::canBuildRoad(int builderIndex) const {
+bool Edge::canBuildRoad(int builderNumber) const {
     if (road != nullptr){
-        throw std::logic_error("Road already exists at this edge");
+        // Road already exists!
+        return false;
     }
+
     for (Vertex* vertex : neighbouringVertices) {
-        // Vertex has residence owned by builder or is connected to a road owned
-        // by builder
+        // Vertex has residence owned by the builder
         if (vertex->getResidence() != nullptr &&
-            vertex->getResidence()->getOwner() == builderIndex) {
-            return;
+            vertex->getResidence()->getOwner() == builderNumber) {
+            return true;
         }
+
+        // Vertex is connected to a road owned by the builder
         for (Edge* edge : vertex->getNeighbouringEdges()) {
             if (edge->getRoad() != nullptr &&
-                edge->getRoad()->getOwner() == builderIndex) {
-                return;
+                edge->getRoad()->getOwner() == builderNumber) {
+                return true;
             }
         }
     }
-    throw std::logic_error("No adjacent road or residence");
+
+    // No adjacent road or residence!
+    return false;
 }   
 
 void Edge::buildRoad(std::shared_ptr<Road> road) {

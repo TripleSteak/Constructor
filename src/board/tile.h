@@ -4,11 +4,9 @@
 #include "../common/forward.h"
 #include "../common/resource.h"
 #include "abstracttile.h"
-#include <vector>
 
 class Tile final : public AbstractTile {
   private:
-    const Board& board;
     int tileNumber;
     int tileValue;
     Resource resource;
@@ -16,7 +14,7 @@ class Tile final : public AbstractTile {
     std::vector<Edge*> neighbouringEdges;
 
   public:
-    Tile(const Board&, int, int, Resource);
+    Tile(int, int, Resource);
     ~Tile();
 
     void addNeighbouringVertex(Vertex*) override;
@@ -25,8 +23,9 @@ class Tile final : public AbstractTile {
     int getTileNumber() const override;
     int getTileValue() const override;
     Resource getResource() const override;
-    std::vector<Resource> getResourcesFromDiceRoll(const Builder&,
-                                                   int) const override;
+    std::vector<Resource> getResourcesFromDiceRoll(const Builder&, int) const override;
+
+    bool hasGeese() const override;
 };
 
 #endif

@@ -4,17 +4,17 @@
 #include "../common/forward.h"
 #include <memory>
 #include <vector>
+#include <iostream>
 
 class Edge final {
   private:
-    const Board& board;
     int edgeNumber;
     std::shared_ptr<Road> road;
     std::vector<AbstractTile*> neighbouringTiles;
     std::vector<Vertex*> neighbouringVertices;
 
   public:
-    Edge(const Board&, int);
+    Edge(int);
     ~Edge();
 
     void addNeighbouringTile(AbstractTile*);
@@ -24,7 +24,7 @@ class Edge final {
     std::shared_ptr<Road> getRoad() const;
     std::vector<Vertex*> getNeighbouringVertices() const;
     
-    void canBuildRoad(int) const;
+    bool canBuildRoad(int) const;
     void buildRoad(std::shared_ptr<Road>);
 };
 

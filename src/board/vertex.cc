@@ -3,13 +3,8 @@
 #include "../structures/road.h"
 #include "../structures/residence.h"
 #include "../structures/basement.h"
-#include <memory>
-#include <vector>
-#include <stdexcept>    
 
-Vertex::Vertex(const Board& owner, int vertexNumber)
-    : board{owner}, vertexNumber{vertexNumber}, residence{nullptr} {}
-
+Vertex::Vertex(int vertexNumber) : vertexNumber{vertexNumber}, residence{nullptr} {}
 Vertex::~Vertex() {}
 
 void Vertex::addNeighbouringTile(AbstractTile* tile) {
@@ -32,60 +27,67 @@ std::vector<Edge*> Vertex::getNeighbouringEdges() const{
     return neighbouringEdges;
 }
 
-void Vertex::canBuildResidence(int builderIndex) const {
-    if (residence != nullptr){
-        throw std::logic_error("Residence already exists at this vertex");
+bool Vertex::canBuildResidence(int builderNumber) const {
+    if (residence != nullptr) {
+        // Residence already exists at this vertex!
+        return false;
     }
+
+    bool hasConnectingRoad = false;
+
     for (Edge* edge : neighbouringEdges) {
         if (edge->getRoad() != nullptr &&
-            edge->getRoad()->getOwner() == builderIndex) {
+            edge->getRoad()->getOwner() == builderNumber) {
+            hasConnectingRoad = true;
+        }
             
-            for (Vertex* vertex : edge->getNeighbouringVertices()) {
-                if (vertex->getResidence() != nullptr) {
-                    throw std::logic_error("Residence too close to another residence");
-                }
+        for (Vertex* vertex : edge->getNeighbouringVertices()) {
+            if (vertex->getResidence() != nullptr) {
+                // Residence too close to another residence
+                return false;
             }
         }
     }
+
+    // Residence can only be built along an existing road owned by builder
+    return hasConnectingRoad;
 }
 
-void Vertex::canBuildInitialResidence() const{
-    if (residence != nullptr){
-        throw std::logic_error("Residence already exists at this vertex");
+bool Vertex::canBuildInitialResidence() const{
+    if (residence != nullptr) {
+        // Residence already exists at this vertex!
+        return false;
     }
+
     for (Edge* edge : neighbouringEdges) {
         for (Vertex* vertex : edge->getNeighbouringVertices()) {
             if (vertex->getResidence() != nullptr) {
-                throw std::logic_error("Residence too close to another residence");
+                // Residence too close to another residence
+                return false;
             }
         }
     }
+
+    return true;
  }
 
-void Vertex::canUpgradeResidence(int builderIndex) const {
-    if (residence == nullptr) {
-        throw std::logic_error("No residence to upgrade");
-    }
-    if (residence->getResidenceLetter() == 'T') {
-        throw std::logic_error("Cannot upgrade further");
-    }
-    if (residence->getOwner() != builderIndex) {
-        throw std::logic_error("Cannot upgrade residence owned by another builder");
-    }
+bool Vertex::canUpgradeResidence(int builderNumber) const {
+    /*
+     * In order to upgrade a residence, the following conditions must be met:
+     * - A residence must exist at the vertex
+     * - The residence must not already be max level (i.e. Tower)
+     * - The residence must be owned by the builder
+     */
+    return residence != nullptr
+        && residence->getResidenceLetter() != 'T'
+        && residence->getOwner() == builderNumber;
 }
 
- void Vertex::buildResidence(std::shared_ptr<Residence> residence) {
+void Vertex::buildResidence(std::shared_ptr<Residence> residence) {
     this->residence = residence;
- }
+}
 
-
-void Vertex::upgradeResidence(std::shared_ptr<Residence> res) {
-    if (residence->getResidenceLetter() == 'B') {
-        residence.reset();
-        residence = res;
-    }
-    else if (residence->getResidenceLetter() == 'H') {
-        residence.reset();
-        residence = res;
-    }
+void Vertex::upgradeResidence(std::shared_ptr<Residence> residence) {
+    // No need for deletion of old residence since it is a smart pointer
+    this->residence = residence;
 }

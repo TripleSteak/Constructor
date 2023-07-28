@@ -5,7 +5,6 @@
 #include "../common/resource.h"
 #include "abstracttile.h"
 #include <memory>
-#include <vector>
 
 class GeeseTile final : public AbstractTile {
   private:
@@ -15,11 +14,15 @@ class GeeseTile final : public AbstractTile {
     GeeseTile(std::unique_ptr<AbstractTile>);
     ~GeeseTile();
 
+    void addNeighbouringVertex(Vertex*) override;
+    void addNeighbouringEdge(Edge*) override;
+
     int getTileNumber() const override;
     int getTileValue() const override;
     Resource getResource() const override;
-    std::vector<Resource> getResourcesFromDiceRoll(const Builder&,
-                                                   int) const override;
+    std::vector<Resource> getResourcesFromDiceRoll(const Builder&, int) const override;
+
+    bool hasGeese() const override;
 };
 
 #endif

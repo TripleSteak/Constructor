@@ -4,6 +4,7 @@
 #include "../common/forward.h"
 #include "../common/resource.h"
 #include <vector>
+#include <iostream>
 
 // Stores information used to initialize Board Tiles
 struct TileInitData {
@@ -34,15 +35,10 @@ class Board final {
      */
     void initBoard(std::vector<TileInitData>);
 
-    // bool canBuildRoad(const Builder&, int) const;
-    // bool canBuildResidence(const Builder&, int) const;
-    // bool canBuildInitialResidence(int) const;
-    // bool canUpgradeResidence(const Builder&, int) const;
-
-    void buildRoad(const Builder&, int);
-    void buildResidence(const Builder&, int);
-    void buildInitialResidence(const Builder&, int);
-    void upgradeResidence(const Builder&, int);
+    bool buildRoad(const Builder&, int, std::ostream&);
+    bool buildResidence(const Builder&, int, std::ostream&);
+    bool buildInitialResidence(const Builder&, int, std::ostream&);
+    bool upgradeResidence(const Builder&, int, std::ostream&);
 
     std::vector<Resource> getResourcesFromDiceRoll(const Builder&, int) const; // What the given Builder would obtain if the given rollNumber is rolled
 

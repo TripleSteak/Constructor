@@ -2,7 +2,11 @@
 #include "edge.h"
 #include "tile.h"
 #include "vertex.h"
-#include "../game/builder.h"   
+#include "../game/builder.h"
+
+const int NUM_TILES = 19;
+const int NUM_EDGES = 72;
+const int NUM_VERTICES = 54;
 
 Board::Board() {}
 
@@ -35,91 +39,92 @@ Edge* Board::getEdge(int edgeNumber) const {
 }
 
 void Board::initBoard(std::vector<TileInitData> tileInitData) {
-    for (int i = 0; i < 19; i++) {
-        tiles.push_back(new Tile(*this, i, tileInitData.at(i).tileValue,
-                                 tileInitData.at(i).resource));
+    for (int i = 0; i < NUM_TILES; i++) {
+        tiles.push_back(new Tile(i, tileInitData.at(i).tileValue, tileInitData.at(i).resource));
         // TODO: If tileInitData.at(i) is a PARK, set the tile to geeseTile
     }
 
-    for (int i = 0; i < 72; i++) {
-        edges.push_back(new Edge(*this, i));
+    for (int i = 0; i < NUM_EDGES; i++) {
+        edges.push_back(new Edge(i));
     }
-    for (int i = 0; i < 54; i++) {
-        vertices.push_back(new Vertex(*this, i));
+    for (int i = 0; i < NUM_VERTICES; i++) {
+        vertices.push_back(new Vertex(i));
     }
 }
 
-void Board::buildRoad (const Builder &builder, int edgeNumber) {
+bool Board::buildRoad (const Builder &builder, int edgeNumber, std::ostream &out) {
     Edge *edge = getEdge(edgeNumber);
+
     //check if can build road on edge
-    try { 
-        edge->canBuildRoad(builder.getBuilderNumber()); 
-    }
-    catch(const std::logic_error& e){
-        std::cout << "You cannot build here." << std::endl;
+    if(!edge->canBuildRoad(builder.getBuilderNumber())) {
+        out << "You cannot build here." << std::endl;
+        return false;
     }
 
-    //check if builder has resources to build road 
-    try { 
-        std::shared_ptr<Road> road = builder.tryBuildRoad(*edge); 
+    //check if builder has resources to build road
+    std::shared_ptr<Road> road = builder.tryBuildRoad(*edge);
+
+    if(road != nullptr) {
         edge->buildRoad(road);
+        return true;
     }
-    catch(const std::logic_error& e){
-        std::cout << "You do not have enough resources." << std::endl;
-    }
+
+    out << "You do not have enough resources." << std::endl;
+    return false;
 }
 
-void Board::buildResidence(const Builder &builder, int vertexNumber) {
+bool Board::buildResidence(const Builder &builder, int vertexNumber, std::ostream &out) {
     Vertex *vertex = getVertex(vertexNumber);
+
     //check if can build residence on vertex
-    try { 
-        vertex->canBuildResidence(builder.getBuilderNumber()); 
-    }
-    catch(const std::logic_error& e){
-        std::cout << "You cannot build here." << std::endl;
+    if(!vertex->canBuildResidence(builder.getBuilderNumber())) {
+        out << "You cannot build here." << std::endl;
+        return false;
     }
 
-    //check if builder has resources to build residence 
-    try { 
-        std::shared_ptr<Residence> residence = builder.tryBuildResidence(*vertex); 
+    //check if builder has resources to build residence
+    std::shared_ptr<Residence> residence = builder.tryBuildResidence(*vertex);
+
+    if(residence != nullptr) {
         vertex->buildResidence(residence);
+        return true;
     }
-    catch(const std::logic_error& e){
-        std::cout << "You do not have enough resources." << std::endl;
-    }
+
+    out << "You do not have enough resources." << std::endl;
+    return false;
 }       
 
-void Board::buildInitialResidence(const Builder &builder, int vertexNumber) {
+bool Board::buildInitialResidence(const Builder &builder, int vertexNumber, std::ostream &out) {
     Vertex *vertex = getVertex(vertexNumber);
+
     //check if can build residence on vertex
-    try { 
-        vertex->canBuildInitialResidence(); 
-    }
-    catch(const std::logic_error& e){
-        std::cout << "You cannot build here." << std::endl;
+    if(!vertex->canBuildInitialResidence()) {
+        out << "You cannot build here." << std::endl;
+        return false;
     }
 
     std::shared_ptr<Residence> residence = builder.tryBuildInitialResidence(*vertex); 
     vertex->buildResidence(residence);
+    return true;
 }
 
-void Board::upgradeResidence(const Builder &builder, int vertexNumber) {
+bool Board::upgradeResidence(const Builder &builder, int vertexNumber, std::ostream &out) {
     Vertex *vertex = getVertex(vertexNumber);
+
     //check if can upgrade residence on vertex
-    try { 
-        vertex->canUpgradeResidence(builder.getBuilderNumber()); 
-    }
-    catch(const std::logic_error& e){
-        std::cout << "You cannot upgrade here." << std::endl;
+    if(!vertex->canUpgradeResidence(builder.getBuilderNumber())) {
+        out << "You cannot build here." << std::endl;
+        return false;
     }
 
-    //check if builder has resources to upgrade residence 
-    try { 
-        std::shared_ptr<Residence> residence = builder.tryUpgradeResidence(*vertex); 
+    //check if builder has resources to upgrade residence
+    std::shared_ptr<Residence> residence = builder.tryUpgradeResidence(*vertex);
+
+    if(residence != nullptr) {
         vertex->upgradeResidence(residence);
+        return true;
     }
-    catch(const std::logic_error& e){
-        std::cout << "You do not have enough resources." << std::endl;
-    }
-}
 
+    out << "You do not have enough resources." << std::endl;
+    return false;
+}

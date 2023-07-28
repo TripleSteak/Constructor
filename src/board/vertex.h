@@ -3,10 +3,10 @@
 
 #include "../common/forward.h"
 #include <vector>
+#include <memory>
 
 class Vertex final {
   private:
-    const Board& board;
     int vertexNumber;
     std::shared_ptr<Residence> residence;
 
@@ -14,7 +14,7 @@ class Vertex final {
     std::vector<Edge*> neighbouringEdges;
 
   public:
-    Vertex(const Board&, int);
+    Vertex(int);
     ~Vertex();
 
     void addNeighbouringTile(AbstractTile*);
@@ -24,9 +24,9 @@ class Vertex final {
     std::shared_ptr<Residence> getResidence() const;
     std::vector<Edge*> getNeighbouringEdges() const;
 
-    void canBuildResidence(int) const;
-    void canBuildInitialResidence() const;
-    void canUpgradeResidence(int) const;
+    bool canBuildResidence(int) const;
+    bool canBuildInitialResidence() const;
+    bool canUpgradeResidence(int) const;
 
     void buildResidence(std::shared_ptr<Residence>);  
     void upgradeResidence(std::shared_ptr<Residence>);

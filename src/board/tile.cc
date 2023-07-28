@@ -1,9 +1,7 @@
 #include "tile.h"
-#include <vector>
 
-Tile::Tile(const Board& owner, int tileNumber, int tileValue, Resource resource)
-    : AbstractTile(), board{owner}, tileNumber{tileNumber},
-      tileValue{tileValue}, resource{resource} {}
+Tile::Tile(int tileNumber, int tileValue, Resource resource)
+    : AbstractTile(), tileNumber{tileNumber}, tileValue{tileValue}, resource{resource} {}
 
 Tile::~Tile() {}
 
@@ -32,4 +30,9 @@ std::vector<Resource> Tile::getResourcesFromDiceRoll(const Builder& builder,
     // TODO: Implement!
     std::vector<Resource> returnVector;
     return returnVector;
+}
+
+bool Tile::hasGeese() const {
+    // Will be overridden by GeeseTile decorator when needed
+    return false;
 }
