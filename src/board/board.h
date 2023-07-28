@@ -35,10 +35,10 @@ class Board final {
      */
     void initBoard(std::vector<TileInitData>);
 
-    bool buildRoad(const Builder&, int, std::ostream&);
-    bool buildResidence(const Builder&, int, std::ostream&);
-    bool buildInitialResidence(const Builder&, int, std::ostream&);
-    bool upgradeResidence(const Builder&, int, std::ostream&);
+    bool buildRoad(Builder&, int, std::ostream&);
+    bool buildResidence(Builder&, int, std::ostream&);
+    bool buildInitialResidence(Builder&, int, std::ostream&);
+    bool upgradeResidence(Builder&, int, std::ostream&);
 
     std::vector<Resource> getResourcesFromDiceRoll(const Builder&, int) const; // What the given Builder would obtain if the given rollNumber is rolled
 

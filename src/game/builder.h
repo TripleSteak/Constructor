@@ -34,15 +34,14 @@ class Builder final {
 
     int chooseGeeseSpot(std::istream&, std::ostream&)
         const; // Select tile number to place geese on
-    char steal(std::istream&,
-               std::ostream&) const; // Select which other Builder to steal from
+    char steal(std::istream&, std::ostream&) const; // Select which other Builder to steal from
     Trade proposeTrade(std::istream&, std::ostream&) const;
     bool respondToTrade(std::istream&, std::ostream&) const;
 
-    std::shared_ptr<Road> tryBuildRoad(Edge) const;
-    std::shared_ptr<Residence> tryBuildResidence(Vertex) const;
-    std::shared_ptr<Residence> tryBuildInitialResidence(Vertex) const;
-    std::shared_ptr<Residence> tryUpgradeResidence(Vertex) const;
+    std::shared_ptr<Road> tryBuildRoad(Edge);
+    std::shared_ptr<Residence> tryBuildResidence(Vertex);
+    std::shared_ptr<Residence> tryBuildInitialResidence(Vertex);
+    std::shared_ptr<Residence> tryUpgradeResidence(Vertex);
 };
 
 #endif

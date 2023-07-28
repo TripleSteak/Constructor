@@ -52,7 +52,7 @@ void Board::initBoard(std::vector<TileInitData> tileInitData) {
     }
 }
 
-bool Board::buildRoad(const Builder& builder, int edgeNumber, std::ostream& out) {
+bool Board::buildRoad(Builder& builder, int edgeNumber, std::ostream& out) {
     Edge* edge = getEdge(edgeNumber);
 
     // check if can build road on edge
@@ -73,7 +73,7 @@ bool Board::buildRoad(const Builder& builder, int edgeNumber, std::ostream& out)
     return false;
 }
 
-bool Board::buildResidence(const Builder& builder, int vertexNumber, std::ostream& out) {
+bool Board::buildResidence(Builder& builder, int vertexNumber, std::ostream& out) {
     Vertex* vertex = getVertex(vertexNumber);
 
     // check if can build residence on vertex
@@ -94,7 +94,7 @@ bool Board::buildResidence(const Builder& builder, int vertexNumber, std::ostrea
     return false;
 }
 
-bool Board::buildInitialResidence(const Builder& builder, int vertexNumber, std::ostream& out) {
+bool Board::buildInitialResidence(Builder& builder, int vertexNumber, std::ostream& out) {
     Vertex* vertex = getVertex(vertexNumber);
 
     // check if can build residence on vertex
@@ -108,7 +108,7 @@ bool Board::buildInitialResidence(const Builder& builder, int vertexNumber, std:
     return true;
 }
 
-bool Board::upgradeResidence(const Builder& builder, int vertexNumber, std::ostream& out) {
+bool Board::upgradeResidence(Builder& builder, int vertexNumber, std::ostream& out) {
     Vertex* vertex = getVertex(vertexNumber);
 
     // check if can upgrade residence on vertex
