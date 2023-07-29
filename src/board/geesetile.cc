@@ -26,6 +26,11 @@ Resource GeeseTile::getResource() const {
     return tile->getResource();
 }
 
-void GeeseTile::giveResourcesToBuilders() const const {}
+void GeeseTile::giveResourcesToBuilders() const {
+    // Geese tiles give no resources
+    return;
+}
 
-bool GeeseTile::hasGeese() const {}
+bool GeeseTile::hasGeese() const {
+    return true;
+}

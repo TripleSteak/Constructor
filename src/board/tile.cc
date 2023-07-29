@@ -1,4 +1,7 @@
 #include "tile.h"
+#include "../game/builder.h"
+#include "residence.h"
+#include "vertex.h"
 
 Tile::Tile(int tileNumber, int tileValue, Resource resource) : AbstractTile(), tileNumber{tileNumber}, tileValue{tileValue}, resource{resource} {}
 
@@ -22,11 +25,11 @@ Resource Tile::getResource() const {
 
 void Tile::giveResourcesToBuilders() const {
     // Assume that tileNumber was rolled by Dice
-    // for (Vertex* vertex : neighbouringVertices) {
-    //     if (vertex->getResidence() != nullptr) {
-    //         vertex->getResidence()->getOwner()->addResource(resource);
-    //     }
-    // }
+    for (Vertex* vertex : neighbouringVertices) {
+        if (vertex->getResidence() != nullptr) {
+            vertex->getResidence()->getOwner().inventory[resource] += vertex->getResidence()->getResourceMultiplier();
+        }
+    }
 }
 
 bool Tile::hasGeese() const {
