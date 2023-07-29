@@ -3,8 +3,8 @@
 
 #include "../common/forward.h"
 #include "../common/resource.h"
-#include <vector>
 #include <iostream>
+#include <vector>
 
 // Stores information used to initialize Board Tiles
 struct TileInitData {
@@ -20,7 +20,7 @@ class Board final {
 
     int geeseTile; // Tile number that contains geese
 
-    void setupVertices(); 
+    void setupVertices();
     void setupEdges();
     void setupTiles();
 

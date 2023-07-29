@@ -13,7 +13,7 @@ TEST(House, GetLocation) {
     Vertex location = Vertex(15);
     House house = House(1, location);
 
-    EXPECT_EQ(house.getLocation(), &location);
+    EXPECT_EQ(house.getLocation(), location);
 }
 
 TEST(House, GetBuildingPoints) {

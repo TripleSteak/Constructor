@@ -1,12 +1,9 @@
-#include "../../src/dice/dice.cc"
-#include "../../src/dice/fairdice.cc"
-#include "../../src/dice/loadeddice.cc"
+#include "../../src/dice/dice.h"
+#include "../../src/dice/fairdice.h"
+#include "../../src/dice/loadeddice.h"
 #include "gtest/gtest.h"
 
-TEST(Dice, TestLoadedDice) {
-    int builderNumber = 3;
-    LoadedDice loadedDice = LoadedDice();
+TEST(dice, TestLoadedDice) {
+    LoadedDice loadedDice;
     EXPECT_EQ(loadedDice.rollDice(5), 5);
 }
-
-

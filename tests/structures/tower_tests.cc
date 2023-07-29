@@ -13,7 +13,7 @@ TEST(Tower, GetLocation) {
     Vertex location = Vertex(15);
     Tower tower = Tower(1, location);
 
-    EXPECT_EQ(tower.getLocation(), &location);
+    EXPECT_EQ(tower.getLocation(), location);
 }
 
 TEST(Tower, GetBuildingPoints) {

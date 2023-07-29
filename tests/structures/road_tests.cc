@@ -13,5 +13,5 @@ TEST(Road, GetLocation) {
     Edge location = Edge(42);
     Road road = Road(33, location);
 
-    EXPECT_EQ(road.getLocation(), &location);
+    EXPECT_EQ(road.getLocation(), location);
 }
