@@ -7,6 +7,11 @@
 Vertex::Vertex(int vertexNumber) : vertexNumber{vertexNumber}, residence{nullptr} {}
 Vertex::~Vertex() {}
 
+bool Vertex::operator==(const Vertex& other) const {
+    return vertexNumber == other.vertexNumber && residence == other.residence && neighbouringTiles == other.neighbouringTiles &&
+           neighbouringEdges == other.neighbouringEdges;
+}
+
 void Vertex::addNeighbouringTile(AbstractTile* tile) {
     neighbouringTiles.emplace_back(tile);
 }

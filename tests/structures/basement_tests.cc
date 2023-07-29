@@ -13,7 +13,7 @@ TEST(Basement, GetLocation) {
     Vertex location = Vertex(15);
     Basement basement = Basement(1, location);
 
-    EXPECT_EQ(basement.getLocation(), &location);
+    EXPECT_EQ(basement.getLocation(), location);
 }
 
 TEST(Basement, GetBuildingPoints) {

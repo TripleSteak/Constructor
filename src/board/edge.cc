@@ -6,6 +6,11 @@
 Edge::Edge(int edgeNumber) : edgeNumber{edgeNumber}, road{nullptr} {}
 Edge::~Edge() {}
 
+bool Edge::operator==(const Edge& other) const {
+    return edgeNumber == other.edgeNumber && road == other.road && neighbouringTiles == other.neighbouringTiles &&
+           neighbouringVertices == other.neighbouringVertices;
+}
+
 void Edge::addNeighbouringTile(AbstractTile* tile) {
     neighbouringTiles.emplace_back(tile);
 }

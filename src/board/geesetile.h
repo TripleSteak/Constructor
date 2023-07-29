@@ -15,7 +15,6 @@ class GeeseTile final : public AbstractTile {
     ~GeeseTile();
 
     void addNeighbouringVertex(Vertex*) override;
-    void addNeighbouringEdge(Edge*) override;
 
     int getTileNumber() const override;
     int getTileValue() const override;

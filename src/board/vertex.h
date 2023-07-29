@@ -2,8 +2,8 @@
 #define VERTEX_H
 
 #include "../common/forward.h"
-#include <vector>
 #include <memory>
+#include <vector>
 
 class Vertex final {
   private:
@@ -17,6 +17,8 @@ class Vertex final {
     Vertex(int);
     ~Vertex();
 
+    bool operator==(const Vertex&) const;
+
     void addNeighbouringTile(AbstractTile*);
     void addNeighbouringEdge(Edge*);
 
@@ -28,7 +30,7 @@ class Vertex final {
     bool canBuildInitialResidence() const;
     bool canUpgradeResidence(int) const;
 
-    void buildResidence(std::shared_ptr<Residence>);  
+    void buildResidence(std::shared_ptr<Residence>);
     void upgradeResidence(std::shared_ptr<Residence>);
 };
 

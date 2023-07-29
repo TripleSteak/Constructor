@@ -2,9 +2,9 @@
 #define EDGE_H
 
 #include "../common/forward.h"
+#include <iostream>
 #include <memory>
 #include <vector>
-#include <iostream>
 
 class Edge final {
   private:
@@ -17,13 +17,15 @@ class Edge final {
     Edge(int);
     ~Edge();
 
+    bool operator==(const Edge&) const;
+
     void addNeighbouringTile(AbstractTile*);
     void addNeighbouringVertex(Vertex*);
 
     int getEdgeNumber() const;
     std::shared_ptr<Road> getRoad() const;
     std::vector<Vertex*> getNeighbouringVertices() const;
-    
+
     bool canBuildRoad(int) const;
     void buildRoad(std::shared_ptr<Road>);
 };
