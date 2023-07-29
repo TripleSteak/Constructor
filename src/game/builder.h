@@ -16,10 +16,9 @@ class Builder final {
     std::unique_ptr<Dice> dice;
 
   public:
-    std::vector<std::shared_ptr <Residence>> residences;
-    std::vector<std::shared_ptr <Road>> roads;
-    std::unordered_map<Resource, int>
-        inventory; // "PARK" should never be one of the keys in this map
+    std::vector<std::shared_ptr<Residence>> residences;
+    std::vector<std::shared_ptr<Road>> roads;
+    std::unordered_map<Resource, int> inventory; // "PARK" should never be one of the keys in this map
 
     Builder(int, char);
     ~Builder();
@@ -32,9 +31,8 @@ class Builder final {
     int rollDice(int) const;
     void setDice(bool);
 
-    int chooseGeeseSpot(std::istream&, std::ostream&)
-        const; // Select tile number to place geese on
-    char steal(std::istream&, std::ostream&) const; // Select which other Builder to steal from
+    int chooseGeeseSpot(std::istream&, std::ostream&) const; // Select tile number to place geese on
+    char steal(std::istream&, std::ostream&) const;          // Select which other Builder to steal from
     Trade proposeTrade(std::istream&, std::ostream&) const;
     bool respondToTrade(std::istream&, std::ostream&) const;
 
