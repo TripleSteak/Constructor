@@ -174,7 +174,7 @@ void Board::setupVertices() {
     vertices[8]->addNeighbouringTile(tiles[0]);
     vertices[8]->addNeighbouringTile(tiles[1]);
     vertices[8]->addNeighbouringTile(tiles[4]);
-    
+
     vertices[9]->addNeighbouringEdge(edges[7]);
     vertices[9]->addNeighbouringEdge(edges[10]);
     vertices[9]->addNeighbouringEdge(edges[15]);
@@ -382,7 +382,7 @@ void Board::setupVertices() {
 
     vertices[42]->addNeighbouringEdge(edges[54]);
     vertices[42]->addNeighbouringEdge(edges[60]);
-    vertices[42]->addNeighbouringTile(tiles[3]);
+    vertices[42]->addNeighbouringTile(tiles[13]);
 
     vertices[43]->addNeighbouringEdge(edges[55]);
     vertices[43]->addNeighbouringEdge(edges[60]);
@@ -396,7 +396,7 @@ void Board::setupVertices() {
     vertices[44]->addNeighbouringTile(tiles[14]);
     vertices[44]->addNeighbouringTile(tiles[16]);
     vertices[44]->addNeighbouringTile(tiles[18]);
-    
+
     vertices[45]->addNeighbouringEdge(edges[57]);
     vertices[45]->addNeighbouringEdge(edges[61]);
     vertices[45]->addNeighbouringEdge(edges[65]);
@@ -443,7 +443,7 @@ void Board::setupVertices() {
     vertices[53]->addNeighbouringTile(tiles[18]);
 }
 
-void Board::setupEdges(){
+void Board::setupEdges() {
     edges[0]->addNeighbouringVertex(vertices[0]);
     edges[0]->addNeighbouringVertex(vertices[1]);
 
@@ -455,7 +455,7 @@ void Board::setupEdges(){
 
     edges[3]->addNeighbouringVertex(vertices[2]);
     edges[3]->addNeighbouringVertex(vertices[3]);
-    
+
     edges[4]->addNeighbouringVertex(vertices[4]);
     edges[4]->addNeighbouringVertex(vertices[5]);
 
@@ -473,7 +473,7 @@ void Board::setupEdges(){
 
     edges[9]->addNeighbouringVertex(vertices[6]);
     edges[9]->addNeighbouringVertex(vertices[7]);
-    
+
     edges[10]->addNeighbouringVertex(vertices[8]);
     edges[10]->addNeighbouringVertex(vertices[9]);
 
@@ -491,7 +491,7 @@ void Board::setupEdges(){
 
     edges[15]->addNeighbouringVertex(vertices[9]);
     edges[15]->addNeighbouringVertex(vertices[15]);
-    
+
     edges[16]->addNeighbouringVertex(vertices[10]);
     edges[16]->addNeighbouringVertex(vertices[16]);
 
@@ -509,7 +509,7 @@ void Board::setupEdges(){
 
     edges[21]->addNeighbouringVertex(vertices[13]);
     edges[21]->addNeighbouringVertex(vertices[19]);
-    
+
     edges[22]->addNeighbouringVertex(vertices[14]);
     edges[22]->addNeighbouringVertex(vertices[20]);
 
@@ -527,7 +527,7 @@ void Board::setupEdges(){
 
     edges[27]->addNeighbouringVertex(vertices[20]);
     edges[27]->addNeighbouringVertex(vertices[21]);
-    
+
     edges[28]->addNeighbouringVertex(vertices[22]);
     edges[28]->addNeighbouringVertex(vertices[23]);
 
@@ -545,7 +545,7 @@ void Board::setupEdges(){
 
     edges[33]->addNeighbouringVertex(vertices[22]);
     edges[33]->addNeighbouringVertex(vertices[28]);
-    
+
     edges[34]->addNeighbouringVertex(vertices[23]);
     edges[34]->addNeighbouringVertex(vertices[29]);
 
@@ -563,7 +563,7 @@ void Board::setupEdges(){
 
     edges[39]->addNeighbouringVertex(vertices[26]);
     edges[39]->addNeighbouringVertex(vertices[32]);
-    
+
     edges[40]->addNeighbouringVertex(vertices[27]);
     edges[40]->addNeighbouringVertex(vertices[33]);
 
@@ -581,7 +581,7 @@ void Board::setupEdges(){
 
     edges[45]->addNeighbouringVertex(vertices[34]);
     edges[45]->addNeighbouringVertex(vertices[35]);
-    
+
     edges[46]->addNeighbouringVertex(vertices[30]);
     edges[46]->addNeighbouringVertex(vertices[36]);
 
@@ -599,7 +599,7 @@ void Board::setupEdges(){
 
     edges[51]->addNeighbouringVertex(vertices[35]);
     edges[51]->addNeighbouringVertex(vertices[41]);
-    
+
     edges[52]->addNeighbouringVertex(vertices[37]);
     edges[52]->addNeighbouringVertex(vertices[38]);
 
@@ -617,7 +617,7 @@ void Board::setupEdges(){
 
     edges[57]->addNeighbouringVertex(vertices[39]);
     edges[57]->addNeighbouringVertex(vertices[45]);
-    
+
     edges[58]->addNeighbouringVertex(vertices[40]);
     edges[58]->addNeighbouringVertex(vertices[46]);
 
@@ -635,7 +635,7 @@ void Board::setupEdges(){
 
     edges[63]->addNeighbouringVertex(vertices[43]);
     edges[63]->addNeighbouringVertex(vertices[48]);
-    
+
     edges[64]->addNeighbouringVertex(vertices[44]);
     edges[64]->addNeighbouringVertex(vertices[49]);
 
@@ -653,7 +653,7 @@ void Board::setupEdges(){
 
     edges[69]->addNeighbouringVertex(vertices[49]);
     edges[69]->addNeighbouringVertex(vertices[52]);
-    
+
     edges[70]->addNeighbouringVertex(vertices[50]);
     edges[70]->addNeighbouringVertex(vertices[53]);
 
@@ -661,7 +661,7 @@ void Board::setupEdges(){
     edges[71]->addNeighbouringVertex(vertices[53]);
 }
 
-void Board::setupTiles(){
+void Board::setupTiles() {
     tiles[0]->addNeighbouringVertex(vertices[0]);
     tiles[0]->addNeighbouringVertex(vertices[1]);
     tiles[0]->addNeighbouringVertex(vertices[3]);
