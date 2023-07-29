@@ -3,6 +3,8 @@
 #include "edge.h"
 #include "tile.h"
 #include "vertex.h"
+#include "../structures/residence.h"
+#include "../structures/road.h" 
 
 const int NUM_TILES = 19;
 const int NUM_EDGES = 72;
@@ -57,7 +59,7 @@ bool Board::buildRoad(Builder& builder, int edgeNumber, std::ostream& out) {
     Edge* edge = getEdge(edgeNumber);
 
     // check if can build road on edge
-    if (!edge->canBuildRoad(builder.getBuilderNumber())) {
+    if (!edge->canBuildRoad(builder)) {
         out << "You cannot build here." << std::endl;
         return false;
     }
@@ -128,6 +130,124 @@ bool Board::upgradeResidence(Builder& builder, int vertexNumber, std::ostream& o
 
     out << "You do not have enough resources." << std::endl;
     return false;
+}
+
+void Board::printBoard(std::ostream& out) {
+    out << "                          " + printVertex(0) + printEdge(0, true) + printVertex(1) << std::endl;
+    out << "                            |         |" << std::endl;
+    out << "                           " << printEdge(1, false) + "    0   " + printEdge(2, false) << std::endl;
+    out << "                            |" + printResource(0) + "|" << std::endl;
+    out << "                " + printVertex(2) + printEdge(3, true) + printVertex(3) +  printTile(0) + printVertex(4) + printEdge(4, true) + printVertex(5) << std::endl;
+    out << "                  |         |" + printGeese(0) + "|         |" << std::endl;
+    out << "                 " + printEdge(5, false) + "    1   " + printEdge(6, false)  + "        " + printEdge(7, false) + "    2   " + printEdge(8, false) << std::endl;
+    out << "                  |" + printResource(1) + "|         |" + printResource(2) << std::endl;
+    out << "      " + printVertex(6) + printEdge(9, true) + printVertex(7) + printTile(1) + printVertex(8) + printEdge(10, true) + printVertex(9) + printTile(2) + printVertex(10) + printEdge(11, true) + printVertex(11) << std::endl;
+    out << "        |         |" + printGeese(1) + "|         |" + printGeese(2) + "|         |" << std::endl;
+    out << "       " + printEdge(12, false) + "    3   " + printEdge(13, false) + "        " + printEdge(14, false) + "    4   " + printEdge(15, false) + "        " + printEdge(16, false) + "    5   " + printEdge(17, false) << std::endl;
+    out << "        |" + printResource(3) + "|         |" + printResource(4) + "|         |" + printResource(5) + "|" << std::endl;
+    out << printVertex(12) + printTile(3) + printVertex(13) + printEdge(18, true) + printVertex(14) + printTile(4) + printVertex(15) + printEdge(19, true) + printVertex(16) + printTile(5) + printVertex(17) << std::endl;
+    out << "        |" + printGeese(3) + "|         |" + printGeese(4) + "|         |" + printGeese(5) + "|" << std::endl;
+    out << "       " + printEdge(20, false) + "        " + printEdge(21, false) + "    6   " + printEdge(22, false) + "        " + printEdge(23, false) + "    7   " + printEdge(24, false) + "        " + printEdge(25, false) << std::endl;
+    out << "        |         |" + printResource(6) + "|         |" + printResource(7) + "|         |" << std::endl;
+    out << "      " + printVertex(18) + printEdge(26, true) + printVertex(19) + printTile(6) + printVertex(20) + printEdge(27, true) + printVertex(21) + printTile(7) + printVertex(22) + printEdge(28, true) + printVertex(23) << std::endl;
+    out << "        |         |" + printGeese(6) + "|         |" + printGeese(7) + "|         |" << std::endl;      
+    out << "       " + printEdge(29, false) + "    8   " + printEdge(30, false) + "        " + printEdge(31, false) + "    9   " + printEdge(32, false) + "        " + printEdge(33, false) + "   10   " + printEdge(34, false) << std::endl;
+    out << "        |" + printResource(8) + "|         |" + printResource(9) + "|         |" + printResource(10) + "|         |" << std::endl;
+    out << "      " + printVertex(24) + printTile(8) + printVertex(25) + printEdge(35, true) + printVertex(26) + printTile(9) + printVertex(27) + printEdge(36, true) + printVertex(28) + printTile(10) + printVertex(29) << std::endl;
+    out << "        |" + printGeese(8) + "|         |" + printGeese(9) + "|         |" + printGeese(10) + "|" << std::endl;
+    out << "       " + printEdge(37, false) + "        " + printEdge(38, false) + "   11   " + printEdge(39, false) + "        " + printEdge(40, false) + "   12   " + printEdge(41, false) + "        " + printEdge(42, false) << std::endl;
+    out << "        |         |" + printResource(11) + "|         |" + printResource(12) + "|         |" << std::endl;
+    out << "      " + printVertex(30) + printEdge(43, true) + printVertex(31) + printTile(11) + printVertex(32) + printEdge(44, true) + printVertex(33) + printTile(12) + printVertex(34) + printEdge(45, true) + printVertex(35) << std::endl;
+    out << "        |         |" + printGeese(11) + "|         |" + printGeese(12) + "|         |" << std::endl;
+    out << "       " + printEdge(46, false) + "   13   " + printEdge(47, false) + "        " + printEdge(48, false) + "   14   " + printEdge(49, false) + "        " + printEdge(50, false) + "   15   " + printEdge(51, false) << std::endl;
+    out << "        |" + printResource(13) + "|         |" + printResource(14) + "|         |" + printResource(15) + "|         |" << std::endl;
+    out << "      " + printVertex(36) + printTile(13) + printVertex(37) + printEdge(52, true) + printVertex(38) + printTile(14) + printVertex(39) + printEdge(53, true) + printVertex(40) + printTile(15) + printVertex(41) << std::endl;
+    out << "        |" + printGeese(13) + "|         |" + printGeese(14) + "|         |" + printGeese(15) + "|" << std::endl;
+    out << "       " + printEdge(54, false) + "        " + printEdge(55, false) + "   16   " + printEdge(56, false) + "        " + printEdge(57, false) + "   17   " + printEdge(58, false) + "        " + printEdge(59, false) << std::endl;
+    out << "        |         |" + printResource(16) + "|         |" + printResource(17) + "|         |" << std::endl;
+    out << "      " + printVertex(42) + printEdge(60, true) + printVertex(43) + printTile(16) + printVertex(44) + printEdge(61, true) + printVertex(45) + printTile(17) + printVertex(46) + printEdge(62, true) + printVertex(47) << std::endl;
+    out << "                  |" + printGeese(16) + "|         |" + printGeese(17) + "|" << std::endl;
+    out << "                 " + printEdge(63, false) + "        " + printEdge(64, false) + "   18   " + printEdge(65, false) + "        " + printEdge(66, false) << std::endl;
+    out << "                  |         |" + printResource(18) + "|         |" << std::endl;
+    out << "                " + printVertex(48) + printEdge(67, true) + printVertex(49) + printTile(18) + printVertex(50) + printEdge(68, true) + printVertex(51) << std::endl;
+    out << "                            |" + printGeese(18) + "|" << std::endl;
+    out << "                           " + printEdge(69, false) + "        " + printEdge(70, false) << std::endl;
+    out << "                            |         |" << std::endl;
+    out << "                          " + printVertex(52) + printEdge(71, true) + printVertex(53) << std::endl;
+}
+
+std::string Board::printVertex(int vertexNumber){
+    Vertex* vertex = getVertex(vertexNumber);
+    std::string vertexString = "|";
+    if (vertex->getResidence() == nullptr){
+        if (vertexNumber < 10){
+            vertexString += " ";
+        }
+        vertexString += vertexNumber + "|";
+    } else {
+        vertexString += vertex->getResidence()->getOwner().getBuilderColour() + vertex->getResidence()->getResidenceLetter() + "|";;  
+    }
+    return vertexString;
+}
+
+std::string Board::printEdge(int edgeNumber, bool isHorizontal){
+    Edge* edge = getEdge(edgeNumber);
+    std::string edgeString = "";
+    if (isHorizontal) {
+        edgeString += "--";
+    }
+    if (edge->getRoad() == nullptr){
+        if (edgeNumber < 10){
+            edgeString += " ";
+        }
+    } else {
+        edgeString += edge->getRoad()->getOwner().getBuilderColour() + "R";
+    }
+    if (isHorizontal) {
+        edgeString += "--"; 
+    }
+    return edgeString;
+}
+
+std::string Board::printTile(int tileNumber){
+    AbstractTile* tile = getTile(tileNumber);
+    std::string tileString = "  ";
+    if (tile->getTileValue() < 10){
+        tileString += " ";
+    }
+    tileString += tile->getTileValue();
+    tileString += "  ";
+    return tileString;  
+}
+
+std::string Board::printResource(int tileNumber){
+    AbstractTile* tile = getTile(tileNumber);
+    std::string tileString = "";
+    if (tile->getResource() == Resource::BRICK){
+        tileString += "  BRICK  ";
+    } else if (tile->getResource() == Resource::ENERGY){
+        tileString += " ENERGY  ";
+    } else if (tile->getResource() == Resource::GLASS){
+        tileString += "  GLASS  ";
+    } else if (tile->getResource() == Resource::HEAT){
+        tileString += "  HEAT   ";
+    } else if (tile->getResource() == Resource::PARK){
+        tileString += "  PARK   ";
+    } else if (tile->getResource() == Resource::WIFI){
+        tileString += "  WIFI   ";
+    }
+    return tileString;
+}
+
+std::string Board::printGeese(int tileNumber){
+    AbstractTile* tile = getTile(tileNumber);
+    std::string tileString = "";
+    if (tile->hasGeese()){
+        tileString += "  GEESE  ";
+    } else {
+        tileString += "         ";
+    }
+    return tileString;
 }
 
 void Board::setupVertices() {

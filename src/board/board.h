@@ -24,6 +24,12 @@ class Board final {
     void setupEdges();
     void setupTiles();
 
+    std::string printVertex(int);
+    std::string printEdge(int, bool);
+    std::string printTile(int);
+    std::string printResource(int);
+    std::string printGeese(int);
+
   public:
     Board(std::vector<TileInitData>);
     ~Board();
@@ -49,7 +55,7 @@ class Board final {
     int getGeeseTile() const;
     void setGeeseTile(int);
 
-    void printBoard(std::ostream& );
+    void printBoard(std::ostream&);
     //void printResidences();
 };
 
