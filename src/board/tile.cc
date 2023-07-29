@@ -8,10 +8,6 @@ void Tile::addNeighbouringVertex(Vertex* vertex) {
     neighbouringVertices.emplace_back(vertex);
 }
 
-void Tile::addNeighbouringEdge(Edge* edge) {
-    neighbouringEdges.emplace_back(edge);
-}
-
 int Tile::getTileNumber() const {
     return tileNumber;
 }

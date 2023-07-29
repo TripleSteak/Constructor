@@ -18,7 +18,6 @@ class Tile final : public AbstractTile {
     ~Tile();
 
     void addNeighbouringVertex(Vertex*) override;
-    void addNeighbouringEdge(Edge*) override;
 
     int getTileNumber() const override;
     int getTileValue() const override;

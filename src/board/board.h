@@ -20,6 +20,10 @@ class Board final {
 
     int geeseTile; // Tile number that contains geese
 
+    void setupVertices(); 
+    void setupEdges();
+    void setupTiles();
+
   public:
     Board();
     ~Board();
