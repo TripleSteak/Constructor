@@ -25,7 +25,7 @@ class Board final {
     void setupTiles();
 
   public:
-    Board();
+    Board(std::vector<TileInitData>);
     ~Board();
 
     AbstractTile* getTile(int) const;
@@ -37,7 +37,7 @@ class Board final {
      * There must be 19 elements in the TileInitData array, with exactly ONE park tile.
      *  (The park tile must have a tileValue of 7)
      */
-    void initBoard(std::vector<TileInitData>);
+    //void initBoard(std::vector<TileInitData>);
 
     bool buildRoad(Builder&, int, std::ostream&);
     bool buildResidence(Builder&, int, std::ostream&);
@@ -49,8 +49,8 @@ class Board final {
     int getGeeseTile() const;
     void setGeeseTile(int);
 
-    void printBoard();
-    void printResidences();
+    void printBoard(std::ostream& );
+    //void printResidences();
 };
 
 #endif

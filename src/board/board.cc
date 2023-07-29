@@ -8,7 +8,22 @@ const int NUM_TILES = 19;
 const int NUM_EDGES = 72;
 const int NUM_VERTICES = 54;
 
-Board::Board() {}
+Board::Board(std::vector<TileInitData> tileInitData) {
+    for (int i = 0; i < NUM_TILES; i++) {
+        tiles.push_back(new Tile(i, tileInitData.at(i).tileValue, tileInitData.at(i).resource));
+        // TODO: If tileInitData.at(i) is a PARK, set the tile to geeseTile
+    }
+
+    for (int i = 0; i < NUM_EDGES; i++) {
+        edges.push_back(new Edge(i));
+    }
+    for (int i = 0; i < NUM_VERTICES; i++) {
+        vertices.push_back(new Vertex(i));
+    }
+    setupVertices();
+    setupEdges();
+    setupTiles();
+}
 
 Board::~Board() {
     for (auto tile : tiles) {
@@ -36,20 +51,6 @@ Vertex* Board::getVertex(int vertexNumber) const {
 
 Edge* Board::getEdge(int edgeNumber) const {
     return edges.at(edgeNumber);
-}
-
-void Board::initBoard(std::vector<TileInitData> tileInitData) {
-    for (int i = 0; i < NUM_TILES; i++) {
-        tiles.push_back(new Tile(i, tileInitData.at(i).tileValue, tileInitData.at(i).resource));
-        // TODO: If tileInitData.at(i) is a PARK, set the tile to geeseTile
-    }
-
-    for (int i = 0; i < NUM_EDGES; i++) {
-        edges.push_back(new Edge(i));
-    }
-    for (int i = 0; i < NUM_VERTICES; i++) {
-        vertices.push_back(new Vertex(i));
-    }
 }
 
 bool Board::buildRoad(Builder& builder, int edgeNumber, std::ostream& out) {
