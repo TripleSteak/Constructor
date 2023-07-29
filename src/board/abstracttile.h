@@ -11,7 +11,6 @@ class AbstractTile {
     virtual ~AbstractTile();
 
     virtual void addNeighbouringVertex(Vertex*) = 0;
-    virtual void addNeighbouringEdge(Edge*) = 0;
 
     virtual int getTileNumber() const = 0; // Unique identifier assigned to each tile on the board
     virtual int getTileValue() const = 0; // The dice roll needed to obtain resources from this tile
