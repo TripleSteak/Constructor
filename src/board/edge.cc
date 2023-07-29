@@ -1,4 +1,5 @@
 #include "edge.h"
+#include "../game/builder.h"
 #include "../structures/residence.h"
 #include "../structures/road.h"
 #include "vertex.h"
@@ -31,7 +32,7 @@ std::vector<Vertex*> Edge::getNeighbouringVertices() const {
     return neighbouringVertices;
 }
 
-bool Edge::canBuildRoad(int builderNumber) const {
+bool Edge::canBuildRoad(Builder& builder) const {
     if (road != nullptr) {
         // Road already exists!
         return false;
@@ -39,13 +40,13 @@ bool Edge::canBuildRoad(int builderNumber) const {
 
     for (Vertex* vertex : neighbouringVertices) {
         // Vertex has residence owned by the builder
-        if (vertex->getResidence() != nullptr && vertex->getResidence()->getOwner() == builderNumber) {
+        if (vertex->getResidence() != nullptr && vertex->getResidence()->getOwner() == builder) {
             return true;
         }
 
         // Vertex is connected to a road owned by the builder
         for (Edge* edge : vertex->getNeighbouringEdges()) {
-            if (edge->getRoad() != nullptr && edge->getRoad()->getOwner() == builderNumber) {
+            if (edge->getRoad() != nullptr && edge->getRoad()->getOwner() == builder) {
                 return true;
             }
         }

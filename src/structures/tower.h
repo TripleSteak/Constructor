@@ -6,7 +6,7 @@
 
 class Tower final : public Residence {
 public:
-    Tower(int, Vertex&);
+    Tower(Builder&, Vertex&);
     ~Tower();
 
     int getBuildingPoints() const override;

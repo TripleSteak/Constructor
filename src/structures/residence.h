@@ -5,14 +5,14 @@
 
 class Residence {
   protected:
-    int owner;
+    Builder& owner;
     Vertex& location;
 
   public:
-    Residence(int, Vertex&);
+    Residence(Builder&, Vertex&);
     virtual ~Residence();
 
-    int getOwner() const;
+    Builder& getOwner() const;
     Vertex& getLocation() const;
 
     virtual int getBuildingPoints() const = 0;

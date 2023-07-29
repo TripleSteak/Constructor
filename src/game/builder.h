@@ -23,6 +23,8 @@ class Builder final {
     Builder(int, char);
     ~Builder();
 
+    bool operator==(const Builder&) const;
+
     int getBuilderNumber() const;
     char getBuilderColour() const;
     int getBuildingPoints() const;

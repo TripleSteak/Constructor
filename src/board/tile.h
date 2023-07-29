@@ -22,7 +22,7 @@ class Tile final : public AbstractTile {
     int getTileNumber() const override;
     int getTileValue() const override;
     Resource getResource() const override;
-    std::vector<Resource> getResourcesFromDiceRoll(const Builder&, int) const override;
+    void giveResourcesToBuilders() const override;
 
     bool hasGeese() const override;
 };

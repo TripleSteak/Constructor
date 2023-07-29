@@ -1,10 +1,10 @@
 #include "residence.h"
 
-Residence::Residence(int owner, Vertex& location) : owner{owner}, location{location} {}
+Residence::Residence(Builder& owner, Vertex& location) : owner{owner}, location{location} {}
 
 Residence::~Residence() {}
 
-int Residence::getOwner() const {
+Builder& Residence::getOwner() const {
     return owner;
 }
 

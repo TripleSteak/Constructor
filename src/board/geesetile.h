@@ -8,18 +8,20 @@
 
 class GeeseTile final : public AbstractTile {
   private:
-    std::unique_ptr<AbstractTile> tile; // Decorator pointer
+    std::unique_ptr<Tile> tile; // Decorator pointer
 
   public:
-    GeeseTile(std::unique_ptr<AbstractTile>);
+    GeeseTile(std::unique_ptr<Tile>); // Can only decorate Tile objects
     ~GeeseTile();
+
+    std::unique_ptr<Tile> removeGoose();
 
     void addNeighbouringVertex(Vertex*) override;
 
     int getTileNumber() const override;
     int getTileValue() const override;
     Resource getResource() const override;
-    std::vector<Resource> getResourcesFromDiceRoll(const Builder&, int) const override;
+    void giveResourcesToBuilders() const override;
 
     bool hasGeese() const override;
 };

@@ -5,8 +5,8 @@
 #include "residence.h"
 
 class House final : public Residence {
-public:
-    House(int, Vertex&);
+  public:
+    House(Builder&, Vertex&);
     ~House();
 
     int getBuildingPoints() const override;

@@ -20,10 +20,13 @@ Resource Tile::getResource() const {
     return resource;
 }
 
-std::vector<Resource> Tile::getResourcesFromDiceRoll(const Builder& builder, int rollNumber) const {
-    // TODO: Implement!
-    std::vector<Resource> returnVector;
-    return returnVector;
+void Tile::giveResourcesToBuilders() const {
+    // Assume that tileNumber was rolled by Dice
+    // for (Vertex* vertex : neighbouringVertices) {
+    //     if (vertex->getResidence() != nullptr) {
+    //         vertex->getResidence()->getOwner()->addResource(resource);
+    //     }
+    // }
 }
 
 bool Tile::hasGeese() const {

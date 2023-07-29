@@ -5,14 +5,14 @@
 
 class Road final {
   private:
-    int owner;
+    Builder& owner;
     Edge& location;
 
   public:
-    Road(int, Edge&);
+    Road(Builder&, Edge&);
     ~Road();
 
-    int getOwner() const;
+    Builder& getOwner() const;
     Edge& getLocation() const;
 };
 

@@ -1,4 +1,5 @@
 #include "vertex.h"
+#include "../game/builder.h"
 #include "../structures/basement.h"
 #include "../structures/residence.h"
 #include "../structures/road.h"
@@ -32,7 +33,7 @@ std::vector<Edge*> Vertex::getNeighbouringEdges() const {
     return neighbouringEdges;
 }
 
-bool Vertex::canBuildResidence(int builderNumber) const {
+bool Vertex::canBuildResidence(Builder& builder) const {
     if (residence != nullptr) {
         // Residence already exists at this vertex!
         return false;
@@ -41,7 +42,7 @@ bool Vertex::canBuildResidence(int builderNumber) const {
     bool hasConnectingRoad = false;
 
     for (Edge* edge : neighbouringEdges) {
-        if (edge->getRoad() != nullptr && edge->getRoad()->getOwner() == builderNumber) {
+        if (edge->getRoad() != nullptr && edge->getRoad()->getOwner() == builder) {
             hasConnectingRoad = true;
         }
 
@@ -75,14 +76,14 @@ bool Vertex::canBuildInitialResidence() const {
     return true;
 }
 
-bool Vertex::canUpgradeResidence(int builderNumber) const {
+bool Vertex::canUpgradeResidence(Builder& builder) const {
     /*
      * In order to upgrade a residence, the following conditions must be met:
      * - A residence must exist at the vertex
      * - The residence must not already be max level (i.e. Tower)
      * - The residence must be owned by the builder
      */
-    return residence != nullptr && residence->getResidenceLetter() != 'T' && residence->getOwner() == builderNumber;
+    return residence != nullptr && residence->getResidenceLetter() != 'T' && residence->getOwner() == builder;
 }
 
 void Vertex::buildResidence(std::shared_ptr<Residence> residence) {

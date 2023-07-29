@@ -1,6 +1,6 @@
 #include "tower.h"
 
-Tower::Tower(int owner, Vertex& location) : Residence(owner, location) {}
+Tower::Tower(Builder& owner, Vertex& location) : Residence(owner, location) {}
 
 Tower::~Tower() {}
 

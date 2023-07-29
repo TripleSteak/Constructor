@@ -1,6 +1,6 @@
 #include "basement.h"
 
-Basement::Basement(int owner, Vertex& location) : Residence(owner, location) {}
+Basement::Basement(Builder& owner, Vertex& location) : Residence(owner, location) {}
 Basement::~Basement() {}
 
 int Basement::getBuildingPoints() const {

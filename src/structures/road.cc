@@ -1,10 +1,10 @@
 #include "road.h"
 
-Road::Road(int owner, Edge& location) : owner{owner}, location{location} {}
+Road::Road(Builder& owner, Edge& location) : owner{owner}, location{location} {}
 
 Road::~Road() {}
 
-int Road::getOwner() const {
+Builder& Road::getOwner() const {
     return owner;
 }
 

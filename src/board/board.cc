@@ -78,7 +78,7 @@ bool Board::buildResidence(Builder& builder, int vertexNumber, std::ostream& out
     Vertex* vertex = getVertex(vertexNumber);
 
     // check if can build residence on vertex
-    if (!vertex->canBuildResidence(builder.getBuilderNumber())) {
+    if (!vertex->canBuildResidence(builder)) {
         out << "You cannot build here." << std::endl;
         return false;
     }
@@ -113,7 +113,7 @@ bool Board::upgradeResidence(Builder& builder, int vertexNumber, std::ostream& o
     Vertex* vertex = getVertex(vertexNumber);
 
     // check if can upgrade residence on vertex
-    if (!vertex->canUpgradeResidence(builder.getBuilderNumber())) {
+    if (!vertex->canUpgradeResidence(builder)) {
         out << "You cannot build here." << std::endl;
         return false;
     }

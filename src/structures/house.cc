@@ -1,6 +1,6 @@
 #include "house.h"
 
-House::House(int owner, Vertex& location) : Residence(owner, location) {}
+House::House(Builder& owner, Vertex& location) : Residence(owner, location) {}
 House::~House() {}
 
 int House::getBuildingPoints() const {
