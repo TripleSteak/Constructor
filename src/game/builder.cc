@@ -90,7 +90,7 @@ std::shared_ptr<Road> Builder::tryBuildRoad(Edge edge) {
     if (inventory.at(HEAT) < 1 || inventory.at(WIFI) < 1) {
         return nullptr;
     }
-    std::shared_ptr<Road> road = std::make_shared<Road>(new Road(builderNumber, edge));
+    std::shared_ptr<Road> road = std::make_shared<Road>(builderNumber, edge);
     inventory.at(HEAT) -= 1;
     inventory.at(WIFI) -= 1;
     roads.emplace_back(road);
@@ -101,54 +101,55 @@ std::shared_ptr<Residence> Builder::tryBuildResidence(Vertex vertex) {
     if (inventory.at(BRICK) < 1 || inventory.at(ENERGY) < 1 || inventory.at(GLASS) < 1 || inventory.at(WIFI) < 1) {
         return nullptr;
     }
-    std::shared_ptr<Residence> residence = std::make_shared<Residence>(new Basement(builderNumber, vertex));
+    std::shared_ptr<Residence> residence = std::make_shared<Basement>(builderNumber, vertex);
     inventory.at(BRICK) -= 1;
     inventory.at(ENERGY) -= 1;
     inventory.at(GLASS) -= 1;
     inventory.at(WIFI) -= 1;
     residences.emplace_back(residence);
-    return residence; 
+    return residence;
 }
 
 std::shared_ptr<Residence> Builder::tryBuildInitialResidence(Vertex vertex) {
-    std::shared_ptr<Residence> residence = std::make_shared<Residence>(new Basement(builderNumber, vertex));
+    std::shared_ptr<Residence> residence = std::make_shared<Basement>(builderNumber, vertex);
     residences.emplace_back(residence);
-    return residence; 
+    return residence;
 }
 
 std::shared_ptr<Residence> Builder::tryUpgradeResidence(Vertex vertex) {
     std::shared_ptr<Residence> residence;
     switch (vertex.getResidence()->getResidenceLetter()) {
-    case 'B':
-        if (inventory.at(GLASS) < 2 || inventory.at(HEAT) < 3) {
-            return nullptr;
-        }
-        residence = std::make_shared<Residence>(new House(builderNumber, vertex));
-        inventory.at(GLASS) -= 2;
-        inventory.at(HEAT) -= 3;
-        for (int i = 0; i < residences.size(); i++) {
-            if (residences[i]->getLocation().getVertexNumber() == vertex.getVertexNumber()){
-                residences[i] = residence; 
-                return residence;
+        case 'B':
+            if (inventory.at(GLASS) < 2 || inventory.at(HEAT) < 3) {
+                return nullptr;
             }
-        }
-    case 'H':
-        if (inventory.at(BRICK) < 3 || inventory.at(ENERGY) < 2 || inventory.at(GLASS) < 2 || inventory.at(HEAT) < 2 || inventory.at(WIFI) < 1) {
-            return nullptr;
-        }
-        residence = std::make_shared<Residence>(new Tower(builderNumber, vertex));
-        inventory.at(BRICK) -= 3;
-        inventory.at(ENERGY) -= 2;
-        inventory.at(GLASS) -= 2;
-        inventory.at(HEAT) -= 2;
-        inventory.at(WIFI) -= 1;
-        for (int i = 0; i < residences.size(); i++) {
-            if (residences[i]->getLocation().getVertexNumber() == vertex.getVertexNumber()){
-                residences[i] = residence; 
-                return residence;
+            residence = std::make_shared<House>(builderNumber, vertex);
+            inventory.at(GLASS) -= 2;
+            inventory.at(HEAT) -= 3;
+            for (size_t i = 0; i < residences.size(); i++) {
+                if (residences[i]->getLocation().getVertexNumber() == vertex.getVertexNumber()) {
+                    residences[i] = residence;
+                    return residence;
+                }
             }
-        }
-    default:
-        break;
+        case 'H':
+            if (inventory.at(BRICK) < 3 || inventory.at(ENERGY) < 2 || inventory.at(GLASS) < 2 || inventory.at(HEAT) < 2 || inventory.at(WIFI) < 1) {
+                return nullptr;
+            }
+            residence = std::make_shared<Tower>(builderNumber, vertex);
+            inventory.at(BRICK) -= 3;
+            inventory.at(ENERGY) -= 2;
+            inventory.at(GLASS) -= 2;
+            inventory.at(HEAT) -= 2;
+            inventory.at(WIFI) -= 1;
+            for (size_t i = 0; i < residences.size(); i++) {
+                if (residences[i]->getLocation().getVertexNumber() == vertex.getVertexNumber()) {
+                    residences[i] = residence;
+                    return residence;
+                }
+            }
+        default:
+            return nullptr;
+            break;
     }
 }
