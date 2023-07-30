@@ -1,6 +1,13 @@
+# IDE config folders
 .idea/
 .vscode/
+
+# Makefile generated files
 *.d
 *.o
+
+# Compiled files
 constructor
+
+# Test outputs
 *.out
