@@ -127,7 +127,7 @@ void Board::printBoard(std::ostream& out) {
     out << "                " + printVertex(2) + printEdge(3, true) + printVertex(3) + printTile(0) + printVertex(4) + printEdge(4, true) + printVertex(5) << std::endl;
     out << "                  |         |" + printGeese(0) + "|         |" << std::endl;
     out << "                 " + printEdge(5, false) + "    1   " + printEdge(6, false) + "        " + printEdge(7, false) + "    2   " + printEdge(8, false) << std::endl;
-    out << "                  |" + printResource(1) + "|         |" + printResource(2) << std::endl;
+    out << "                  |" + printResource(1) + "|         |" + printResource(2) + "|"<< std::endl;
     out << "      " + printVertex(6) + printEdge(9, true) + printVertex(7) + printTile(1) + printVertex(8) + printEdge(10, true) + printVertex(9) + printTile(2) + printVertex(10) + printEdge(11, true) + printVertex(11) << std::endl;
     out << "        |         |" + printGeese(1) + "|         |" + printGeese(2) + "|         |" << std::endl;
     out << "       " + printEdge(12, false) + "    3   " + printEdge(13, false) + "        " + printEdge(14, false) + "    4   " + printEdge(15, false) + "        " + printEdge(16, false) + "    5   " + printEdge(17, false) << std::endl;
@@ -139,7 +139,7 @@ void Board::printBoard(std::ostream& out) {
     out << "      " + printVertex(18) + printEdge(26, true) + printVertex(19) + printTile(6) + printVertex(20) + printEdge(27, true) + printVertex(21) + printTile(7) + printVertex(22) + printEdge(28, true) + printVertex(23) << std::endl;
     out << "        |         |" + printGeese(6) + "|         |" + printGeese(7) + "|         |" << std::endl;
     out << "       " + printEdge(29, false) + "    8   " + printEdge(30, false) + "        " + printEdge(31, false) + "    9   " + printEdge(32, false) + "        " + printEdge(33, false) + "   10   " + printEdge(34, false) << std::endl;
-    out << "        |" + printResource(8) + "|         |" + printResource(9) + "|         |" + printResource(10) + "|         |" << std::endl;
+    out << "        |" + printResource(8) + "|         |" + printResource(9) + "|         |" + printResource(10) + "|" << std::endl;
     out << "      " + printVertex(24) + printTile(8) + printVertex(25) + printEdge(35, true) + printVertex(26) + printTile(9) + printVertex(27) + printEdge(36, true) + printVertex(28) + printTile(10) + printVertex(29) << std::endl;
     out << "        |" + printGeese(8) + "|         |" + printGeese(9) + "|         |" + printGeese(10) + "|" << std::endl;
     out << "       " + printEdge(37, false) + "        " + printEdge(38, false) + "   11   " + printEdge(39, false) + "        " + printEdge(40, false) + "   12   " + printEdge(41, false) + "        " + printEdge(42, false) << std::endl;
@@ -147,7 +147,7 @@ void Board::printBoard(std::ostream& out) {
     out << "      " + printVertex(30) + printEdge(43, true) + printVertex(31) + printTile(11) + printVertex(32) + printEdge(44, true) + printVertex(33) + printTile(12) + printVertex(34) + printEdge(45, true) + printVertex(35) << std::endl;
     out << "        |         |" + printGeese(11) + "|         |" + printGeese(12) + "|         |" << std::endl;
     out << "       " + printEdge(46, false) + "   13   " + printEdge(47, false) + "        " + printEdge(48, false) + "   14   " + printEdge(49, false) + "        " + printEdge(50, false) + "   15   " + printEdge(51, false) << std::endl;
-    out << "        |" + printResource(13) + "|         |" + printResource(14) + "|         |" + printResource(15) + "|         |" << std::endl;
+    out << "        |" + printResource(13) + "|         |" + printResource(14) + "|         |" + printResource(15) + "|" << std::endl;
     out << "      " + printVertex(36) + printTile(13) + printVertex(37) + printEdge(52, true) + printVertex(38) + printTile(14) + printVertex(39) + printEdge(53, true) + printVertex(40) + printTile(15) + printVertex(41) << std::endl;
     out << "        |" + printGeese(13) + "|         |" + printGeese(14) + "|         |" + printGeese(15) + "|" << std::endl;
     out << "       " + printEdge(54, false) + "        " + printEdge(55, false) + "   16   " + printEdge(56, false) + "        " + printEdge(57, false) + "   17   " + printEdge(58, false) + "        " + printEdge(59, false) << std::endl;
@@ -210,7 +210,7 @@ std::string Board::printTile(int tileNumber) {
     if (tile->getTileValue() < 10) {
         tileString += " ";
     }
-    tileString += tile->getTileValue();
+    tileString += std::to_string(tile->getTileValue());
     tileString += "  ";
     return tileString;
 }
