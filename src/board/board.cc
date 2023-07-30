@@ -3,6 +3,7 @@
 #include "../structures/residence.h"
 #include "../structures/road.h"
 #include "edge.h"
+#include "geesetile.h"
 #include "tile.h"
 #include "vertex.h"
 #include <memory>
@@ -13,8 +14,13 @@ const int NUM_VERTICES = 54;
 
 Board::Board(std::vector<TileInitData> tileInitData) {
     for (int i = 0; i < NUM_TILES; i++) {
-        tiles.push_back(std::make_unique<Tile>(i, tileInitData.at(i).tileValue, tileInitData.at(i).resource));
-        // TODO: If tileInitData.at(i) is a PARK, set the tile to geeseTile
+        // Assume there is only one park tile
+        if (tileInitData.at(i).resource == Resource::PARK) {
+            tiles.push_back(std::make_unique<GeeseTile>(std::make_unique<Tile>(i, tileInitData.at(i).tileValue, tileInitData.at(i).resource)));
+        }
+        else {
+            tiles.push_back(std::make_unique<Tile>(i, tileInitData.at(i).tileValue, tileInitData.at(i).resource));
+        }
     }
 
     for (int i = 0; i < NUM_EDGES; i++) {
@@ -127,7 +133,7 @@ void Board::printBoard(std::ostream& out) {
     out << "                " + printVertex(2) + printEdge(3, true) + printVertex(3) + printTile(0) + printVertex(4) + printEdge(4, true) + printVertex(5) << std::endl;
     out << "                  |         |" + printGeese(0) + "|         |" << std::endl;
     out << "                 " + printEdge(5, false) + "    1   " + printEdge(6, false) + "        " + printEdge(7, false) + "    2   " + printEdge(8, false) << std::endl;
-    out << "                  |" + printResource(1) + "|         |" + printResource(2) + "|"<< std::endl;
+    out << "                  |" + printResource(1) + "|         |" + printResource(2) + "|" << std::endl;
     out << "      " + printVertex(6) + printEdge(9, true) + printVertex(7) + printTile(1) + printVertex(8) + printEdge(10, true) + printVertex(9) + printTile(2) + printVertex(10) + printEdge(11, true) + printVertex(11) << std::endl;
     out << "        |         |" + printGeese(1) + "|         |" + printGeese(2) + "|         |" << std::endl;
     out << "       " + printEdge(12, false) + "    3   " + printEdge(13, false) + "        " + printEdge(14, false) + "    4   " + printEdge(15, false) + "        " + printEdge(16, false) + "    5   " + printEdge(17, false) << std::endl;
