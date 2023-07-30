@@ -7,4 +7,4 @@ make
 
 echo "Running tests..."
 ./tests.out
-rm tests.out
+# rm tests.out

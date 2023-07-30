@@ -12,7 +12,7 @@
 #include <memory>
 #include <sstream>
 
-Builder::Builder(int builderNumber, char builderColour) : builderNumber{builderNumber}, builderColour{builderColour}, dice{new LoadedDice()} {
+Builder::Builder(int builderNumber, char builderColour, unsigned seed) : builderNumber{builderNumber}, builderColour{builderColour}, seed{seed}, dice{new LoadedDice()} {
     inventory.insert(std::make_pair(BRICK, 0));
     inventory.insert(std::make_pair(ENERGY, 0));
     inventory.insert(std::make_pair(GLASS, 0));
@@ -23,8 +23,7 @@ Builder::Builder(int builderNumber, char builderColour) : builderNumber{builderN
 Builder::~Builder() {}
 
 bool Builder::operator==(const Builder& other) const {
-    return builderNumber == other.builderNumber && builderColour == other.builderColour && residences == other.residences && roads == other.roads &&
-           inventory == other.inventory;
+    return builderNumber == other.builderNumber && builderColour == other.builderColour && residences == other.residences && roads == other.roads && inventory == other.inventory;
 }
 
 int Builder::getBuilderNumber() const {
@@ -46,8 +45,7 @@ int Builder::getBuildingPoints() const {
 std::string Builder::getStatus() const {
     std::ostringstream oss;
 
-    oss << builderColour << " has " << getBuildingPoints() << " building points, " << inventory.at(BRICK) << " brick, " << inventory.at(ENERGY)
-        << " energy, " << inventory.at(GLASS) << " glass, " << inventory.at(HEAT) << " heat, and " << inventory.at(WIFI) << " WiFi.";
+    oss << builderColour << " has " << getBuildingPoints() << " building points, " << inventory.at(BRICK) << " brick, " << inventory.at(ENERGY) << " energy, " << inventory.at(GLASS) << " glass, " << inventory.at(HEAT) << " heat, and " << inventory.at(WIFI) << " WiFi.";
 
     return oss.str();
 }

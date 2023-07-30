@@ -8,9 +8,9 @@
 
 class Tile final : public AbstractTile {
   private:
-    int tileNumber;
-    int tileValue;
-    Resource resource;
+    const int tileNumber;
+    const int tileValue;
+    const Resource resource;
     std::vector<Vertex*> neighbouringVertices;
 
   public:

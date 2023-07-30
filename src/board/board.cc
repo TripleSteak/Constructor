@@ -125,7 +125,7 @@ bool Board::upgradeResidence(Builder& builder, int vertexNumber, std::ostream& o
     return false;
 }
 
-void Board::printBoard(std::ostream& out) {
+void Board::printBoard(std::ostream& out) const {
     out << "                          " + printVertex(0) + printEdge(0, true) + printVertex(1) << std::endl;
     out << "                            |         |" << std::endl;
     out << "                           " << printEdge(1, false) + "    0   " + printEdge(2, false) << std::endl;
@@ -169,7 +169,7 @@ void Board::printBoard(std::ostream& out) {
     out << "                          " + printVertex(52) + printEdge(71, true) + printVertex(53) << std::endl;
 }
 
-std::string Board::printVertex(int vertexNumber) {
+std::string Board::printVertex(int vertexNumber) const {
     Vertex* vertex = getVertex(vertexNumber);
     std::string vertexString = "|";
     if (vertex->getResidence() == nullptr) {
@@ -185,7 +185,7 @@ std::string Board::printVertex(int vertexNumber) {
     return vertexString;
 }
 
-std::string Board::printEdge(int edgeNumber, bool isHorizontal) {
+std::string Board::printEdge(int edgeNumber, bool isHorizontal) const {
     Edge* edge = getEdge(edgeNumber);
     std::string edgeString = "";
     if (isHorizontal) {
@@ -206,7 +206,7 @@ std::string Board::printEdge(int edgeNumber, bool isHorizontal) {
     return edgeString;
 }
 
-std::string Board::printTile(int tileNumber) {
+std::string Board::printTile(int tileNumber) const {
     AbstractTile* tile = getTile(tileNumber);
     std::string tileString = "  ";
     if (tile->getTileValue() == 7) {
@@ -221,7 +221,7 @@ std::string Board::printTile(int tileNumber) {
     return tileString;
 }
 
-std::string Board::printResource(int tileNumber) {
+std::string Board::printResource(int tileNumber) const {
     AbstractTile* tile = getTile(tileNumber);
     std::string tileString = "";
     if (tile->getResource() == Resource::BRICK) {
@@ -245,7 +245,7 @@ std::string Board::printResource(int tileNumber) {
     return tileString;
 }
 
-std::string Board::printGeese(int tileNumber) {
+std::string Board::printGeese(int tileNumber) const {
     AbstractTile* tile = getTile(tileNumber);
     std::string tileString = "";
     if (tile->hasGeese()) {

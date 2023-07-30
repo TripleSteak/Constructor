@@ -10,7 +10,7 @@
 
 class Edge final {
   private:
-    int edgeNumber;
+    const int edgeNumber;
     std::shared_ptr<Road> road;
     std::vector<AbstractTile*> neighbouringTiles;
     std::vector<Vertex*> neighbouringVertices;

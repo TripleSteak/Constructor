@@ -11,17 +11,17 @@
 
 class Builder final {
   private:
-    int builderNumber;
-    char builderColour;
+    const int builderNumber;
+    const char builderColour;
     std::unique_ptr<Dice> dice;
-    unsigned seed;
+    const unsigned seed;
 
   public:
     std::vector<std::shared_ptr<Residence>> residences;
     std::vector<std::shared_ptr<Road>> roads;
     std::unordered_map<Resource, int> inventory; // "PARK" should never be one of the keys in this map
 
-    Builder(int, char);
+    Builder(int, char, unsigned);
     ~Builder();
 
     bool operator==(const Builder&) const;
