@@ -5,8 +5,10 @@
 #include "dice.h"
 
 class FairDice final : public Dice {
+  private:
+    unsigned seed;
   public:
-    FairDice();
+    FairDice(unsigned);
     ~FairDice();
 
     int rollDice(int) const override;

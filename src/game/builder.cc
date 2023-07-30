@@ -61,7 +61,7 @@ void Builder::setDice(bool isLoaded) {
         dice.reset(new LoadedDice());
     }
     else {
-        dice.reset(new FairDice());
+        dice.reset(new FairDice(seed));
     }
 }
 
