@@ -204,10 +204,11 @@ std::string Board::printVertex(int vertexNumber) {
         if (vertexNumber < 10) {
             vertexString += " ";
         }
-        vertexString += vertexNumber + "|";
+        vertexString += std::to_string(vertexNumber) + "|";
     }
     else {
         vertexString += vertex->getResidence()->getOwner().getBuilderColour() + vertex->getResidence()->getResidenceLetter() + "|";
+        ;
     }
     return vertexString;
 }
@@ -222,6 +223,7 @@ std::string Board::printEdge(int edgeNumber, bool isHorizontal) {
         if (edgeNumber < 10) {
             edgeString += " ";
         }
+        edgeString += std::to_string(edgeNumber);
     }
     else {
         edgeString += edge->getRoad()->getOwner().getBuilderColour() + "R";
@@ -235,15 +237,14 @@ std::string Board::printEdge(int edgeNumber, bool isHorizontal) {
 std::string Board::printTile(int tileNumber) {
     AbstractTile* tile = getTile(tileNumber);
     std::string tileString = "  ";
+    if (tile->getTileValue() == 7) {
+        tileString += "    ";
+        return tileString;
+    }
     if (tile->getTileValue() < 10) {
         tileString += " ";
     }
-    if (tile->getTileValue() == 7) {
-        tileString += "  ";
-    }
-    else {
-        tileString += tile->getTileValue();
-    }
+    tileString += tile->getTileValue();
     tileString += "  ";
     return tileString;
 }
