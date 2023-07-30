@@ -1,4 +1,12 @@
 #include "game.h"
+#include "builder.h"
+#include "filehandler.h"
+
+Game::Game() {
+    // TODO
+}
+
+Game::~Game() {}
 
 std::vector<TileInitData> Game::generateRandomBoard() {
     std::vector<TileInitData> data;
@@ -18,4 +26,8 @@ std::vector<TileInitData> Game::generateRandomBoard() {
     data.push_back(TileInitData{7, Resource::PARK});
     shuffle(data.begin(), data.end(), rng);
     return data;
+}
+
+void Game::play() {
+    // TODO
 }

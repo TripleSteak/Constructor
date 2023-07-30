@@ -9,5 +9,6 @@
 # Compiled files
 constructor
 
-# Test outputs
+# Test files
+*.in
 *.out

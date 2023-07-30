@@ -5,7 +5,10 @@
 
 enum Resource { BRICK, ENERGY, GLASS, HEAT, PARK, WIFI };
 
-std::istream& operator>> (std::istream&, Resource&);
-std::ostream& operator<< (std::ostream&, const Resource);
+Resource resourceFromInt(int);
+std::string resourceToString(Resource);
+
+std::istream& operator>>(std::istream&, Resource&);
+std::ostream& operator<<(std::ostream&, const Resource);
 
 #endif
