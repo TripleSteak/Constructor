@@ -145,7 +145,7 @@ void Board::printBoard(std::ostream& out) {
     out << "        |         |" + printGeese(1) + "|         |" + printGeese(2) + "|         |" << std::endl;
     out << "       " + printEdge(12, false) + "    3   " + printEdge(13, false) + "        " + printEdge(14, false) + "    4   " + printEdge(15, false) + "        " + printEdge(16, false) + "    5   " + printEdge(17, false) << std::endl;
     out << "        |" + printResource(3) + "|         |" + printResource(4) + "|         |" + printResource(5) + "|" << std::endl;
-    out << printVertex(12) + printTile(3) + printVertex(13) + printEdge(18, true) + printVertex(14) + printTile(4) + printVertex(15) + printEdge(19, true) + printVertex(16) + printTile(5) + printVertex(17) << std::endl;
+    out << "      " + printVertex(12) + printTile(3) + printVertex(13) + printEdge(18, true) + printVertex(14) + printTile(4) + printVertex(15) + printEdge(19, true) + printVertex(16) + printTile(5) + printVertex(17) << std::endl;
     out << "        |" + printGeese(3) + "|         |" + printGeese(4) + "|         |" + printGeese(5) + "|" << std::endl;
     out << "       " + printEdge(20, false) + "        " + printEdge(21, false) + "    6   " + printEdge(22, false) + "        " + printEdge(23, false) + "    7   " + printEdge(24, false) + "        " + printEdge(25, false) << std::endl;
     out << "        |         |" + printResource(6) + "|         |" + printResource(7) + "|         |" << std::endl;
@@ -215,7 +215,12 @@ std::string Board::printTile(int tileNumber){
     if (tile->getTileValue() < 10){
         tileString += " ";
     }
-    tileString += tile->getTileValue();
+    if (tile->getTileValue() == 7){
+        tileString += "  ";
+    }
+    else{
+        tileString += tile->getTileValue();
+    }
     tileString += "  ";
     return tileString;  
 }
