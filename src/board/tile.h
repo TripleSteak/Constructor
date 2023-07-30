@@ -4,6 +4,7 @@
 #include "../common/forward.h"
 #include "../common/resource.h"
 #include "abstracttile.h"
+#include "vertex.h"
 
 class Tile final : public AbstractTile {
   private:
@@ -11,7 +12,6 @@ class Tile final : public AbstractTile {
     int tileValue;
     Resource resource;
     std::vector<Vertex*> neighbouringVertices;
-    std::vector<Edge*> neighbouringEdges;
 
   public:
     Tile(int, int, Resource);

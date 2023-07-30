@@ -1,35 +1,41 @@
 #include "../../src/board/vertex.h"
+#include "../../src/game/builder.h"
 #include "../../src/structures/tower.h"
 #include "gtest/gtest.h"
 
 TEST(Tower, GetOwner) {
-    Vertex location = Vertex(14);
-    Tower tower = Tower(2, location);
+    Builder builder(2, 'A');
+    Vertex location(14);
+    Tower tower(builder, location);
 
-    EXPECT_EQ(tower.getOwner(), 2);
+    EXPECT_EQ(tower.getOwner(), builder);
 }
 
 TEST(Tower, GetLocation) {
-    Vertex location = Vertex(15);
-    Tower tower = Tower(1, location);
+    Builder builder(3, 'B');
+    Vertex location(15);
+    Tower tower(builder, location);
 
     EXPECT_EQ(tower.getLocation(), location);
 }
 
 TEST(Tower, GetBuildingPoints) {
-    Vertex location = Vertex(16);
-    Tower tower = Tower(3, location);
+    Builder builder(4, 'C');
+    Vertex location(16);
+    Tower tower(builder, location);
     EXPECT_EQ(tower.getBuildingPoints(), 3);
 }
 
 TEST(Tower, GetResidenceLetter) {
-    Vertex location = Vertex(17);
-    Tower tower = Tower(2, location);
+    Builder builder(1, 'D');
+    Vertex location(17);
+    Tower tower(builder, location);
     EXPECT_EQ(tower.getResidenceLetter(), 'T');
 }
 
 TEST(Tower, GetResourceMultiplier) {
-    Vertex location = Vertex(18);
-    Tower tower = Tower(1, location);
+    Builder builder(2, 'A');
+    Vertex location(18);
+    Tower tower(builder, location);
     EXPECT_EQ(tower.getResourceMultiplier(), 3);
 }

@@ -30,9 +30,9 @@ TEST(Builder, GetBuildingPointsNonEmpty) {
     Vertex location1 = Vertex(24);
     Vertex location2 = Vertex(32);
     Vertex location3 = Vertex(48);
-    std::shared_ptr<Basement> res1 = std::make_shared<Basement>(2, location1);
-    std::shared_ptr<House> res2 = std::make_shared<House>(2, location2);
-    std::shared_ptr<Tower> res3 = std::make_shared<Tower>(2, location3);
+    std::shared_ptr<Basement> res1 = std::make_shared<Basement>(builder, location1);
+    std::shared_ptr<House> res2 = std::make_shared<House>(builder, location2);
+    std::shared_ptr<Tower> res3 = std::make_shared<Tower>(builder, location3);
 
     builder.residences.push_back(res1);
     EXPECT_EQ(builder.getBuildingPoints(), 1);
@@ -48,7 +48,7 @@ TEST(Builder, GetStatus) {
     Builder builder(3, 'G');
 
     Vertex location = Vertex(13);
-    std::shared_ptr<House> house = std::make_shared<House>(3, location);
+    std::shared_ptr<House> house = std::make_shared<House>(builder, location);
     builder.residences.push_back(house);
 
     builder.inventory.at(BRICK) = 2;

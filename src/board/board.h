@@ -4,6 +4,7 @@
 #include "../common/forward.h"
 #include "../common/resource.h"
 #include <iostream>
+#include <memory>
 #include <vector>
 
 // Stores information used to initialize Board Tiles
@@ -14,9 +15,9 @@ struct TileInitData {
 
 class Board final {
   private:
-    std::vector<AbstractTile*> tiles;
-    std::vector<Vertex*> vertices;
-    std::vector<Edge*> edges;
+    std::vector<std::unique_ptr<AbstractTile>> tiles;
+    std::vector<std::unique_ptr<Vertex>> vertices;
+    std::vector<std::unique_ptr<Edge>> edges;
 
     int geeseTile; // Tile number that contains geese
 
@@ -43,20 +44,21 @@ class Board final {
      * There must be 19 elements in the TileInitData array, with exactly ONE park tile.
      *  (The park tile must have a tileValue of 7)
      */
-    //void initBoard(std::vector<TileInitData>);
+    // void initBoard(std::vector<TileInitData>);
 
     bool buildRoad(Builder&, int, std::ostream&);
     bool buildResidence(Builder&, int, std::ostream&);
     bool buildInitialResidence(Builder&, int, std::ostream&);
     bool upgradeResidence(Builder&, int, std::ostream&);
 
-    std::vector<Resource> getResourcesFromDiceRoll(const Builder&, int) const; // What the given Builder would obtain if the given rollNumber is rolled
+    std::vector<Resource> getResourcesFromDiceRoll(const Builder&,
+                                                   int) const; // What the given Builder would obtain if the given rollNumber is rolled
 
     int getGeeseTile() const;
     void setGeeseTile(int);
 
     void printBoard(std::ostream&);
-    //void printResidences();
+    // void printResidences();
 };
 
 #endif

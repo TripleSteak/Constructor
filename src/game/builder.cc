@@ -96,7 +96,7 @@ std::shared_ptr<Road> Builder::tryBuildRoad(Edge edge) {
     if (inventory.at(HEAT) < 1 || inventory.at(WIFI) < 1) {
         return nullptr;
     }
-    std::shared_ptr<Road> road = std::make_shared<Road>(builderNumber, edge);
+    std::shared_ptr<Road> road = std::make_shared<Road>(*this, edge);
     inventory.at(HEAT) -= 1;
     inventory.at(WIFI) -= 1;
     roads.emplace_back(road);
@@ -107,7 +107,7 @@ std::shared_ptr<Residence> Builder::tryBuildResidence(Vertex vertex) {
     if (inventory.at(BRICK) < 1 || inventory.at(ENERGY) < 1 || inventory.at(GLASS) < 1 || inventory.at(WIFI) < 1) {
         return nullptr;
     }
-    std::shared_ptr<Residence> residence = std::make_shared<Basement>(builderNumber, vertex);
+    std::shared_ptr<Residence> residence = std::make_shared<Basement>(*this, vertex);
     inventory.at(BRICK) -= 1;
     inventory.at(ENERGY) -= 1;
     inventory.at(GLASS) -= 1;
@@ -117,7 +117,7 @@ std::shared_ptr<Residence> Builder::tryBuildResidence(Vertex vertex) {
 }
 
 std::shared_ptr<Residence> Builder::tryBuildInitialResidence(Vertex vertex) {
-    std::shared_ptr<Residence> residence = std::make_shared<Basement>(builderNumber, vertex);
+    std::shared_ptr<Residence> residence = std::make_shared<Basement>(*this, vertex);
     residences.emplace_back(residence);
     return residence;
 }
@@ -129,7 +129,7 @@ std::shared_ptr<Residence> Builder::tryUpgradeResidence(Vertex vertex) {
             if (inventory.at(GLASS) < 2 || inventory.at(HEAT) < 3) {
                 return nullptr;
             }
-            residence = std::make_shared<House>(builderNumber, vertex);
+            residence = std::make_shared<House>(*this, vertex);
             inventory.at(GLASS) -= 2;
             inventory.at(HEAT) -= 3;
             for (size_t i = 0; i < residences.size(); i++) {
@@ -142,7 +142,7 @@ std::shared_ptr<Residence> Builder::tryUpgradeResidence(Vertex vertex) {
             if (inventory.at(BRICK) < 3 || inventory.at(ENERGY) < 2 || inventory.at(GLASS) < 2 || inventory.at(HEAT) < 2 || inventory.at(WIFI) < 1) {
                 return nullptr;
             }
-            residence = std::make_shared<Tower>(builderNumber, vertex);
+            residence = std::make_shared<Tower>(*this, vertex);
             inventory.at(BRICK) -= 3;
             inventory.at(ENERGY) -= 2;
             inventory.at(GLASS) -= 2;

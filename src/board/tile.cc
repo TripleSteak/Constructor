@@ -1,6 +1,6 @@
 #include "tile.h"
 #include "../game/builder.h"
-#include "residence.h"
+#include "../structures/residence.h"
 #include "vertex.h"
 
 Tile::Tile(int tileNumber, int tileValue, Resource resource) : AbstractTile(), tileNumber{tileNumber}, tileValue{tileValue}, resource{resource} {}

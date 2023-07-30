@@ -2,6 +2,8 @@
 #define VERTEX_H
 
 #include "../common/forward.h"
+#include "abstracttile.h"
+#include "edge.h"
 #include <memory>
 #include <vector>
 
