@@ -14,6 +14,7 @@ class Builder final {
     int builderNumber;
     char builderColour;
     std::unique_ptr<Dice> dice;
+    unsigned seed;
 
   public:
     std::vector<std::shared_ptr<Residence>> residences;
