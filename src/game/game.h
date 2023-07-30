@@ -16,9 +16,8 @@ class Game final {
     std::vector<std::unique_ptr<Builder>> builders;
     int currentBuilder; // Index of current builder in builders
     std::unique_ptr<FileHandler> fileHandler;
-    unsigned seed; // Seed for random number generation
 
-    std::vector<TileInitData> generateRandomBoard();
+    std::vector<TileInitData> generateRandomBoard(unsigned);
     std::vector<TileInitData> generateCustomBoard();
 
     void beginTurn(const Builder&);
