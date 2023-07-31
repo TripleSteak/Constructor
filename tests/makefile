@@ -7,7 +7,7 @@ TESTOBJECTS=$(TESTFILES:.cc=.o)
 DEPENDS=${CCFILES:.cc=.d} ${TESTFILES:.cc=.d}
 EXEC=./tests.out
 ${EXEC}:${OBJECTS} ${TESTOBJECTS}
-	${CXX} ${CXXFLAGS} ${OBJECTS} ${TESTOBJECTS} -pthread -lgtest -lgtest_main -o ${EXEC}
+	${CXX} ${CXXFLAGS} ${OBJECTS} -pthread ${TESTOBJECTS} -lgtest -lgtest_main -o ${EXEC}
 -include ${DEPENDS}
 
 PHONY:clean

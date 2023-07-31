@@ -2,26 +2,21 @@
 #include "gtest/gtest.h"
 
 TEST(Resource, InputOperatorForValidResources) {
-    std::istringstream in("BRICK ENERGY GLASS HEAT WIFI");
+    std::istringstream in("0 1 2 3 4 5");
 
-    Resource res1, res2, res3, res4, res5;
-    in >> res1 >> res2 >> res3 >> res4 >> res5;
+    Resource res1, res2, res3, res4, res5, res6;
+    in >> res1 >> res2 >> res3 >> res4 >> res5 >> res6;
 
     EXPECT_EQ(res1, BRICK);
     EXPECT_EQ(res2, ENERGY);
     EXPECT_EQ(res3, GLASS);
     EXPECT_EQ(res4, HEAT);
     EXPECT_EQ(res5, WIFI);
-}
-
-TEST(Resource, InputOperatorForPark) {
-    std::istringstream in("PARK");
-    Resource resource;
-    EXPECT_ANY_THROW(in >> resource);
+    EXPECT_EQ(res6, PARK);
 }
 
 TEST(Resource, InputOperatorForInvalidResource) {
-    std::istringstream in("STONE");
+    std::istringstream in("6");
     Resource resource;
     EXPECT_ANY_THROW(in >> resource);
 }
