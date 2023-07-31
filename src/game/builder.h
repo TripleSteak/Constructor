@@ -21,6 +21,8 @@ struct BuilderResourceData {
 struct BuilderStructureData {
     std::vector<std::pair<int, char>> residences;
     std::vector<int> roads;
+
+    BuilderStructureData(const std::vector<std::pair<int, char>>& residences, const std::vector<int>& roads) : residences{residences}, roads{roads} {}
 };
 
 class Builder final {
@@ -44,7 +46,7 @@ class Builder final {
 
     int getBuilderNumber() const;
     char getBuilderColour() const;
-    std::string getBuilderColourString() const; 
+    std::string getBuilderColourString() const;
     int getBuildingPoints() const;
     std::string getStatus() const;
 

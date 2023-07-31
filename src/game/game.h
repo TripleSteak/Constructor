@@ -37,6 +37,8 @@ class Game final {
     Game(unsigned, std::vector<TileInitData>, std::vector<BuilderResourceData>, std::vector<BuilderStructureData>, int currentBuilder, int GeeseTile);
     ~Game();
 
+    static const int NUM_BUILDERS = 4;
+
     int getCurrentBuilder() const;
     const std::vector<const Builder*> getBuilders() const;
     int getGeeseLocation() const;

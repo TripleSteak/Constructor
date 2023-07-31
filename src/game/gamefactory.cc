@@ -9,6 +9,7 @@
 #include "game.h"
 #include <fstream>
 #include <memory>
+#include <sstream>
 #include <vector>
 
 GameFactory::GameFactory(unsigned seed) : seed{seed} {}
@@ -16,16 +17,50 @@ GameFactory::GameFactory(unsigned seed) : seed{seed} {}
 GameFactory::~GameFactory() {}
 
 std::unique_ptr<Game> GameFactory::loadFromGame(std::string filename) {
-    // TODO
+#include <iostream>
     std::vector<TileInitData> tileData;
     std::vector<BuilderResourceData> builderResourceData;
     std::vector<BuilderStructureData> builderStructureData;
-    int currentBuilder;
-    int geeseTile;
+    std::string currentBuilder;
     std::ifstream dataFile{filename};
+    getline(dataFile, currentBuilder);
 
+    // Builder status
+    std::string line;
+    for (int i = 0; i < Game::NUM_BUILDERS; i++) {
+        getline(dataFile, line);
+        std::istringstream ss{line};
+        int brickNum, energyNum, glassNum, heatNum, wifiNum;
+        ss >> brickNum >> energyNum >> glassNum >> heatNum >> wifiNum;
+        builderResourceData.push_back(BuilderResourceData{brickNum, energyNum, glassNum, heatNum, wifiNum});
+        std::string token;
+        ss >> token; // ignore one token, should be 'r'
+        std::vector<int> roads;
+        ss >> token;
+        while (token != "h") {
+            roads.push_back(std::stoi(token));
+            ss >> token;
+        }
+        std::vector<std::pair<int, char>> residences;
+        int vertexNum;
+        char residenceType;
+        while (ss >> vertexNum >> residenceType) {
+            residences.emplace_back(vertexNum, residenceType);
+        }
+        builderStructureData.emplace_back(residences, roads);
+    }
+    // Resource layour
+    getline(dataFile, line);
+    std::istringstream ss{line};
+    Resource resource;
+    int tileValue;
+    while (ss >> resource >> tileValue) {
+        tileData.push_back(TileInitData{tileValue, resource});
+    }
+    int geeseTile;
+    dataFile >> geeseTile;
     dataFile.close();
-    return std::make_unique<Game>(seed, tileData, builderResourceData, builderStructureData, currentBuilder, geeseTile);
+    return std::make_unique<Game>(seed, tileData, builderResourceData, builderStructureData, std::stoi(currentBuilder), geeseTile);
 }
 
 std::unique_ptr<Game> GameFactory::loadFromBoard(std::string filename) {
@@ -37,33 +72,5 @@ std::unique_ptr<Game> GameFactory::loadFromBoard(std::string filename) {
         data.push_back(TileInitData{tileValue, resource});
     }
     dataFile.close();
-    // TODO integrity checks
-    // TODO call function from Game
     return std::make_unique<Game>(seed, data);
-}
-
-void GameFactory::save(std::string filename, Game& game) {
-    std::ofstream outputFile{filename};
-    outputFile << game.getCurrentBuilder() << std::endl;
-    for (const Builder* b : game.getBuilders()) {
-        // Resource inventory
-        outputFile << b->inventory.at(Resource::BRICK) << " " << b->inventory.at(Resource::ENERGY) << " " << b->inventory.at(Resource::GLASS) << " " << b->inventory.at(Resource::HEAT) << " " << b->inventory.at(Resource::WIFI) << std::endl;
-        // Roads
-        outputFile << "r";
-        for (const std::shared_ptr<Road>& r : b->roads) {
-            outputFile << " " << r->getLocation().getEdgeNumber();
-        }
-        // Residences
-        outputFile << " h";
-        for (const std::shared_ptr<Residence>& h : b->residences) {
-            outputFile << " " << h->getLocation().getVertexNumber() << " " << h->getResidenceLetter();
-        }
-        outputFile << std::endl;
-    }
-    for (int i = 0; i < Board::NUM_TILES; i++) {
-        outputFile << game.getBoard().getTile(i)->getResource() << " " << game.getBoard().getTile(i)->getTileValue();
-    }
-    outputFile << std::endl;
-    outputFile << game.getGeeseLocation() << std::endl;
-    outputFile.close();
 }

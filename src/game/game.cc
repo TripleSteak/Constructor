@@ -1,13 +1,13 @@
 #include "game.h"
-#include "builder.h"
-#include "../structures/residence.h"
+#include "../board/board.h"
 #include "../board/edge.h"
 #include "../board/vertex.h"
-#include "../board/board.h"
+#include "../structures/residence.h"
 #include "../structures/road.h"
-#include <vector>
-#include <string>
+#include "builder.h"
 #include <fstream>
+#include <string>
+#include <vector>
 
 Game::Game(unsigned seed) : currentBuilder{0} {
     board = std::make_unique<Board>(generateRandomBoard(seed));
@@ -78,103 +78,103 @@ const Board& Game::getBoard() const {
     return *board;
 }
 
-void Game::buildInitialResidences(std::istream& in, std::ostream& out){
+void Game::buildInitialResidences(std::istream& in, std::ostream& out) {
     int vertex;
-    //build initial residences 
-    for (int i = 0; i < 4; i++) {
+    // build initial residences
+    for (int i = 0; i < NUM_BUILDERS; i++) {
         out << "Builder " << builders[i]->getBuilderColourString() << ", where do you want to build a basement?";
-        in >> vertex;     
-        while(!board->buildInitialResidence(*builders[i], vertex, out)){
+        in >> vertex;
+        while (!board->buildInitialResidence(*builders[i], vertex, out)) {
             out << "Builder " << builders[i]->getBuilderColourString() << ", where do you want to build a basement?";
-            in >> vertex;   
+            in >> vertex;
         }
     }
-    for (int i = 3; i >= 0; i--) {
+    for (int i = NUM_BUILDERS - 1; i >= 0; i--) {
         out << "Builder " << builders[i]->getBuilderColourString() << ", where do you want to build a basement?";
-        in >> vertex;     
-        while(!board->buildInitialResidence(*builders[i], vertex, out)){
+        in >> vertex;
+        while (!board->buildInitialResidence(*builders[i], vertex, out)) {
             out << "Builder " << builders[i]->getBuilderColourString() << ", where do you want to build a basement?";
-            in >> vertex;   
-        }   
-    } 
+            in >> vertex;
+        }
+    }
 }
 
-void Game::beginTurn(Builder& builder, std::istream& in , std::ostream& out) {
+void Game::beginTurn(Builder& builder, std::istream& in, std::ostream& out) {
     std::string command;
     int roll;
     int loaded = 0;
-    
+
     out << "Builder " << builder.getBuilderColourString() << "'s turn." << std::endl;
     out << builder.getStatus() << std::endl;
 
     in >> command;
-    if (command == "load"){
+    if (command == "load") {
         builder.setDice(true);
     }
-    else if (command == "fair"){
+    else if (command == "fair") {
         builder.setDice(false);
     }
-    else if (command == "roll"){
-        if (builder.getDice()){
-            while (loaded < 2 || loaded > 12){
+    else if (command == "roll") {
+        if (builder.getDice()) {
+            while (loaded < 2 || loaded > 12) {
                 out << "Input a roll between 2 and 12:" << std::endl;
                 in >> loaded;
-                if (loaded < 2 || loaded > 12){
+                if (loaded < 2 || loaded > 12) {
                     out << "Invalid roll." << std::endl;
-                }   
+                }
             }
         }
         roll = builder.rollDice(loaded);
-        if (roll == 7){
-            //discardHalfOfTotalResources(); //to do
-            //steal 
+        if (roll == 7) {
+            // discardHalfOfTotalResources(); //to do
+            // steal
         }
-        else{
+        else {
             board->getResourcesFromDiceRoll(roll);
         }
         duringTurn(builder, in, out, roll);
     }
-    else{
+    else {
         out << "Invalid command." << std::endl;
     }
 }
 
-void Game::duringTurn(Builder& builder, std::istream& in , std::ostream& out, int roll){
-    std::string command; 
+void Game::duringTurn(Builder& builder, std::istream& in, std::ostream& out, int roll) {
+    std::string command;
     in >> command;
-    if (command == "board"){
+    if (command == "board") {
         board->printBoard(out);
     }
-    else if (command == "status"){
-        for (size_t i = 0; i < builders.size(); i++){
+    else if (command == "status") {
+        for (size_t i = 0; i < builders.size(); i++) {
             out << builders[i]->getStatus() << std::endl;
-        }     
+        }
     }
-    else if (command == "residences"){
+    else if (command == "residences") {
         out << "Builder " << builder.getBuilderColourString() << " has built:" << std::endl;
-        for (size_t i = 0; i < builder.residences.size(); i++){
+        for (size_t i = 0; i < builder.residences.size(); i++) {
             out << builder.residences[i]->getLocation().getVertexNumber() << " " << builder.residences[i]->getResidenceLetter();
         }
     }
-    else if (command.substr(0, 10) == "build-road"){
-        board->buildRoad(builder, std::stoi(command.substr(11, 1)), out);    
+    else if (command.substr(0, 10) == "build-road") {
+        board->buildRoad(builder, std::stoi(command.substr(11, 1)), out);
     }
-    else if (command.substr(0, 9) == "build-res"){
+    else if (command.substr(0, 9) == "build-res") {
         board->buildResidence(builder, std::stoi(command.substr(10, 1)), out);
     }
-    else if (command.substr(0, 7) == "improve"){
+    else if (command.substr(0, 7) == "improve") {
         board->upgradeResidence(builder, std::stoi(command.substr(8, 1)), out);
     }
-    else if (command.substr(0, 5) == "trade"){
-        //to do
+    else if (command.substr(0, 5) == "trade") {
+        // to do
     }
-    else if (command == "next"){
+    else if (command == "next") {
         return;
     }
-    else if (command.substr(0, 4) == "save"){
+    else if (command.substr(0, 4) == "save") {
         save(command.substr(5, command.length() - 5));
     }
-    else if (command == "help"){
+    else if (command == "help") {
         out << "Valid commands:" << std::endl;
         out << "board" << std::endl;
         out << "status" << std::endl;
@@ -187,28 +187,26 @@ void Game::duringTurn(Builder& builder, std::istream& in , std::ostream& out, in
         out << "save <file>" << std::endl;
         out << "help" << std::endl;
     }
-    else{
+    else {
         out << "Invalid command." << std::endl;
     }
 }
 
-void Game::nextTurn(){
+void Game::nextTurn() {
     currentBuilder++;
-    if (currentBuilder == 4){
+    if (currentBuilder == 4) {
         currentBuilder = 0;
     }
 }
 
-
-void Game::play(std::istream& in, std::ostream& out) {     
+void Game::play(std::istream& in, std::ostream& out) {
     buildInitialResidences(in, out);
-    board->printBoard(out);  
-    while (builders[0]->getBuildingPoints() < 10 || builders[1]->getBuildingPoints() < 10 || builders[2]->getBuildingPoints() < 10 || builders[3]->getBuildingPoints() < 10){
-            beginTurn(*builders[currentBuilder], in, out);
-            nextTurn();
+    board->printBoard(out);
+    while (builders[0]->getBuildingPoints() < 10 || builders[1]->getBuildingPoints() < 10 || builders[2]->getBuildingPoints() < 10 || builders[3]->getBuildingPoints() < 10) {
+        beginTurn(*builders[currentBuilder], in, out);
+        nextTurn();
     }
 }
-
 
 void Game::save(std::string filename) {
     std::ofstream outputFile{filename};

@@ -3,11 +3,11 @@
 #include "gtest/gtest.h"
 
 TEST(GameFactory, ReadDefaultFIle) {
-    Game game(0);
     GameFactory fh(0);
-    fh.loadFromBoard("board.in");
+    std::unique_ptr<Game> g = fh.loadFromBoard("board.in");
 }
 
-TEST(GameFactory, SaveGame) {
-    // TODO
+TEST(GameFactory, ReadGameSave) {
+    GameFactory fh(0);
+    std::unique_ptr<Game> g = fh.loadFromGame("savefile.txt");
 }
