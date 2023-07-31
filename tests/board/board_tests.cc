@@ -251,3 +251,16 @@ TEST(Board, CannotBuildInInvalidSpots) {
 
     EXPECT_EQ(out.str(), expectedPrintOutput);
 }
+
+TEST(Board, SetGetGeeseTile) {
+    Board board(sampleTileInitData);
+
+    EXPECT_EQ(board.getGeeseTile(), 4);
+    EXPECT_EQ(board.getTile(4)->hasGeese(), true);
+
+    board.setGeeseTile(15);
+
+    EXPECT_EQ(board.getGeeseTile(), 15);
+    EXPECT_EQ(board.getTile(4)->hasGeese(), false);
+    EXPECT_EQ(board.getTile(15)->hasGeese(), true);
+}

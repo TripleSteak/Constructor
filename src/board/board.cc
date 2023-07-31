@@ -1,9 +1,7 @@
 #include "board.h"
 #include "../common/inventoryupdate.h"
-#include "../game/builder.h"
 #include "../structures/basement.h"
 #include "../structures/house.h"
-#include "../structures/residence.h"
 #include "../structures/road.h"
 #include "../structures/tower.h"
 #include "edge.h"
@@ -177,6 +175,7 @@ void Board::setGeeseTile(int newGeeseTile) {
 
     // Incorporate the new geese tile
     tiles.at(newGeeseTile) = std::make_unique<GeeseTile>(std::move(tiles.at(newGeeseTile)));
+    geeseTile = newGeeseTile;
 }
 
 BuilderInventoryUpdate Board::getResourcesFromDiceRoll(int rollNumber) const {
