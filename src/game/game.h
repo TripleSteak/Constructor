@@ -18,7 +18,7 @@ class Game final {
     std::vector<std::unique_ptr<Builder>> builders;
     int currentBuilder; // Index of current builder in builders
 
-    std::vector<TileInitData> generateRandomBoard(unsigned);
+    std::vector<TileInitData> generateRandomBoard();
 
     Builder& getBuilder(std::string);
     void beginTurn(std::istream&, std::ostream&);
@@ -29,9 +29,9 @@ class Game final {
     void nextTurn(std::istream&, std::ostream&);
 
   public:
-    Game(unsigned);
-    Game(unsigned, std::vector<TileInitData>);
-    Game(unsigned, std::vector<TileInitData>, std::vector<BuilderResourceData>, std::vector<BuilderStructureData>, int currentBuilder, int GeeseTile);
+    Game();
+    Game(std::vector<TileInitData>);
+    Game(std::vector<TileInitData>, std::vector<BuilderResourceData>, std::vector<BuilderStructureData>, int currentBuilder, int GeeseTile);
     ~Game();
 
     static const int NUM_BUILDERS = 4;

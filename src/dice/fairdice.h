@@ -7,11 +7,10 @@
 
 class FairDice final : public Dice {
   private:
-    std::default_random_engine engine;
     std::uniform_int_distribution<int> distribution;
 
   public:
-    FairDice(unsigned);
+    FairDice();
     ~FairDice();
 
     int rollDice(int) override;

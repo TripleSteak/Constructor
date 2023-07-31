@@ -1,11 +1,12 @@
 #include "fairdice.h"
+#include "../common/randomengine.h"
 
-FairDice::FairDice(unsigned seed) : Dice(), engine(seed), distribution(1, 6) {}
+FairDice::FairDice() : Dice(), distribution(1, 6) {}
 FairDice::~FairDice() {}
 
 int FairDice::rollDice(int roll) {
-    int rollOne = distribution(engine);
-    int rollTwo = distribution(engine);
+    int rollOne = distribution(RandomEngine::getEngine());
+    int rollTwo = distribution(RandomEngine::getEngine());
 
     return rollOne + rollTwo;
 }

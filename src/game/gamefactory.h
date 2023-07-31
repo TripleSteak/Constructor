@@ -7,11 +7,8 @@
 #include <string>
 
 class GameFactory final {
-  private:
-    const unsigned seed;
-
   public:
-    GameFactory(unsigned);
+    GameFactory();
     ~GameFactory();
 
     std::unique_ptr<Game> loadFromGame(std::string);  // Pre-existing game data, which includes Builder turns, residences, points, etc.

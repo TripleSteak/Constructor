@@ -1,3 +1,4 @@
+#include "common/randomengine.h"
 #include "game/game.h"
 #include "game/gamefactory.h"
 #include <cassert>
@@ -34,18 +35,19 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    // Create the game
+    unsigned seed;
+    if (args["-seed"].empty()) {
+        seed = std::chrono::system_clock::now().time_since_epoch().count();
+    }
+    else {
+        RandomGenerator::setSeed(std::stoul(args["-seed"]));
+    }
+    GameFactory factory;
+    std::unique_ptr<Game> game;
+
     // Game loop
     while (true) {
-        // Create the game
-        unsigned seed;
-        if (args["-seed"].empty()) {
-            seed = std::chrono::system_clock::now().time_since_epoch().count();
-        }
-        else {
-            seed = std::stoul(args["-seed"]);
-        }
-        GameFactory factory{seed};
-        std::unique_ptr<Game> game;
         if (!args["-load"].empty()) {
             game = factory.loadFromGame(args["-load"]);
         }

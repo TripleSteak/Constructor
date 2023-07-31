@@ -1,6 +1,7 @@
 #include "builder.h"
 #include "../board/edge.h"
 #include "../board/vertex.h"
+#include "../common/trade.h"
 #include "../dice/dice.h"
 #include "../dice/fairdice.h"
 #include "../dice/loadeddice.h"
@@ -9,13 +10,12 @@
 #include "../structures/residence.h"
 #include "../structures/road.h"
 #include "../structures/tower.h"
-#include "../common/trade.h"
 #include <memory>
 #include <sstream>
 
-Builder::Builder(int builderNumber, char builderColour, unsigned seed) : builderNumber{builderNumber}, builderColour{builderColour}, seed{seed}, hasLoaded{true}, dice{std::unique_ptr<LoadedDice>()}, inventory{{BRICK, 0}, {ENERGY, 0}, {GLASS, 0}, {HEAT, 0}, {WIFI, 0}} {}
+Builder::Builder(int builderNumber, char builderColour) : builderNumber{builderNumber}, builderColour{builderColour}, hasLoaded{true}, dice{std::unique_ptr<LoadedDice>()}, inventory{{BRICK, 0}, {ENERGY, 0}, {GLASS, 0}, {HEAT, 0}, {WIFI, 0}} {}
 
-Builder::Builder(int builderNumber, char builderColour, unsigned seed, BuilderResourceData brd) : builderNumber{builderNumber}, builderColour{builderColour}, seed{seed}, hasLoaded{true}, dice{std::unique_ptr<LoadedDice>()}, inventory{{BRICK, brd.brickNum}, {ENERGY, brd.energyNum}, {GLASS, brd.glassNum}, {HEAT, brd.heatNum}, {WIFI, brd.wifiNum}} {}
+Builder::Builder(int builderNumber, char builderColour, BuilderResourceData brd) : builderNumber{builderNumber}, builderColour{builderColour}, hasLoaded{true}, dice{std::unique_ptr<LoadedDice>()}, inventory{{BRICK, brd.brickNum}, {ENERGY, brd.energyNum}, {GLASS, brd.glassNum}, {HEAT, brd.heatNum}, {WIFI, brd.wifiNum}} {}
 
 Builder::~Builder() {}
 
@@ -79,7 +79,7 @@ void Builder::setDice(bool isLoaded) {
         hasLoaded = true;
     }
     else {
-        dice.reset(new FairDice(seed));
+        dice.reset(new FairDice());
         hasLoaded = false;
     }
 }
