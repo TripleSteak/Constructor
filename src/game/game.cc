@@ -441,8 +441,12 @@ void Game::nextTurn(std::istream& in, std::ostream& out) {
     beginTurn(in, out);
 }
 
-void Game::play(std::istream& in, std::ostream& out) {
+bool Game::play(std::istream& in, std::ostream& out) {
     buildInitialResidences(in, out);
     board->printBoard(out);
     beginTurn(in, out);
+    if (builders[0]->getBuildingPoints() == 10 || builders[1]->getBuildingPoints() == 10 || builders[2]->getBuildingPoints() == 10 || builders[3]->getBuildingPoints() == 10) {
+        return true;
+    }
+    return false;
 }
