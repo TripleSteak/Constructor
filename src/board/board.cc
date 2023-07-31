@@ -323,315 +323,201 @@ std::string Board::printGeese(int tileNumber) const {
 void Board::setupVertices() {
     vertices[0]->addNeighbouringEdge(edges[0].get());
     vertices[0]->addNeighbouringEdge(edges[1].get());
-    vertices[0]->addNeighbouringTile(tiles[0].get());
 
     vertices[1]->addNeighbouringEdge(edges[0].get());
     vertices[1]->addNeighbouringEdge(edges[2].get());
-    vertices[1]->addNeighbouringTile(tiles[0].get());
 
     vertices[2]->addNeighbouringEdge(edges[3].get());
     vertices[2]->addNeighbouringEdge(edges[5].get());
-    vertices[2]->addNeighbouringTile(tiles[1].get());
 
     vertices[3]->addNeighbouringEdge(edges[1].get());
     vertices[3]->addNeighbouringEdge(edges[3].get());
     vertices[3]->addNeighbouringEdge(edges[6].get());
-    vertices[3]->addNeighbouringTile(tiles[0].get());
-    vertices[3]->addNeighbouringTile(tiles[1].get());
 
     vertices[4]->addNeighbouringEdge(edges[2].get());
     vertices[4]->addNeighbouringEdge(edges[4].get());
     vertices[4]->addNeighbouringEdge(edges[7].get());
-    vertices[4]->addNeighbouringTile(tiles[0].get());
-    vertices[4]->addNeighbouringTile(tiles[2].get());
 
     vertices[5]->addNeighbouringEdge(edges[4].get());
     vertices[5]->addNeighbouringEdge(edges[8].get());
-    vertices[5]->addNeighbouringTile(tiles[2].get());
 
     vertices[6]->addNeighbouringEdge(edges[9].get());
     vertices[6]->addNeighbouringEdge(edges[12].get());
-    vertices[6]->addNeighbouringTile(tiles[3].get());
 
     vertices[7]->addNeighbouringEdge(edges[5].get());
     vertices[7]->addNeighbouringEdge(edges[9].get());
     vertices[7]->addNeighbouringEdge(edges[13].get());
-    vertices[7]->addNeighbouringTile(tiles[1].get());
-    vertices[7]->addNeighbouringTile(tiles[3].get());
 
     vertices[8]->addNeighbouringEdge(edges[6].get());
     vertices[8]->addNeighbouringEdge(edges[10].get());
     vertices[8]->addNeighbouringEdge(edges[14].get());
-    vertices[8]->addNeighbouringTile(tiles[0].get());
-    vertices[8]->addNeighbouringTile(tiles[1].get());
-    vertices[8]->addNeighbouringTile(tiles[4].get());
 
     vertices[9]->addNeighbouringEdge(edges[7].get());
     vertices[9]->addNeighbouringEdge(edges[10].get());
     vertices[9]->addNeighbouringEdge(edges[15].get());
-    vertices[9]->addNeighbouringTile(tiles[0].get());
-    vertices[9]->addNeighbouringTile(tiles[2].get());
-    vertices[9]->addNeighbouringTile(tiles[4].get());
 
     vertices[10]->addNeighbouringEdge(edges[8].get());
     vertices[10]->addNeighbouringEdge(edges[11].get());
     vertices[10]->addNeighbouringEdge(edges[16].get());
-    vertices[10]->addNeighbouringTile(tiles[2].get());
-    vertices[10]->addNeighbouringTile(tiles[5].get());
 
     vertices[11]->addNeighbouringEdge(edges[11].get());
     vertices[11]->addNeighbouringEdge(edges[17].get());
-    vertices[11]->addNeighbouringTile(tiles[5].get());
 
     vertices[12]->addNeighbouringEdge(edges[12].get());
     vertices[12]->addNeighbouringEdge(edges[20].get());
-    vertices[12]->addNeighbouringTile(tiles[3].get());
 
     vertices[13]->addNeighbouringEdge(edges[13].get());
     vertices[13]->addNeighbouringEdge(edges[18].get());
     vertices[13]->addNeighbouringEdge(edges[21].get());
-    vertices[13]->addNeighbouringTile(tiles[1].get());
-    vertices[13]->addNeighbouringTile(tiles[3].get());
-    vertices[13]->addNeighbouringTile(tiles[6].get());
 
     vertices[14]->addNeighbouringEdge(edges[14].get());
     vertices[14]->addNeighbouringEdge(edges[18].get());
     vertices[14]->addNeighbouringEdge(edges[22].get());
-    vertices[14]->addNeighbouringTile(tiles[1].get());
-    vertices[14]->addNeighbouringTile(tiles[4].get());
-    vertices[14]->addNeighbouringTile(tiles[6].get());
 
     vertices[15]->addNeighbouringEdge(edges[15].get());
     vertices[15]->addNeighbouringEdge(edges[19].get());
     vertices[15]->addNeighbouringEdge(edges[23].get());
-    vertices[15]->addNeighbouringTile(tiles[2].get());
-    vertices[15]->addNeighbouringTile(tiles[4].get());
-    vertices[15]->addNeighbouringTile(tiles[7].get());
 
     vertices[16]->addNeighbouringEdge(edges[16].get());
     vertices[16]->addNeighbouringEdge(edges[19].get());
     vertices[16]->addNeighbouringEdge(edges[24].get());
-    vertices[16]->addNeighbouringTile(tiles[2].get());
-    vertices[16]->addNeighbouringTile(tiles[5].get());
-    vertices[16]->addNeighbouringTile(tiles[7].get());
 
     vertices[17]->addNeighbouringEdge(edges[17].get());
     vertices[17]->addNeighbouringEdge(edges[25].get());
-    vertices[17]->addNeighbouringTile(tiles[5].get());
 
     vertices[18]->addNeighbouringEdge(edges[20].get());
     vertices[18]->addNeighbouringEdge(edges[26].get());
     vertices[18]->addNeighbouringEdge(edges[29].get());
-    vertices[18]->addNeighbouringTile(tiles[3].get());
-    vertices[18]->addNeighbouringTile(tiles[8].get());
 
     vertices[19]->addNeighbouringEdge(edges[21].get());
     vertices[19]->addNeighbouringEdge(edges[26].get());
     vertices[19]->addNeighbouringEdge(edges[30].get());
-    vertices[19]->addNeighbouringTile(tiles[3].get());
-    vertices[19]->addNeighbouringTile(tiles[6].get());
-    vertices[19]->addNeighbouringTile(tiles[8].get());
 
     vertices[20]->addNeighbouringEdge(edges[22].get());
     vertices[20]->addNeighbouringEdge(edges[27].get());
     vertices[20]->addNeighbouringEdge(edges[31].get());
-    vertices[20]->addNeighbouringTile(tiles[4].get());
-    vertices[20]->addNeighbouringTile(tiles[6].get());
-    vertices[20]->addNeighbouringTile(tiles[9].get());
 
     vertices[21]->addNeighbouringEdge(edges[23].get());
     vertices[21]->addNeighbouringEdge(edges[27].get());
     vertices[21]->addNeighbouringEdge(edges[32].get());
-    vertices[21]->addNeighbouringTile(tiles[4].get());
-    vertices[21]->addNeighbouringTile(tiles[7].get());
-    vertices[21]->addNeighbouringTile(tiles[9].get());
 
     vertices[22]->addNeighbouringEdge(edges[24].get());
     vertices[22]->addNeighbouringEdge(edges[28].get());
     vertices[22]->addNeighbouringEdge(edges[33].get());
-    vertices[22]->addNeighbouringTile(tiles[5].get());
-    vertices[22]->addNeighbouringTile(tiles[7].get());
-    vertices[22]->addNeighbouringTile(tiles[10].get());
 
     vertices[23]->addNeighbouringEdge(edges[25].get());
     vertices[23]->addNeighbouringEdge(edges[28].get());
     vertices[23]->addNeighbouringEdge(edges[34].get());
-    vertices[23]->addNeighbouringTile(tiles[5].get());
-    vertices[23]->addNeighbouringTile(tiles[10].get());
 
     vertices[24]->addNeighbouringEdge(edges[29].get());
     vertices[24]->addNeighbouringEdge(edges[37].get());
-    vertices[24]->addNeighbouringTile(tiles[8].get());
 
     vertices[25]->addNeighbouringEdge(edges[30].get());
     vertices[25]->addNeighbouringEdge(edges[35].get());
     vertices[25]->addNeighbouringEdge(edges[38].get());
-    vertices[25]->addNeighbouringTile(tiles[6].get());
-    vertices[25]->addNeighbouringTile(tiles[8].get());
-    vertices[25]->addNeighbouringTile(tiles[11].get());
 
     vertices[26]->addNeighbouringEdge(edges[31].get());
     vertices[26]->addNeighbouringEdge(edges[35].get());
     vertices[26]->addNeighbouringEdge(edges[39].get());
-    vertices[26]->addNeighbouringTile(tiles[6].get());
-    vertices[26]->addNeighbouringTile(tiles[9].get());
-    vertices[26]->addNeighbouringTile(tiles[11].get());
 
     vertices[27]->addNeighbouringEdge(edges[32].get());
     vertices[27]->addNeighbouringEdge(edges[36].get());
     vertices[27]->addNeighbouringEdge(edges[40].get());
-    vertices[27]->addNeighbouringTile(tiles[7].get());
-    vertices[27]->addNeighbouringTile(tiles[9].get());
-    vertices[27]->addNeighbouringTile(tiles[12].get());
 
     vertices[28]->addNeighbouringEdge(edges[33].get());
     vertices[28]->addNeighbouringEdge(edges[36].get());
     vertices[28]->addNeighbouringEdge(edges[41].get());
-    vertices[28]->addNeighbouringTile(tiles[7].get());
-    vertices[28]->addNeighbouringTile(tiles[10].get());
-    vertices[28]->addNeighbouringTile(tiles[12].get());
 
     vertices[29]->addNeighbouringEdge(edges[34].get());
     vertices[29]->addNeighbouringEdge(edges[42].get());
-    vertices[29]->addNeighbouringTile(tiles[10].get());
 
     vertices[30]->addNeighbouringEdge(edges[37].get());
     vertices[30]->addNeighbouringEdge(edges[43].get());
     vertices[30]->addNeighbouringEdge(edges[46].get());
-    vertices[30]->addNeighbouringTile(tiles[8].get());
-    vertices[30]->addNeighbouringTile(tiles[13].get());
 
     vertices[31]->addNeighbouringEdge(edges[38].get());
     vertices[31]->addNeighbouringEdge(edges[43].get());
     vertices[31]->addNeighbouringEdge(edges[47].get());
-    vertices[31]->addNeighbouringTile(tiles[8].get());
-    vertices[31]->addNeighbouringTile(tiles[11].get());
-    vertices[31]->addNeighbouringTile(tiles[13].get());
 
     vertices[32]->addNeighbouringEdge(edges[39].get());
     vertices[32]->addNeighbouringEdge(edges[44].get());
     vertices[32]->addNeighbouringEdge(edges[48].get());
-    vertices[32]->addNeighbouringTile(tiles[9].get());
-    vertices[32]->addNeighbouringTile(tiles[11].get());
-    vertices[32]->addNeighbouringTile(tiles[14].get());
 
     vertices[33]->addNeighbouringEdge(edges[40].get());
     vertices[33]->addNeighbouringEdge(edges[44].get());
     vertices[33]->addNeighbouringEdge(edges[49].get());
-    vertices[33]->addNeighbouringTile(tiles[9].get());
-    vertices[33]->addNeighbouringTile(tiles[12].get());
-    vertices[33]->addNeighbouringTile(tiles[14].get());
 
     vertices[34]->addNeighbouringEdge(edges[41].get());
     vertices[34]->addNeighbouringEdge(edges[45].get());
     vertices[34]->addNeighbouringEdge(edges[50].get());
-    vertices[34]->addNeighbouringTile(tiles[10].get());
-    vertices[34]->addNeighbouringTile(tiles[12].get());
-    vertices[34]->addNeighbouringTile(tiles[15].get());
 
     vertices[35]->addNeighbouringEdge(edges[42].get());
     vertices[35]->addNeighbouringEdge(edges[45].get());
     vertices[35]->addNeighbouringEdge(edges[51].get());
-    vertices[35]->addNeighbouringTile(tiles[10].get());
-    vertices[35]->addNeighbouringTile(tiles[15].get());
 
     vertices[36]->addNeighbouringEdge(edges[46].get());
     vertices[36]->addNeighbouringEdge(edges[54].get());
-    vertices[36]->addNeighbouringTile(tiles[13].get());
 
     vertices[37]->addNeighbouringEdge(edges[47].get());
     vertices[37]->addNeighbouringEdge(edges[52].get());
     vertices[37]->addNeighbouringEdge(edges[55].get());
-    vertices[37]->addNeighbouringTile(tiles[11].get());
-    vertices[37]->addNeighbouringTile(tiles[13].get());
-    vertices[37]->addNeighbouringTile(tiles[16].get());
 
     vertices[38]->addNeighbouringEdge(edges[48].get());
     vertices[38]->addNeighbouringEdge(edges[52].get());
     vertices[38]->addNeighbouringEdge(edges[56].get());
-    vertices[38]->addNeighbouringTile(tiles[11].get());
-    vertices[38]->addNeighbouringTile(tiles[14].get());
-    vertices[38]->addNeighbouringTile(tiles[16].get());
 
     vertices[39]->addNeighbouringEdge(edges[49].get());
     vertices[39]->addNeighbouringEdge(edges[53].get());
     vertices[39]->addNeighbouringEdge(edges[57].get());
-    vertices[39]->addNeighbouringTile(tiles[12].get());
-    vertices[39]->addNeighbouringTile(tiles[14].get());
-    vertices[39]->addNeighbouringTile(tiles[17].get());
 
     vertices[40]->addNeighbouringEdge(edges[50].get());
     vertices[40]->addNeighbouringEdge(edges[53].get());
     vertices[40]->addNeighbouringEdge(edges[58].get());
-    vertices[40]->addNeighbouringTile(tiles[12].get());
-    vertices[40]->addNeighbouringTile(tiles[15].get());
-    vertices[40]->addNeighbouringTile(tiles[17].get());
 
     vertices[41]->addNeighbouringEdge(edges[51].get());
     vertices[41]->addNeighbouringEdge(edges[59].get());
-    vertices[41]->addNeighbouringTile(tiles[15].get());
 
     vertices[42]->addNeighbouringEdge(edges[54].get());
     vertices[42]->addNeighbouringEdge(edges[60].get());
-    vertices[42]->addNeighbouringTile(tiles[13].get());
 
     vertices[43]->addNeighbouringEdge(edges[55].get());
     vertices[43]->addNeighbouringEdge(edges[60].get());
     vertices[43]->addNeighbouringEdge(edges[63].get());
-    vertices[43]->addNeighbouringTile(tiles[13].get());
-    vertices[43]->addNeighbouringTile(tiles[16].get());
 
     vertices[44]->addNeighbouringEdge(edges[56].get());
     vertices[44]->addNeighbouringEdge(edges[61].get());
     vertices[44]->addNeighbouringEdge(edges[64].get());
-    vertices[44]->addNeighbouringTile(tiles[14].get());
-    vertices[44]->addNeighbouringTile(tiles[16].get());
-    vertices[44]->addNeighbouringTile(tiles[18].get());
 
     vertices[45]->addNeighbouringEdge(edges[57].get());
     vertices[45]->addNeighbouringEdge(edges[61].get());
     vertices[45]->addNeighbouringEdge(edges[65].get());
-    vertices[45]->addNeighbouringTile(tiles[14].get());
-    vertices[45]->addNeighbouringTile(tiles[17].get());
-    vertices[45]->addNeighbouringTile(tiles[18].get());
 
     vertices[46]->addNeighbouringEdge(edges[58].get());
     vertices[46]->addNeighbouringEdge(edges[62].get());
     vertices[46]->addNeighbouringEdge(edges[66].get());
-    vertices[46]->addNeighbouringTile(tiles[15].get());
-    vertices[46]->addNeighbouringTile(tiles[17].get());
 
     vertices[47]->addNeighbouringEdge(edges[59].get());
     vertices[47]->addNeighbouringEdge(edges[62].get());
-    vertices[47]->addNeighbouringTile(tiles[15].get());
 
     vertices[48]->addNeighbouringEdge(edges[63].get());
     vertices[48]->addNeighbouringEdge(edges[67].get());
-    vertices[48]->addNeighbouringTile(tiles[16].get());
 
     vertices[49]->addNeighbouringEdge(edges[64].get());
     vertices[49]->addNeighbouringEdge(edges[67].get());
     vertices[49]->addNeighbouringEdge(edges[69].get());
-    vertices[49]->addNeighbouringTile(tiles[16].get());
-    vertices[49]->addNeighbouringTile(tiles[18].get());
 
     vertices[50]->addNeighbouringEdge(edges[65].get());
     vertices[50]->addNeighbouringEdge(edges[68].get());
     vertices[50]->addNeighbouringEdge(edges[70].get());
-    vertices[50]->addNeighbouringTile(tiles[17].get());
-    vertices[50]->addNeighbouringTile(tiles[18].get());
 
     vertices[51]->addNeighbouringEdge(edges[66].get());
     vertices[51]->addNeighbouringEdge(edges[68].get());
-    vertices[51]->addNeighbouringTile(tiles[17].get());
 
     vertices[52]->addNeighbouringEdge(edges[69].get());
     vertices[52]->addNeighbouringEdge(edges[71].get());
-    vertices[52]->addNeighbouringTile(tiles[18].get());
 
     vertices[53]->addNeighbouringEdge(edges[70].get());
     vertices[53]->addNeighbouringEdge(edges[71].get());
-    vertices[53]->addNeighbouringTile(tiles[18].get());
 }
 
 void Board::setupEdges() {

@@ -12,9 +12,9 @@
 #include <memory>
 #include <sstream>
 
-Builder::Builder(int builderNumber, char builderColour, unsigned seed) : builderNumber{builderNumber}, builderColour{builderColour}, seed{seed}, dice{std::unique_ptr<LoadedDice>()}, inventory{{BRICK, 0}, {ENERGY, 0}, {GLASS, 0}, {HEAT, 0}, {WIFI, 0}} {}
+Builder::Builder(int builderNumber, char builderColour, unsigned seed) : builderNumber{builderNumber}, builderColour{builderColour}, seed{seed}, hasLoaded{true}, dice{std::unique_ptr<LoadedDice>()}, inventory{{BRICK, 0}, {ENERGY, 0}, {GLASS, 0}, {HEAT, 0}, {WIFI, 0}} {}
 
-Builder::Builder(int builderNumber, char builderColour, unsigned seed, BuilderResourceData brd) : builderNumber{builderNumber}, builderColour{builderColour}, seed{seed}, dice{std::unique_ptr<LoadedDice>()}, inventory{{BRICK, brd.brickNum}, {ENERGY, brd.energyNum}, {GLASS, brd.glassNum}, {HEAT, brd.heatNum}, {WIFI, brd.wifiNum}} {}
+Builder::Builder(int builderNumber, char builderColour, unsigned seed, BuilderResourceData brd) : builderNumber{builderNumber}, builderColour{builderColour}, seed{seed}, hasLoaded{true}, dice{std::unique_ptr<LoadedDice>()}, inventory{{BRICK, brd.brickNum}, {ENERGY, brd.energyNum}, {GLASS, brd.glassNum}, {HEAT, brd.heatNum}, {WIFI, brd.wifiNum}} {}
 
 Builder::~Builder() {}
 
@@ -38,10 +38,32 @@ int Builder::getBuildingPoints() const {
     return buildingPoints;
 }
 
+std::string Builder::getBuilderColourString() const {
+    std::string colourString;
+    switch (builderColour) {
+        case 'B':
+            colourString = "Blue";
+            break;
+        case 'Y':
+            colourString = "Yellow";
+            break;
+        case 'O':
+            colourString = "Orange";
+            break;
+        case 'R':
+            colourString = "Red";
+            break;
+        default:
+            colourString = "Invalid Colour";
+            break;
+    }
+    return colourString;
+}
+
 std::string Builder::getStatus() const {
     std::ostringstream oss;
 
-    oss << builderColour << " has " << getBuildingPoints() << " building points, " << inventory.at(BRICK) << " brick, " << inventory.at(ENERGY) << " energy, " << inventory.at(GLASS) << " glass, " << inventory.at(HEAT) << " heat, and " << inventory.at(WIFI) << " WiFi.";
+    oss << getBuilderColour() << " has " << getBuildingPoints() << " building points, " << inventory.at(BRICK) << " brick, " << inventory.at(ENERGY) << " energy, " << inventory.at(GLASS) << " glass, " << inventory.at(HEAT) << " heat, and " << inventory.at(WIFI) << " WiFi.";
 
     return oss.str();
 }
@@ -53,9 +75,20 @@ int Builder::rollDice(int roll) const {
 void Builder::setDice(bool isLoaded) {
     if (isLoaded) {
         dice.reset(new LoadedDice());
+        hasLoaded = true;
     }
     else {
         dice.reset(new FairDice(seed));
+        hasLoaded = false;
+    }
+}
+
+bool Builder::getDice() {
+    if (hasLoaded) {
+        return true;
+    }
+    else {
+        return false;
     }
 }
 

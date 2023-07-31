@@ -1,7 +1,6 @@
 #include "vertex.h"
 #include "../game/builder.h"
 #include "../structures/basement.h"
-#include "../structures/residence.h"
 #include "../structures/road.h"
 #include "edge.h"
 
@@ -9,12 +8,7 @@ Vertex::Vertex(int vertexNumber) : vertexNumber{vertexNumber}, residence{nullptr
 Vertex::~Vertex() {}
 
 bool Vertex::operator==(const Vertex& other) const {
-    return vertexNumber == other.vertexNumber && residence == other.residence && neighbouringTiles == other.neighbouringTiles &&
-           neighbouringEdges == other.neighbouringEdges;
-}
-
-void Vertex::addNeighbouringTile(AbstractTile* tile) {
-    neighbouringTiles.emplace_back(tile);
+    return vertexNumber == other.vertexNumber && residence == other.residence && neighbouringEdges == other.neighbouringEdges;
 }
 
 void Vertex::addNeighbouringEdge(Edge* edge) {
