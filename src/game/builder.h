@@ -28,6 +28,7 @@ class Builder final {
     const int builderNumber;
     const char builderColour;
     const unsigned seed;
+    bool hasLoaded;
     std::unique_ptr<Dice> dice;
 
   public:
@@ -42,11 +43,13 @@ class Builder final {
 
     int getBuilderNumber() const;
     char getBuilderColour() const;
+    std::string getBuilderColourString() const; 
     int getBuildingPoints() const;
     std::string getStatus() const;
 
     int rollDice(int) const;
     void setDice(bool);
+    bool getDice();
 
     int chooseGeeseSpot(std::istream&, std::ostream&) const; // Select tile number to place geese on
     char steal(std::istream&, std::ostream&) const;          // Select which other Builder to steal from
