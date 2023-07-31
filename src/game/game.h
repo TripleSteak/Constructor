@@ -45,7 +45,9 @@ class Game final {
     void printHelp() const;
 
   public:
-    Game();
+    Game(unsigned);
+    Game(unsigned, std::vector<TileInitData>);
+    Game(unsigned, std::vector<TileInitData>, std::vector<BuilderResourceData>, std::vector<BuilderStructureData>, int currentBuilder, int GeeseTile);
     ~Game();
 
     int getCurrentBuilder() const;
