@@ -4,7 +4,7 @@
 #include "gtest/gtest.h"
 
 TEST(Road, GetOwner) {
-    Builder builder(4, 'B', 0);
+    Builder builder(4, 'B');
     Edge location(18);
     Road road(builder, location);
 
@@ -12,7 +12,7 @@ TEST(Road, GetOwner) {
 }
 
 TEST(Road, GetLocation) {
-    Builder builder(33, 'C', 0);
+    Builder builder(33, 'C');
     Edge location(42);
     Road road(builder, location);
 

@@ -4,7 +4,7 @@
 #include "gtest/gtest.h"
 
 TEST(House, GetOwner) {
-    Builder builder(4, 'B', 0);
+    Builder builder(4, 'B');
     Vertex location(14);
     House house(builder, location);
 
@@ -12,7 +12,7 @@ TEST(House, GetOwner) {
 }
 
 TEST(House, GetLocation) {
-    Builder builder(3, 'C', 0);
+    Builder builder(3, 'C');
     Vertex location(15);
     House house(builder, location);
 
@@ -20,21 +20,21 @@ TEST(House, GetLocation) {
 }
 
 TEST(House, GetBuildingPoints) {
-    Builder builder(2, 'D', 0);
+    Builder builder(2, 'D');
     Vertex location(16);
     House house(builder, location);
     EXPECT_EQ(house.getBuildingPoints(), 2);
 }
 
 TEST(House, GetResidenceLetter) {
-    Builder builder(1, 'A', 0);
+    Builder builder(1, 'A');
     Vertex location(17);
     House house(builder, location);
     EXPECT_EQ(house.getResidenceLetter(), 'H');
 }
 
 TEST(House, GetResourceMultiplier) {
-    Builder builder(2, 'B', 0);
+    Builder builder(2, 'B');
     Vertex location(18);
     House house(builder, location);
     EXPECT_EQ(house.getResourceMultiplier(), 2);

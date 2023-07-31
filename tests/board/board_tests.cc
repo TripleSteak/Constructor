@@ -34,10 +34,10 @@ TEST(Board, CorrectConstructionWithTileInitData) {
 }
 
 TEST(Board, CorrectConstructionWithTileInitDataAndStructureData) {
-    Builder builder1{0, 'Y', 0};
-    Builder builder2{1, 'R', 0};
-    Builder builder3{2, 'B', 0};
-    Builder builder4{3, 'O', 0};
+    Builder builder1{0, 'Y'};
+    Builder builder2{1, 'R'};
+    Builder builder3{2, 'B'};
+    Builder builder4{3, 'O'};
 
     std::vector<std::pair<int, char>> builder1Residences = {{22, 'T'}, {27, 'B'}};
     std::vector<std::pair<int, char>> builder2Residences = {{11, 'T'}, {42, 'H'}};
@@ -69,10 +69,10 @@ TEST(Board, CorrectConstructionWithTileInitDataAndStructureData) {
 }
 
 TEST(Board, CannotBuildWithNoResources) {
-    Builder builder1{0, 'Y', 0};
-    Builder builder2{1, 'R', 0};
-    Builder builder3{2, 'B', 0};
-    Builder builder4{3, 'O', 0};
+    Builder builder1{0, 'Y'};
+    Builder builder2{1, 'R'};
+    Builder builder3{2, 'B'};
+    Builder builder4{3, 'O'};
 
     std::vector<std::pair<int, char>> builder1Residences = {{22, 'T'}, {27, 'B'}};
     std::vector<std::pair<int, char>> builder2Residences = {{11, 'T'}, {42, 'H'}};
@@ -119,10 +119,10 @@ TEST(Board, CannotBuildWithNoResources) {
 }
 
 TEST(Board, CanBuildWithResources) {
-    Builder builder1{0, 'Y', 0};
-    Builder builder2{1, 'R', 0};
-    Builder builder3{2, 'B', 0};
-    Builder builder4{3, 'O', 0};
+    Builder builder1{0, 'Y'};
+    Builder builder2{1, 'R'};
+    Builder builder3{2, 'B'};
+    Builder builder4{3, 'O'};
 
     builder1.inventory[BRICK] = 1000;
     builder1.inventory[ENERGY] = 1000;
@@ -198,10 +198,10 @@ TEST(Board, CanBuildWithResources) {
 }
 
 TEST(Board, CannotBuildInInvalidSpots) {
-    Builder builder1{0, 'Y', 0};
-    Builder builder2{1, 'R', 0};
-    Builder builder3{2, 'B', 0};
-    Builder builder4{3, 'O', 0};
+    Builder builder1{0, 'Y'};
+    Builder builder2{1, 'R'};
+    Builder builder3{2, 'B'};
+    Builder builder4{3, 'O'};
 
     std::vector<std::pair<int, char>> builder1Residences = {{22, 'T'}, {27, 'B'}};
     std::vector<std::pair<int, char>> builder2Residences = {{11, 'T'}, {42, 'H'}};

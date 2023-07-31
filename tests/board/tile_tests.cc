@@ -28,8 +28,8 @@ TEST(Tile, GiveResourcesToBuilders) {
     Vertex vertex3(46);
     Vertex vertex4(47);
 
-    Builder builder1(0, 'B', 0);
-    Builder builder2(1, 'R', 0);
+    Builder builder1(0, 'B');
+    Builder builder2(1, 'R');
 
     std::shared_ptr<Residence> res1 = std::make_shared<Basement>(builder1, vertex1);
     std::shared_ptr<Residence> res2 = std::make_shared<House>(builder2, vertex2);

@@ -9,9 +9,9 @@
 #include "../structures/road.h"
 #include "builder.h"
 #include <fstream>
+#include <map>
 #include <string>
 #include <vector>
-#include <map>
 
 Game::Game() : currentBuilder{0} {
     board = std::make_unique<Board>(generateRandomBoard());
@@ -138,40 +138,40 @@ void Game::buildInitialResidences(std::istream& in, std::ostream& out) {
     }
 }
 
-std::vector<Resource> Game::discardRandomResource(Builder &builder, bool half){
+std::vector<Resource> Game::discardRandomResource(Builder& builder, bool half) {
     std::vector<Resource> resources;
-    for (auto const& resource : builder.inventory){
-        for (int i = 0; i < resource.second; i++){
+    for (auto const& resource : builder.inventory) {
+        for (int i = 0; i < resource.second; i++) {
             resources.push_back(resource.first);
         }
     }
     std::shuffle(resources.begin(), resources.end(), rng);
     std::vector<Resource> resourcesToDiscard;
-    if (half && resources.size() >= 10){ //discard half 
-        for (int i = 0; i < resources.size() / 2; i++){
+    if (half && resources.size() >= 10) { // discard half
+        for (size_t i = 0; i < resources.size() / 2; i++) {
             resourcesToDiscard.push_back(resources[i]);
         }
     }
-    else if (!half){  //steal one
+    else if (!half) { // steal one
         resourcesToDiscard.push_back(resources[0]);
     }
-    return resourcesToDiscard;  //if empty then less than 10
+    return resourcesToDiscard; // if empty then less than 10
 }
 
-void Game::moveGeese(std::istream& in, std::ostream& out){
+void Game::moveGeese(std::istream& in, std::ostream& out) {
     Builder& builder = *builders.at(currentBuilder);
-    for (int i = 0; i < NUM_BUILDERS; i++){
+    for (int i = 0; i < NUM_BUILDERS; i++) {
         std::vector<Resource> discard = discardRandomResource(*builders[i], true);
         std::map<Resource, int> discardNum;
-        if (discard.size() > 0){
+        if (discard.size() > 0) {
             out << "Builder " << builders[i]->getBuilderColourString() << " loses" << discard.size() << " resources to the geese. They lose:" << std::endl;
-            for (int i = 0; i < discard.size(); i++){
+            for (size_t i = 0; i < discard.size(); i++) {
                 out << discard[i] << std::endl;
-                builders[i]->inventory[discard[i]]--;   
+                builders[i]->inventory[discard[i]]--;
                 discardNum[discard[i]]++;
             }
-            //print out discarded resources
-            for (auto const& resource : discardNum){
+            // print out discarded resources
+            for (auto const& resource : discardNum) {
                 out << resource.first << " " << resource.second << std::endl;
             }
         }
@@ -189,12 +189,12 @@ void Game::moveGeese(std::istream& in, std::ostream& out){
     std::vector<int> neighbouringBuilders = t->getNeighbouringResidences(builder);
     out << "Builder " << builder.getBuilderColourString() << " can choose to steal from:";
 
-    if (neighbouringBuilders.size() == 0){
+    if (neighbouringBuilders.size() == 0) {
         out << "Builder " << builder.getBuilderColourString() << " has no builders to steal from." << std::endl;
         return;
     }
 
-    for (int i = 0; i < neighbouringBuilders.size() - 1; i++){
+    for (size_t i = 0; i < neighbouringBuilders.size() - 1; i++) {
         out << " " << builders[neighbouringBuilders[i]]->getBuilderColourString() << ",";
     }
     out << " " << builders[neighbouringBuilders[neighbouringBuilders.size() - 1]]->getBuilderColourString() << std::endl;
@@ -202,14 +202,14 @@ void Game::moveGeese(std::istream& in, std::ostream& out){
     out << "Choose a builder to steal from." << std::endl;
 
     std::string builderToStealFromColour;
-    in >> builderToStealFromColour; 
-    Builder &builderToStealFrom = getBuilder(builderToStealFromColour);  
+    in >> builderToStealFromColour;
+    Builder& builderToStealFrom = getBuilder(builderToStealFromColour);
 
     Resource resourceToSteal = discardRandomResource(builderToStealFrom, false)[0];
     builder.inventory[resourceToSteal]++;
     builderToStealFrom.inventory[resourceToSteal]--;
     out << "Builder " << builder.getBuilderColourString() << " steals " << resourceToString(resourceToSteal) << " from builder " << builderToStealFrom.getBuilderColourString() << std::endl;
-}       
+}
 
 void Game::save(std::string filename) {
     std::ofstream outputFile{filename};
@@ -267,7 +267,7 @@ void Game::beginTurn(std::istream& in, std::ostream& out) {
             if (roll == 7) {
                 moveGeese(in, out);
             }
-            else { //distribute resources
+            else { // distribute resources
                 BuilderInventoryUpdate b = board->getResourcesFromDiceRoll(roll);
                 if (!b.changed()) {
                     out << "No builder gained resources." << std::endl;

@@ -4,7 +4,7 @@
 #include <fstream>
 
 TEST(GameFactory, LoadFromGame) {
-    GameFactory gameFactory(0);
+    GameFactory gameFactory;
     std::unique_ptr<Game> game = gameFactory.loadFromGame("test_inputs/load_from_game.in");
     std::ostringstream out;
 
@@ -21,7 +21,7 @@ TEST(GameFactory, LoadFromGame) {
 }
 
 TEST(GameFactory, LoadFromBoard) {
-    GameFactory gameFactory(0);
+    GameFactory gameFactory;
     std::unique_ptr<Game> game = gameFactory.loadFromBoard("test_inputs/load_from_board.in");
     std::ostringstream out;
 

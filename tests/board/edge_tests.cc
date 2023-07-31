@@ -13,7 +13,7 @@ TEST(Edge, GetEdgeNumber) {
 
 TEST(Edge, GetRoad) {
     Edge edge(42);
-    Builder builder(3, 'O', 0);
+    Builder builder(3, 'O');
     std::shared_ptr<Road> road = std::make_shared<Road>(builder, edge);
 
     edge.buildRoad(road);
@@ -35,7 +35,7 @@ TEST(Edge, GetNeighbouringVertices) {
 
 TEST(Edge, CannotBuildRoadWhenRoadAlreadyExists) {
     Edge edge(52);
-    Builder builder(3, 'O', 0);
+    Builder builder(3, 'O');
     std::shared_ptr<Road> road = std::make_shared<Road>(builder, edge);
 
     edge.buildRoad(road);
@@ -46,8 +46,8 @@ TEST(Edge, CannotBuildRoadWhenRoadAlreadyExists) {
 TEST(Edge, CanBuildRoadWithAdjacentResidence) {
     Edge edge(11);
     Vertex vertex(12);
-    Builder builder1(2, 'B', 0);
-    Builder builder2(3, 'G', 0);
+    Builder builder1(2, 'B');
+    Builder builder2(3, 'G');
 
     edge.addNeighbouringVertex(&vertex);
 
@@ -62,8 +62,8 @@ TEST(Edge, CanBuildRoadWithAdjacentRoad) {
     Edge edge1(10);
     Edge edge2(11);
     Vertex vertex(12);
-    Builder builder1(2, 'B', 0);
-    Builder builder2(3, 'G', 0);
+    Builder builder1(2, 'B');
+    Builder builder2(3, 'G');
 
     edge1.addNeighbouringVertex(&vertex);
     edge2.addNeighbouringVertex(&vertex);
@@ -81,8 +81,8 @@ TEST(Edge, CannotBuildRoadThroughOpponentResidence) {
     Edge edge1(10);
     Edge edge2(11);
     Vertex vertex(12);
-    Builder builder1(2, 'B', 0);
-    Builder builder2(3, 'G', 0);
+    Builder builder1(2, 'B');
+    Builder builder2(3, 'G');
 
     edge1.addNeighbouringVertex(&vertex);
     edge2.addNeighbouringVertex(&vertex);

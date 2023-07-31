@@ -1,9 +1,9 @@
 #include "../../src/board/vertex.h"
 #include "../../src/game/builder.h"
-#include "../../src/structures/residence.h"
 #include "../../src/structures/basement.h"
-#include "../../src/structures/tower.h"
+#include "../../src/structures/residence.h"
 #include "../../src/structures/road.h"
+#include "../../src/structures/tower.h"
 #include "gtest/gtest.h"
 
 TEST(Vertex, GetVertexNumber) {
@@ -14,7 +14,7 @@ TEST(Vertex, GetVertexNumber) {
 
 TEST(Vertex, GetResidence) {
     Vertex vertex(16);
-    Builder builder(2, 'B', 0);
+    Builder builder(2, 'B');
     std::shared_ptr<Residence> res = std::make_shared<Basement>(builder, vertex);
 
     vertex.buildResidence(res);
@@ -36,7 +36,7 @@ TEST(Vertex, GetNeighbouringEdges) {
 
 TEST(Vertex, CannotBuildResidenceIfAlreadyExists) {
     Vertex vertex(16);
-    Builder builder(2, 'B', 0);
+    Builder builder(2, 'B');
 
     std::shared_ptr<Residence> res = std::make_shared<Basement>(builder, vertex);
     vertex.buildResidence(res);
@@ -49,7 +49,7 @@ TEST(Vertex, CannotBuildResidenceTooCloseToAnotherResidence) {
     Vertex vertex1(4);
     Vertex vertex2(5);
     Edge edge(12);
-    Builder builder(3, 'G', 0);
+    Builder builder(3, 'G');
 
     vertex1.addNeighbouringEdge(&edge);
     vertex2.addNeighbouringEdge(&edge);
@@ -66,7 +66,7 @@ TEST(Vertex, CannotBuildResidenceTooCloseToAnotherResidence) {
 TEST(Vertex, CannotBuildResidenceWithoutRoad) {
     Vertex vertex(2);
     Edge edge(5);
-    Builder builder(0, 'Y', 0);
+    Builder builder(0, 'Y');
 
     vertex.addNeighbouringEdge(&edge);
     edge.addNeighbouringVertex(&vertex);
@@ -78,8 +78,8 @@ TEST(Vertex, CannotBuildResidenceWithoutRoad) {
 TEST(Vertex, CanBuildResidenceWithRoad) {
     Vertex vertex(2);
     Edge edge(5);
-    Builder builder1(0, 'Y', 0);
-    Builder builder2(1, 'G', 0);
+    Builder builder1(0, 'Y');
+    Builder builder2(1, 'G');
 
     vertex.addNeighbouringEdge(&edge);
     edge.addNeighbouringVertex(&vertex);
@@ -93,14 +93,14 @@ TEST(Vertex, CanBuildResidenceWithRoad) {
 
 TEST(Vertex, CannotUpgradeResidenceThatDoesntExist) {
     Vertex vertex(5);
-    Builder builder(0, 'Y', 0);
+    Builder builder(0, 'Y');
 
     EXPECT_EQ(vertex.canUpgradeResidence(builder), false);
 }
 
 TEST(Vertex, CannotUpgradeResidenceThatIsTower) {
     Vertex vertex(5);
-    Builder builder(0, 'Y', 0);
+    Builder builder(0, 'Y');
 
     std::shared_ptr<Residence> res = std::make_shared<Tower>(builder, vertex);
     vertex.buildResidence(res);
@@ -110,8 +110,8 @@ TEST(Vertex, CannotUpgradeResidenceThatIsTower) {
 
 TEST(Vertex, CanUpgradeResidence) {
     Vertex vertex(5);
-    Builder builder1(0, 'Y', 0);
-    Builder builder2(1, 'G', 0);
+    Builder builder1(0, 'Y');
+    Builder builder2(1, 'G');
 
     std::shared_ptr<Residence> res = std::make_shared<Basement>(builder1, vertex);
     vertex.buildResidence(res);

@@ -9,23 +9,23 @@
 
 TEST(Builder, GetBuilderNumber) {
     int builderNumber = 3;
-    Builder builder(builderNumber, 'G', 0);
+    Builder builder(builderNumber, 'G');
     EXPECT_EQ(builder.getBuilderNumber(), builderNumber);
 }
 
 TEST(Builder, GetBuilderColour) {
     char builderColour = 'B';
-    Builder builder(2, builderColour, 0);
+    Builder builder(2, builderColour);
     EXPECT_EQ(builder.getBuilderColour(), builderColour);
 }
 
 TEST(Builder, GetBuildingPointsEmpty) {
-    Builder builder(3, 'G', 0);
+    Builder builder(3, 'G');
     EXPECT_EQ(builder.getBuildingPoints(), 0);
 }
 
 TEST(Builder, GetBuildingPointsNonEmpty) {
-    Builder builder(2, 'Y', 0);
+    Builder builder(2, 'Y');
 
     Vertex location1(24);
     Vertex location2(32);
@@ -45,7 +45,7 @@ TEST(Builder, GetBuildingPointsNonEmpty) {
 }
 
 TEST(Builder, GetStatus) {
-    Builder builder(3, 'G', 0);
+    Builder builder(3, 'G');
 
     Vertex location(13);
     std::shared_ptr<House> house = std::make_shared<House>(builder, location);
@@ -61,7 +61,7 @@ TEST(Builder, GetStatus) {
 }
 
 TEST(Builder, ChooseGeeseSpot) {
-    Builder builder(3, 'Y', 0);
+    Builder builder(3, 'Y');
     std::istringstream in("14");
     std::ostringstream out;
 
@@ -71,7 +71,7 @@ TEST(Builder, ChooseGeeseSpot) {
 }
 
 TEST(Builder, Steal) {
-    Builder builder(2, 'G', 0);
+    Builder builder(2, 'G');
     std::istringstream in("B");
     std::ostringstream out;
 
@@ -81,7 +81,7 @@ TEST(Builder, Steal) {
 }
 
 TEST(Builder, ProposeTrade) {
-    Builder builder(1, 'Y', 0);
+    Builder builder(1, 'Y');
     std::istringstream in("R BRICK ENERGY");
     std::ostringstream out;
 
@@ -92,7 +92,7 @@ TEST(Builder, ProposeTrade) {
 }
 
 TEST(Builder, RespondToTradeWithNo) {
-    Builder builder(0, 'R', 0);
+    Builder builder(0, 'R');
     std::istringstream in("no");
     std::ostringstream out;
 
@@ -102,7 +102,7 @@ TEST(Builder, RespondToTradeWithNo) {
 }
 
 TEST(Builder, RespondToTradeWithYes) {
-    Builder builder(0, 'B', 0);
+    Builder builder(0, 'B');
     std::istringstream in("yes");
     std::ostringstream out;
 
@@ -112,7 +112,7 @@ TEST(Builder, RespondToTradeWithYes) {
 }
 
 TEST(Builder, TryBuildRoad) {
-    Builder builder(2, 'G', 0);
+    Builder builder(2, 'G');
     Edge edge(27);
     EXPECT_EQ(edge.getEdgeNumber(), 27);
 
@@ -123,7 +123,7 @@ TEST(Builder, TryBuildRoad) {
 }
 
 TEST(Builder, TryBuildResidence) {
-    Builder builder(3, 'Y', 0);
+    Builder builder(3, 'Y');
 
     Vertex vertex(46);
     EXPECT_EQ(vertex.getVertexNumber(), 46);
@@ -135,7 +135,7 @@ TEST(Builder, TryBuildResidence) {
 }
 
 TEST(Builder, TryBuildInitialResidence) {
-    Builder builder(2, 'G', 0);
+    Builder builder(2, 'G');
     Vertex vertex(33);
     EXPECT_EQ(vertex.getVertexNumber(), 33);
 
@@ -146,7 +146,7 @@ TEST(Builder, TryBuildInitialResidence) {
 }
 
 TEST(Builder, TryUpgradeResidence) {
-    Builder builder(1, 'B', 0);
+    Builder builder(1, 'B');
     Vertex vertex(34);
     EXPECT_EQ(vertex.getVertexNumber(), 34);
 
