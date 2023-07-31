@@ -3,6 +3,7 @@
 
 #include "../common/forward.h"
 #include "../common/resource.h"
+#include "../game/game.h" 
 #include <iostream>
 #include <memory>
 #include <vector>
@@ -31,6 +32,9 @@ class Board final {
     std::string printResource(int) const;
     std::string printGeese(int) const;
 
+    void setRoad(Builder&, int);
+    void setResidence(Builder&, int, char);
+
   public:
     /**
      * TileInitData #0 is meant for Tile #0, TileInitData #1 is meant for Tile #1, etc.
@@ -38,6 +42,7 @@ class Board final {
      *  (The park tile must have a tileValue of 7)
      */
     Board(std::vector<TileInitData>);
+    Board(std::vector<TileInitData>, std::vector<std::pair<Builder&, BuilderStructureData>>);
     ~Board();
 
     static const int NUM_TILES = 19;
