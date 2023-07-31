@@ -52,3 +52,14 @@ TEST(GeeseTile, GiveResourcesToBuilders) {
     EXPECT_EQ(builder1.inventory[BRICK], 0);
     EXPECT_EQ(builder2.inventory[BRICK], 0);
 }
+
+TEST(GeeseTile, RemoveGeese) {
+    std::unique_ptr<AbstractTile> tile = std::make_unique<Tile>(11, 10, GLASS);
+    GeeseTile geeseTile(std::move(tile));
+
+    std::unique_ptr<AbstractTile> movedTile = geeseTile.removeGeese();
+
+    EXPECT_EQ(movedTile.get()->getTileNumber(), 11);
+    EXPECT_EQ(movedTile.get()->getTileValue(), 10);
+    EXPECT_EQ(movedTile.get()->getResource(), GLASS);
+}

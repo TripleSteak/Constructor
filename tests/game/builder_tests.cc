@@ -27,9 +27,9 @@ TEST(Builder, GetBuildingPointsEmpty) {
 TEST(Builder, GetBuildingPointsNonEmpty) {
     Builder builder(2, 'Y', 0);
 
-    Vertex location1 = Vertex(24);
-    Vertex location2 = Vertex(32);
-    Vertex location3 = Vertex(48);
+    Vertex location1(24);
+    Vertex location2(32);
+    Vertex location3(48);
     std::shared_ptr<Basement> res1 = std::make_shared<Basement>(builder, location1);
     std::shared_ptr<House> res2 = std::make_shared<House>(builder, location2);
     std::shared_ptr<Tower> res3 = std::make_shared<Tower>(builder, location3);
@@ -47,7 +47,7 @@ TEST(Builder, GetBuildingPointsNonEmpty) {
 TEST(Builder, GetStatus) {
     Builder builder(3, 'G', 0);
 
-    Vertex location = Vertex(13);
+    Vertex location(13);
     std::shared_ptr<House> house = std::make_shared<House>(builder, location);
     builder.residences.push_back(house);
 

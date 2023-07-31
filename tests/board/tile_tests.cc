@@ -6,7 +6,7 @@
 #include "gtest/gtest.h"
 
 TEST(Tile, GetTilePrivateFields) {
-    Tile tile = Tile(33, 3, GLASS);
+    Tile tile(33, 3, GLASS);
 
     EXPECT_EQ(tile.getTileNumber(), 33);
     EXPECT_EQ(tile.getTileValue(), 3);
@@ -14,13 +14,13 @@ TEST(Tile, GetTilePrivateFields) {
 }
 
 TEST(Tile, HasGeese) {
-    Tile tile = Tile(15, 5, ENERGY);
+    Tile tile(15, 5, ENERGY);
 
     EXPECT_EQ(tile.hasGeese(), false);
 }
 
 TEST(Tile, GiveResourcesToBuilders) {
-    Tile tile = Tile(22, 4, BRICK);
+    Tile tile(22, 4, BRICK);
 
     Vertex vertex1(44);
     Vertex vertex2(45);

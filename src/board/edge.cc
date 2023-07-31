@@ -8,12 +8,7 @@ Edge::Edge(int edgeNumber) : edgeNumber{edgeNumber}, road{nullptr} {}
 Edge::~Edge() {}
 
 bool Edge::operator==(const Edge& other) const {
-    return edgeNumber == other.edgeNumber && road == other.road && neighbouringTiles == other.neighbouringTiles &&
-           neighbouringVertices == other.neighbouringVertices;
-}
-
-void Edge::addNeighbouringTile(AbstractTile* tile) {
-    neighbouringTiles.emplace_back(tile);
+    return edgeNumber == other.edgeNumber && road == other.road && neighbouringVertices == other.neighbouringVertices;
 }
 
 void Edge::addNeighbouringVertex(Vertex* vertex) {
@@ -39,12 +34,19 @@ bool Edge::canBuildRoad(Builder& builder) const {
     }
 
     for (Vertex* vertex : neighbouringVertices) {
-        // Vertex has residence owned by the builder
-        if (vertex->getResidence() != nullptr && vertex->getResidence()->getOwner() == builder) {
-            return true;
+        // If the neighbouring vertex has a residence...
+        // - Return true if the residence belongs to the builder
+        // - Only check for adjacent roads if the vertex is empty
+        if (vertex->getResidence() != nullptr) {
+            if (vertex->getResidence()->getOwner() == builder) {
+                return true;
+            } else {
+                continue;
+            }
         }
 
         // Vertex is connected to a road owned by the builder
+        // The above code body ensures that we don't build through someone else's residence
         for (Edge* edge : vertex->getNeighbouringEdges()) {
             if (edge->getRoad() != nullptr && edge->getRoad()->getOwner() == builder) {
                 return true;

@@ -5,7 +5,7 @@
 
 TEST(House, GetOwner) {
     Builder builder(4, 'B', 0);
-    Vertex location = Vertex(14);
+    Vertex location(14);
     House house(builder, location);
 
     EXPECT_EQ(house.getOwner(), builder);
@@ -13,7 +13,7 @@ TEST(House, GetOwner) {
 
 TEST(House, GetLocation) {
     Builder builder(3, 'C', 0);
-    Vertex location = Vertex(15);
+    Vertex location(15);
     House house(builder, location);
 
     EXPECT_EQ(house.getLocation(), location);

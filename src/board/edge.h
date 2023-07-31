@@ -12,7 +12,6 @@ class Edge final {
   private:
     const int edgeNumber;
     std::shared_ptr<Road> road;
-    std::vector<AbstractTile*> neighbouringTiles;
     std::vector<Vertex*> neighbouringVertices;
 
   public:
@@ -21,7 +20,6 @@ class Edge final {
 
     bool operator==(const Edge&) const;
 
-    void addNeighbouringTile(AbstractTile*);
     void addNeighbouringVertex(Vertex*);
 
     int getEdgeNumber() const;
