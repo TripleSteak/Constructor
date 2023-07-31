@@ -78,3 +78,7 @@ std::unique_ptr<Game> GameFactory::loadFromBoard(std::string filename) {
     dataFile.close();
     return std::make_unique<Game>(seed, data);
 }
+
+std::unique_ptr<Game> GameFactory::loadFromRandomBoard() {
+    return std::make_unique<Game>(seed);
+}

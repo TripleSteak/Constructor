@@ -28,12 +28,6 @@ class Game final {
     void manageTrade(Builder&, Trade, std::ostream&);
     void nextTurn(std::istream&, std::ostream&);
 
-    void printBoard() const;
-    void printResidences() const;
-    void printHelp() const;
-
-    void save(std::string);
-
   public:
     Game(unsigned);
     Game(unsigned, std::vector<TileInitData>);
@@ -48,6 +42,7 @@ class Game final {
     const Board& getBoard() const;
 
     void play(std::istream&, std::ostream&);
+    void save(std::string);
 };
 
 #endif
