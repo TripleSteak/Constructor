@@ -12,7 +12,7 @@
 #include <memory>
 #include <sstream>
 
-Builder::Builder(int builderNumber, char builderColour, unsigned seed) : builderNumber{builderNumber}, builderColour{builderColour}, seed{seed}, dice{new LoadedDice()} {
+Builder::Builder(int builderNumber, char builderColour, unsigned seed) : builderNumber{builderNumber}, builderColour{builderColour}, seed{seed}, dice{std::unique_ptr<LoadedDice>()} {
     inventory.insert(std::make_pair(BRICK, 0));
     inventory.insert(std::make_pair(ENERGY, 0));
     inventory.insert(std::make_pair(GLASS, 0));

@@ -4,6 +4,7 @@
 #include "../board/board.h"
 #include "../common/forward.h"
 #include "../common/resource.h"
+#include "builder.h"
 #include <algorithm>
 #include <chrono>
 #include <memory>
@@ -17,7 +18,6 @@ struct BuilderResourceData {
     int glassNum;
     int heatNum;
     int wifiNum;
-    int parkNum;  
 };
 
 struct BuilderStructureData{
@@ -33,7 +33,7 @@ class Game final {
     int currentBuilder; // Index of current builder in builders
 
     std::vector<TileInitData> generateRandomBoard(unsigned);
- 
+
     void beginTurn(const Builder&);
     void buildInitialResidences();
     void discardHalfOfTotalResources(); // Invoked when a 7 is rolled and Builders' hands are too large

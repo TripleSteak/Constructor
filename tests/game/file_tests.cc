@@ -3,7 +3,7 @@
 #include "gtest/gtest.h"
 
 TEST(GameFactory, ReadDefaultFIle) {
-    Game game;
+    Game game(0);
     GameFactory fh(0);
     fh.loadFromBoard("board.in");
 }
