@@ -17,7 +17,6 @@ struct BuilderResourceData {
     int glassNum;
     int heatNum;
     int wifiNum;
-    int parkNum;  
 };
 
 struct BuilderStructureData{

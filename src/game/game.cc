@@ -1,11 +1,43 @@
 #include "game.h"
 #include "builder.h"
+#include <vector>
 
-Game::Game() {
-    // TODO
+Game::Game(unsigned seed) {
+    board = std::make_unique<Board>(generateRandomBoard(seed));
+    builders.push_back(std::make_unique<Builder>(0, 'B', seed));
+    builders.push_back(std::make_unique<Builder>(1, 'R', seed));
+    builders.push_back(std::make_unique<Builder>(2, 'O', seed));
+    builders.push_back(std::make_unique<Builder>(3, 'Y', seed));
+    currentBuilder = 0;
 }
 
-Game::~Game() {}
+Game::Game(unsigned seed, std::vector<TileInitData> data) {
+    board = std::make_unique<Board>(data);
+    builders.push_back(std::make_unique<Builder>(0, 'B', seed));
+    builders.push_back(std::make_unique<Builder>(1, 'R', seed));
+    builders.push_back(std::make_unique<Builder>(2, 'O', seed));
+    builders.push_back(std::make_unique<Builder>(3, 'Y', seed));
+    currentBuilder = 0;
+}
+
+Game::Game(unsigned seed, std::vector<TileInitData>data, std::vector<BuilderResourceData> resourceData, std::vector<BuilderStructureData> structureData, int currentBuilder, int GeeseTile) {
+    std::vector<std::pair<Builder&, BuilderStructureData>> structures; 
+    builders.push_back(std::make_unique<Builder>(0, 'B', seed));
+    builders.push_back(std::make_unique<Builder>(1, 'R', seed));
+    builders.push_back(std::make_unique<Builder>(2, 'O', seed));
+    builders.push_back(std::make_unique<Builder>(3, 'Y', seed));
+    for (int i = 0; i < builders.size(); i++) {
+        builders[i]->inventory[Resource::BRICK] = resourceData[i].brickNum;
+        builders[i]->inventory[Resource::ENERGY] = resourceData[i].energyNum;
+        builders[i]->inventory[Resource::GLASS] = resourceData[i].glassNum;
+        builders[i]->inventory[Resource::HEAT] = resourceData[i].heatNum;
+        builders[i]->inventory[Resource::WIFI] = resourceData[i].wifiNum;
+        structures.emplace_back(std::make_pair(builders[i], structureData[i]));
+    }
+    board = std::make_unique<Board>(data, structures);  
+    this->currentBuilder = currentBuilder;
+    board->setGeeseTile(GeeseTile);  
+}
 
 std::vector<TileInitData> Game::generateRandomBoard(unsigned seed) {
     std::default_random_engine rng{seed};
@@ -27,7 +59,6 @@ std::vector<TileInitData> Game::generateRandomBoard(unsigned seed) {
     shuffle(data.begin(), data.end(), rng);
     return data;
 }
-
 int Game::getCurrentBuilder() const {
     return currentBuilder;
 }
