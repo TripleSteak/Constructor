@@ -12,7 +12,6 @@ class Vertex final {
     int vertexNumber;
     std::shared_ptr<Residence> residence;
 
-    std::vector<AbstractTile*> neighbouringTiles;
     std::vector<Edge*> neighbouringEdges;
 
   public:
@@ -21,7 +20,6 @@ class Vertex final {
 
     bool operator==(const Vertex&) const;
 
-    void addNeighbouringTile(AbstractTile*);
     void addNeighbouringEdge(Edge*);
 
     int getVertexNumber() const;
