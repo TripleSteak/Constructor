@@ -4,25 +4,12 @@
 #include "../board/board.h"
 #include "../common/forward.h"
 #include "../common/resource.h"
+#include "builder.h"
 #include <algorithm>
 #include <chrono>
 #include <memory>
 #include <random>
 #include <vector>
-
-// Stores information used to builders
-struct BuilderResourceData {
-    int brickNum;
-    int energyNum;
-    int glassNum;
-    int heatNum;
-    int wifiNum;
-};
-
-struct BuilderStructureData {
-    std::vector<std::pair<int, char>> residences;
-    std::vector<int> roads;
-};
 
 class Game final {
   private:
