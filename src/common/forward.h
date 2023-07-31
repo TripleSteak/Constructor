@@ -8,10 +8,6 @@ struct BuilderStructureData;
 struct TileInitData;
 struct Trade;
 
-struct TileInitData;
-struct BuilderResourceData;
-struct BuilderStructureData;
-
 class AbstractTile;
 class Basement;
 class Board;

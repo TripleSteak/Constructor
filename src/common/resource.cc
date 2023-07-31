@@ -23,26 +23,40 @@ std::string resourceToString(Resource resource) {
     throw std::invalid_argument("Error converting resource to string!");
 }
 
-std::istream& operator>>(std::istream& in, Resource& resource) {
-    std::string str;
-    in >> str;
+// Converts a string to a Resource enum
+Resource resourceFromString(std::string str) {
     std::transform(str.begin(), str.end(), str.begin(), ::toupper);
-
-    // "PARK" is not considered a valid resource for input purposes, since the Builder will never have any reason to input "PARK."
-    std::vector<Resource> possibleResources = {BRICK, ENERGY, GLASS, HEAT, WIFI};
-    bool isPossibleResource = false;
-
-    for (auto& possibleResource : possibleResources) {
-        if (resourceToString(possibleResource) == str) {
-            resource = possibleResource;
-            isPossibleResource = true;
-            break;
-        }
+    if (str == "BRICK") {
+        return BRICK;
+    }
+    else if (str == "ENERGY") {
+        return ENERGY;
+    }
+    else if (str == "GLASS") {
+        return GLASS;
+    }
+    else if (str == "HEAT") {
+        return HEAT;
+    }
+    else if (str == "WIFI") {
+        return WIFI;
+    }
+    else if (str == "PARK") {
+        return PARK;
     }
 
-    if (!isPossibleResource) {
-        throw std::invalid_argument("Received invalid Resource from input!");
+    throw std::invalid_argument("Error converting string to resource!");
+}
+
+std::istream& operator>>(std::istream& in, Resource& resource) {
+    unsigned int resourceInt;
+    if (!(in >> resourceInt)) {
+        return in;
     }
+    if (resourceInt > 5) {
+        throw std::invalid_argument("Invalid resource input!");
+    }
+    resource = static_cast<Resource>(resourceInt);
 
     return in;
 }

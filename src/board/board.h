@@ -3,7 +3,7 @@
 
 #include "../common/forward.h"
 #include "../common/resource.h"
-#include "../game/game.h" 
+#include "../game/game.h"
 #include <iostream>
 #include <memory>
 #include <vector>
@@ -58,8 +58,7 @@ class Board final {
     bool buildInitialResidence(Builder&, int, std::ostream&);
     bool upgradeResidence(Builder&, int, std::ostream&);
 
-    // What the given Builder would obtain if the given rollNumber is rolled
-    std::vector<Resource> getResourcesFromDiceRoll(const Builder&, int) const;
+    void getResourcesFromDiceRoll(int) const;
 
     int getGeeseTile() const;
     void setGeeseTile(int);
