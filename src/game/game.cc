@@ -32,12 +32,14 @@ Game::Game(unsigned seed, std::vector<TileInitData> data, std::vector<BuilderRes
         builders[i]->inventory[Resource::GLASS] = resourceData[i].glassNum;
         builders[i]->inventory[Resource::HEAT] = resourceData[i].heatNum;
         builders[i]->inventory[Resource::WIFI] = resourceData[i].wifiNum;
-        structures.emplace_back(std::make_pair(*builders[i], structureData.at(i)));
+        structures.emplace_back(*builders.at(i), structureData.at(i));
     }
     board = std::make_unique<Board>(data, structures);
     this->currentBuilder = currentBuilder;
     board->setGeeseTile(GeeseTile);
 }
+
+Game::~Game() {}
 
 std::vector<TileInitData> Game::generateRandomBoard(unsigned seed) {
     std::default_random_engine rng{seed};

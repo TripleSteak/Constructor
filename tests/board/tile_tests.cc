@@ -1,4 +1,8 @@
 #include "../../src/board/tile.h"
+#include "../../src/game/builder.h"
+#include "../../src/structures/basement.h"
+#include "../../src/structures/house.h"
+#include "../../src/structures/tower.h"
 #include "gtest/gtest.h"
 
 TEST(Tile, GetTilePrivateFields) {
@@ -16,13 +20,13 @@ TEST(Tile, HasGeese) {
 TEST(Tile, GiveResourcesToBuilders) {
     Tile tile = Tile(22, 4, BRICK);
 
-    Vertex vertex1 = Vertex(44);
-    Vertex vertex2 = Vertex(45);
-    Vertex vertex3 = Vertex(46);
-    Vertex vertex4 = Vertex(47);
+    Vertex vertex1(44);
+    Vertex vertex2(45);
+    Vertex vertex3(46);
+    Vertex vertex4(47);
 
-    Builder builder1 = Builder(0, 'B', 0);
-    Builder builder2 = Builder(1, 'R', 0);
+    Builder builder1(0, 'B', 0);
+    Builder builder2(1, 'R', 0);
 
     std::shared_ptr<Residence> res1 = std::make_shared<Basement>(builder1, vertex1);
     std::shared_ptr<Residence> res2 = std::make_shared<House>(builder2, vertex2);
@@ -32,10 +36,10 @@ TEST(Tile, GiveResourcesToBuilders) {
     vertex2.buildResidence(res2);
     vertex3.buildResidence(res3);
 
-    tile.addNeighbouringVertex(vertex1);
-    tile.addNeighbouringVertex(vertex2);
-    tile.addNeighbouringVertex(vertex3);
-    tile.addNeighbouringVertex(vertex4);
+    tile.addNeighbouringVertex(&vertex1);
+    tile.addNeighbouringVertex(&vertex2);
+    tile.addNeighbouringVertex(&vertex3);
+    tile.addNeighbouringVertex(&vertex4);
 
     EXPECT_EQ(builder1.inventory[BRICK], 1);
     EXPECT_EQ(builder2.inventory[BRICK], 5);
