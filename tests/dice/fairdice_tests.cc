@@ -9,4 +9,3 @@ TEST(FairDice, RollDice) {
     EXPECT_EQ(fairDice.rollDice(0), 9);
     EXPECT_EQ(fairDice.rollDice(0), 8);
 }
-
