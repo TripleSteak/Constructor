@@ -20,23 +20,23 @@ Game::Game(unsigned seed, std::vector<TileInitData> data) {
     currentBuilder = 0;
 }
 
-Game::Game(unsigned seed, std::vector<TileInitData>data, std::vector<BuilderResourceData> resourceData, std::vector<BuilderStructureData> structureData, int currentBuilder, int GeeseTile) {
-    std::vector<std::pair<Builder&, BuilderStructureData>> structures; 
+Game::Game(unsigned seed, std::vector<TileInitData> data, std::vector<BuilderResourceData> resourceData, std::vector<BuilderStructureData> structureData, int currentBuilder, int GeeseTile) {
+    std::vector<std::pair<Builder&, BuilderStructureData>> structures;
     builders.push_back(std::make_unique<Builder>(0, 'B', seed));
     builders.push_back(std::make_unique<Builder>(1, 'R', seed));
     builders.push_back(std::make_unique<Builder>(2, 'O', seed));
     builders.push_back(std::make_unique<Builder>(3, 'Y', seed));
-    for (int i = 0; i < builders.size(); i++) {
+    for (size_t i = 0; i < builders.size(); i++) {
         builders[i]->inventory[Resource::BRICK] = resourceData[i].brickNum;
         builders[i]->inventory[Resource::ENERGY] = resourceData[i].energyNum;
         builders[i]->inventory[Resource::GLASS] = resourceData[i].glassNum;
         builders[i]->inventory[Resource::HEAT] = resourceData[i].heatNum;
         builders[i]->inventory[Resource::WIFI] = resourceData[i].wifiNum;
-        structures.emplace_back(std::make_pair(builders[i], structureData[i]));
+        structures.emplace_back(std::make_pair(*builders[i], structureData.at(i)));
     }
-    board = std::make_unique<Board>(data, structures);  
+    board = std::make_unique<Board>(data, structures);
     this->currentBuilder = currentBuilder;
-    board->setGeeseTile(GeeseTile);  
+    board->setGeeseTile(GeeseTile);
 }
 
 std::vector<TileInitData> Game::generateRandomBoard(unsigned seed) {
@@ -63,7 +63,7 @@ int Game::getCurrentBuilder() const {
     return currentBuilder;
 }
 
-std::vector<const Builder*> Game::getBuilders() const {
+const std::vector<const Builder*> Game::getBuilders() const {
     std::vector<const Builder*> builders;
     for (const std::unique_ptr<Builder>& b : this->builders)
         builders.push_back(b.get());

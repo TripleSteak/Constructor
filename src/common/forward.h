@@ -3,6 +3,10 @@
 
 // To break circular dependencies, all of our classes are forward-declared here
 
+struct TileInitData;
+struct BuilderResourceData;
+struct BuilderStructureData;
+
 class AbstractTile;
 class Basement;
 class Board;
