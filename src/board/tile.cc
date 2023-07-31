@@ -2,6 +2,7 @@
 #include "../game/builder.h"
 #include "../structures/residence.h"
 #include "vertex.h"
+#include <stdexcept>
 
 Tile::Tile(int tileNumber, int tileValue, Resource resource) : AbstractTile(), tileNumber{tileNumber}, tileValue{tileValue}, resource{resource} {}
 
@@ -30,6 +31,10 @@ void Tile::giveResourcesToBuilders() const {
             vertex->getResidence()->getOwner().inventory[resource] += vertex->getResidence()->getResourceMultiplier();
         }
     }
+}
+
+std::unique_ptr<AbstractTile> Tile::removeGeese() {
+    throw std::logic_error("Invalid operation! Cannot remove geese from a non-geese tile.");
 }
 
 bool Tile::hasGeese() const {

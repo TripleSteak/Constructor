@@ -2,13 +2,9 @@
 #include "abstracttile.h"
 #include "tile.h"
 
-GeeseTile::GeeseTile(std::unique_ptr<Tile> tile) : AbstractTile(), tile{std::move(tile)} {}
+GeeseTile::GeeseTile(std::unique_ptr<AbstractTile> tile) : AbstractTile(), tile{std::move(tile)} {}
 
 GeeseTile::~GeeseTile() {}
-
-std::unique_ptr<Tile> GeeseTile::removeGoose() {
-    return std::move(tile);
-}
 
 void GeeseTile::addNeighbouringVertex(Vertex* v) {
     tile->addNeighbouringVertex(v);
@@ -29,6 +25,10 @@ Resource GeeseTile::getResource() const {
 void GeeseTile::giveResourcesToBuilders() const {
     // Geese tiles give no resources
     return;
+}
+
+std::unique_ptr<AbstractTile> GeeseTile::removeGeese() {
+    return std::move(tile);
 }
 
 bool GeeseTile::hasGeese() const {

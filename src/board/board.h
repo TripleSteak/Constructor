@@ -32,6 +32,11 @@ class Board final {
     std::string printGeese(int) const;
 
   public:
+    /**
+     * TileInitData #0 is meant for Tile #0, TileInitData #1 is meant for Tile #1, etc.
+     * There must be 19 elements in the TileInitData array, with exactly ONE park tile.
+     *  (The park tile must have a tileValue of 7)
+     */
     Board(std::vector<TileInitData>);
     ~Board();
 
@@ -43,26 +48,18 @@ class Board final {
     Vertex* getVertex(int) const;
     Edge* getEdge(int) const;
 
-    /**
-     * TileInitData #0 is meant for Tile #0, TileInitData #1 is meant for Tile #1, etc.
-     * There must be 19 elements in the TileInitData array, with exactly ONE park tile.
-     *  (The park tile must have a tileValue of 7)
-     */
-    // void initBoard(std::vector<TileInitData>);
-
     bool buildRoad(Builder&, int, std::ostream&);
     bool buildResidence(Builder&, int, std::ostream&);
     bool buildInitialResidence(Builder&, int, std::ostream&);
     bool upgradeResidence(Builder&, int, std::ostream&);
 
-    std::vector<Resource> getResourcesFromDiceRoll(const Builder&,
-                                                   int) const; // What the given Builder would obtain if the given rollNumber is rolled
+    // What the given Builder would obtain if the given rollNumber is rolled
+    std::vector<Resource> getResourcesFromDiceRoll(const Builder&, int) const;
 
     int getGeeseTile() const;
     void setGeeseTile(int);
 
     void printBoard(std::ostream&) const;
-    // void printResidences() const;
 };
 
 #endif

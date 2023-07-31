@@ -4,17 +4,14 @@
 #include "../common/forward.h"
 #include "../common/resource.h"
 #include "abstracttile.h"
-#include <memory>
 
 class GeeseTile final : public AbstractTile {
   private:
-    std::unique_ptr<Tile> tile; // Decorator pointer
+    std::unique_ptr<AbstractTile> tile; // Decorator pointer
 
   public:
-    GeeseTile(std::unique_ptr<Tile>); // Can only decorate Tile objects
+    GeeseTile(std::unique_ptr<AbstractTile>);
     ~GeeseTile();
-
-    std::unique_ptr<Tile> removeGoose();
 
     void addNeighbouringVertex(Vertex*) override;
 
@@ -23,6 +20,7 @@ class GeeseTile final : public AbstractTile {
     Resource getResource() const override;
     void giveResourcesToBuilders() const override;
 
+    std::unique_ptr<AbstractTile> removeGeese() override;
     bool hasGeese() const override;
 };
 

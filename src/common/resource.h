@@ -5,7 +5,6 @@
 
 enum Resource { BRICK, ENERGY, GLASS, HEAT, PARK, WIFI };
 
-Resource resourceFromInt(int);
 std::string resourceToString(Resource);
 
 std::istream& operator>>(std::istream&, Resource&);
