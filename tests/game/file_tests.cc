@@ -1,9 +1,13 @@
-#include "../../src/game/filehandler.h"
 #include "../../src/game/game.h"
+#include "../../src/game/gamefactory.h"
 #include "gtest/gtest.h"
 
-TEST(FileHandler, ReadDefaultFIle) {
+TEST(GameFactory, ReadDefaultFIle) {
     Game game;
-    FileHandler fh(game);
+    GameFactory fh(0);
     fh.loadFromBoard("board.in");
+}
+
+TEST(GameFactory, SaveGame) {
+    // TODO
 }

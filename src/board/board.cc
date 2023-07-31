@@ -8,10 +8,6 @@
 #include "vertex.h"
 #include <memory>
 
-const int NUM_TILES = 19;
-const int NUM_EDGES = 72;
-const int NUM_VERTICES = 54;
-
 Board::Board(std::vector<TileInitData> tileInitData) {
     for (int i = 0; i < NUM_TILES; i++) {
         // Assume there is only one park tile
