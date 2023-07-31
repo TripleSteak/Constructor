@@ -40,6 +40,10 @@ class Board final {
     Board(std::vector<TileInitData>);
     ~Board();
 
+    static const int NUM_TILES = 19;
+    static const int NUM_EDGES = 72;
+    static const int NUM_VERTICES = 54;
+
     AbstractTile* getTile(int) const;
     Vertex* getVertex(int) const;
     Edge* getEdge(int) const;

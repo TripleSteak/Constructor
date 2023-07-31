@@ -7,10 +7,6 @@
 #include "tile.h"
 #include "vertex.h"
 
-const int NUM_TILES = 19;
-const int NUM_EDGES = 72;
-const int NUM_VERTICES = 54;
-
 Board::Board(std::vector<TileInitData> tileInitData) : geeseTile{-1} {
     for (int i = 0; i < NUM_TILES; i++) {
         tiles.push_back(std::make_unique<Tile>(i, tileInitData.at(i).tileValue, tileInitData.at(i).resource));

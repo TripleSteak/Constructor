@@ -7,4 +7,4 @@ A 15-minute of cute kittens can be found [here](https://www.youtube.com/watch?v=
 
 ## Running Unit Tests
 All of our unit tests are located in the `tests` folder under the root directory. To run the entire unit test suite, `cd` into `tests` and execute `./run_tests.sh`.
-Remember that you may need to grant file permissions to the test execution script with something like `chmod +rwx run_tests.sh`.
+Remember that you may need to grant file permissions to the test execution script with something like `chmod +x run_tests.sh`.

@@ -1,6 +1,5 @@
 #include "game.h"
 #include "builder.h"
-#include "filehandler.h"
 
 Game::Game() {
     // TODO
@@ -27,6 +26,25 @@ std::vector<TileInitData> Game::generateRandomBoard(unsigned seed) {
     data.push_back(TileInitData{7, Resource::PARK});
     shuffle(data.begin(), data.end(), rng);
     return data;
+}
+
+int Game::getCurrentBuilder() const {
+    return currentBuilder;
+}
+
+std::vector<const Builder*> Game::getBuilders() const {
+    std::vector<const Builder*> builders;
+    for (const std::unique_ptr<Builder>& b : this->builders)
+        builders.push_back(b.get());
+    return builders;
+}
+
+int Game::getGooseLocation() const {
+    return board->getGeeseTile();
+}
+
+const Board& Game::getBoard() const {
+    return *board;
 }
 
 void Game::play() {
