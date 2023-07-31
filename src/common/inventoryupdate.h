@@ -31,17 +31,20 @@ struct BuilderInventoryUpdate {
     }
     // Overloaded subscript operator
     std::unordered_map<Resource, int>& operator[](int i) {
-        if (i == 1) {
+        if (i == 0) {
             return b1;
         }
-        else if (i == 2) {
+        else if (i == 1) {
             return b2;
         }
-        else if (i == 3) {
+        else if (i == 2) {
             return b3;
         }
-        else {
+        else if (i == 3) {
             return b4;
+        }
+        else {
+            throw std::out_of_range("BuilderInventoryUpdate index out of range");
         }
     }
     // Overloaded += operator

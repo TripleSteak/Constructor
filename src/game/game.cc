@@ -145,119 +145,121 @@ void Game::beginTurn(std::istream& in, std::ostream& out) {
     out << "Builder " << builder.getBuilderColourString() << "'s turn." << std::endl;
     out << builder.getStatus() << std::endl;
 
-    in >> command;
-    if (command == "load") {
-        builder.setDice(true);
-    }
-    else if (command == "fair") {
-        builder.setDice(false);
-    }
-    else if (command == "roll") {
-        if (builder.getDice()) {
-            while (loaded < 2 || loaded > 12) {
-                out << "Input a roll between 2 and 12:" << std::endl;
-                in >> loaded;
-                if (loaded < 2 || loaded > 12) {
-                    out << "Invalid roll." << std::endl;
+    while (in >> command) {
+        if (command == "load") {
+            builder.setDice(true);
+        }
+        else if (command == "fair") {
+            builder.setDice(false);
+        }
+        else if (command == "roll") {
+            if (builder.getDice()) {
+                while (loaded < 2 || loaded > 12) {
+                    out << "Input a roll between 2 and 12:" << std::endl;
+                    in >> loaded;
+                    if (loaded < 2 || loaded > 12) {
+                        out << "Invalid roll." << std::endl;
+                    }
                 }
             }
-        }
-        roll = builder.rollDice(loaded);
-        if (roll == 7) {
-            // discardHalfOfTotalResources(); //to do
-            // steal  // to do
-        }
-        else {
-            BuilderInventoryUpdate b = board->getResourcesFromDiceRoll(roll);
-            if (!b.changed()) {
-                out << "No builder gained resources." << std::endl;
+            roll = builder.rollDice(loaded);
+            if (roll == 7) {
+                // discardHalfOfTotalResources(); //to do
+                // steal  // to do
             }
             else {
-                // Output resources gained
-                if (b.b1.at(Resource::BRICK) > 0 || b.b1.at(Resource::ENERGY) > 0 || b.b1.at(Resource::GLASS) > 0 || b.b1.at(Resource::HEAT) > 0 || b.b1.at(Resource::WIFI) > 0) {
-                    out << "Builder " << builders.at(0)->getBuilderColourString() << " gained:" << std::endl;
-                    if (b.b1.at(Resource::BRICK) > 0) {
-                        out << b.b1.at(Resource::BRICK) << " BRICK" << std::endl;
-                    }
-                    if (b.b1.at(Resource::ENERGY) > 0) {
-                        out << b.b1.at(Resource::ENERGY) << " ENERGY" << std::endl;
-                    }
-                    if (b.b1.at(Resource::GLASS) > 0) {
-                        out << b.b1.at(Resource::GLASS) << " GLASS" << std::endl;
-                    }
-                    if (b.b1.at(Resource::HEAT) > 0) {
-                        out << b.b1.at(Resource::HEAT) << " HEAT" << std::endl;
-                    }
-                    if (b.b1.at(Resource::WIFI) > 0) {
-                        out << b.b1.at(Resource::WIFI) << " WIFI" << std::endl;
-                    }
+                BuilderInventoryUpdate b = board->getResourcesFromDiceRoll(roll);
+                if (!b.changed()) {
+                    out << "No builder gained resources." << std::endl;
                 }
-                if (b.b2.at(Resource::BRICK) > 0 || b.b2.at(Resource::ENERGY) > 0 || b.b2.at(Resource::GLASS) > 0 || b.b2.at(Resource::HEAT) > 0 || b.b2.at(Resource::WIFI) > 0) {
-                    out << "Builder " << builders.at(1)->getBuilderColourString() << " gained:" << std::endl;
-                    if (b.b2.at(Resource::BRICK) > 0) {
-                        out << b.b2.at(Resource::BRICK) << " BRICK" << std::endl;
+                else {
+                    // Output resources gained
+                    if (b.b1.at(Resource::BRICK) > 0 || b.b1.at(Resource::ENERGY) > 0 || b.b1.at(Resource::GLASS) > 0 || b.b1.at(Resource::HEAT) > 0 || b.b1.at(Resource::WIFI) > 0) {
+                        out << "Builder " << builders.at(0)->getBuilderColourString() << " gained:" << std::endl;
+                        if (b.b1.at(Resource::BRICK) > 0) {
+                            out << b.b1.at(Resource::BRICK) << " BRICK" << std::endl;
+                        }
+                        if (b.b1.at(Resource::ENERGY) > 0) {
+                            out << b.b1.at(Resource::ENERGY) << " ENERGY" << std::endl;
+                        }
+                        if (b.b1.at(Resource::GLASS) > 0) {
+                            out << b.b1.at(Resource::GLASS) << " GLASS" << std::endl;
+                        }
+                        if (b.b1.at(Resource::HEAT) > 0) {
+                            out << b.b1.at(Resource::HEAT) << " HEAT" << std::endl;
+                        }
+                        if (b.b1.at(Resource::WIFI) > 0) {
+                            out << b.b1.at(Resource::WIFI) << " WIFI" << std::endl;
+                        }
                     }
-                    if (b.b2.at(Resource::ENERGY) > 0) {
-                        out << b.b2.at(Resource::ENERGY) << " ENERGY" << std::endl;
+                    if (b.b2.at(Resource::BRICK) > 0 || b.b2.at(Resource::ENERGY) > 0 || b.b2.at(Resource::GLASS) > 0 || b.b2.at(Resource::HEAT) > 0 || b.b2.at(Resource::WIFI) > 0) {
+                        out << "Builder " << builders.at(1)->getBuilderColourString() << " gained:" << std::endl;
+                        if (b.b2.at(Resource::BRICK) > 0) {
+                            out << b.b2.at(Resource::BRICK) << " BRICK" << std::endl;
+                        }
+                        if (b.b2.at(Resource::ENERGY) > 0) {
+                            out << b.b2.at(Resource::ENERGY) << " ENERGY" << std::endl;
+                        }
+                        if (b.b2.at(Resource::GLASS) > 0) {
+                            out << b.b2.at(Resource::GLASS) << " GLASS" << std::endl;
+                        }
+                        if (b.b2.at(Resource::HEAT) > 0) {
+                            out << b.b2.at(Resource::HEAT) << " HEAT" << std::endl;
+                        }
+                        if (b.b2.at(Resource::WIFI) > 0) {
+                            out << b.b2.at(Resource::WIFI) << " WIFI" << std::endl;
+                        }
                     }
-                    if (b.b2.at(Resource::GLASS) > 0) {
-                        out << b.b2.at(Resource::GLASS) << " GLASS" << std::endl;
+                    if (b.b3.at(Resource::BRICK) > 0 || b.b3.at(Resource::ENERGY) > 0 || b.b3.at(Resource::GLASS) > 0 || b.b3.at(Resource::HEAT) > 0 || b.b3.at(Resource::WIFI) > 0) {
+                        out << "Builder " << builders.at(2)->getBuilderColourString() << " gained:" << std::endl;
+                        if (b.b3.at(Resource::BRICK) > 0) {
+                            out << b.b3.at(Resource::BRICK) << " BRICK" << std::endl;
+                        }
+                        if (b.b3.at(Resource::ENERGY) > 0) {
+                            out << b.b3.at(Resource::ENERGY) << " ENERGY" << std::endl;
+                        }
+                        if (b.b3.at(Resource::GLASS) > 0) {
+                            out << b.b3.at(Resource::GLASS) << " GLASS" << std::endl;
+                        }
+                        if (b.b3.at(Resource::HEAT) > 0) {
+                            out << b.b3.at(Resource::HEAT) << " HEAT" << std::endl;
+                        }
+                        if (b.b3.at(Resource::WIFI) > 0) {
+                            out << b.b3.at(Resource::WIFI) << " WIFI" << std::endl;
+                        }
                     }
-                    if (b.b2.at(Resource::HEAT) > 0) {
-                        out << b.b2.at(Resource::HEAT) << " HEAT" << std::endl;
-                    }
-                    if (b.b2.at(Resource::WIFI) > 0) {
-                        out << b.b2.at(Resource::WIFI) << " WIFI" << std::endl;
-                    }
-                }
-                if (b.b3.at(Resource::BRICK) > 0 || b.b3.at(Resource::ENERGY) > 0 || b.b3.at(Resource::GLASS) > 0 || b.b3.at(Resource::HEAT) > 0 || b.b3.at(Resource::WIFI) > 0) {
-                    out << "Builder " << builders.at(2)->getBuilderColourString() << " gained:" << std::endl;
-                    if (b.b3.at(Resource::BRICK) > 0) {
-                        out << b.b3.at(Resource::BRICK) << " BRICK" << std::endl;
-                    }
-                    if (b.b3.at(Resource::ENERGY) > 0) {
-                        out << b.b3.at(Resource::ENERGY) << " ENERGY" << std::endl;
-                    }
-                    if (b.b3.at(Resource::GLASS) > 0) {
-                        out << b.b3.at(Resource::GLASS) << " GLASS" << std::endl;
-                    }
-                    if (b.b3.at(Resource::HEAT) > 0) {
-                        out << b.b3.at(Resource::HEAT) << " HEAT" << std::endl;
-                    }
-                    if (b.b3.at(Resource::WIFI) > 0) {
-                        out << b.b3.at(Resource::WIFI) << " WIFI" << std::endl;
-                    }
-                }
-                if (b.b4.at(Resource::BRICK) > 0 || b.b4.at(Resource::ENERGY) > 0 || b.b4.at(Resource::GLASS) > 0 || b.b4.at(Resource::HEAT) > 0 || b.b4.at(Resource::WIFI) > 0) {
-                    out << "Builder " << builders.at(3)->getBuilderColourString() << " gained:" << std::endl;
-                    if (b.b4.at(Resource::BRICK) > 0) {
-                        out << b.b4.at(Resource::BRICK) << " BRICK" << std::endl;
-                    }
-                    if (b.b4.at(Resource::ENERGY) > 0) {
-                        out << b.b4.at(Resource::ENERGY) << " ENERGY" << std::endl;
-                    }
-                    if (b.b4.at(Resource::GLASS) > 0) {
-                        out << b.b4.at(Resource::GLASS) << " GLASS" << std::endl;
-                    }
-                    if (b.b4.at(Resource::HEAT) > 0) {
-                        out << b.b4.at(Resource::HEAT) << " HEAT" << std::endl;
-                    }
-                    if (b.b4.at(Resource::WIFI) > 0) {
-                        out << b.b4.at(Resource::WIFI) << " WIFI" << std::endl;
+                    if (b.b4.at(Resource::BRICK) > 0 || b.b4.at(Resource::ENERGY) > 0 || b.b4.at(Resource::GLASS) > 0 || b.b4.at(Resource::HEAT) > 0 || b.b4.at(Resource::WIFI) > 0) {
+                        out << "Builder " << builders.at(3)->getBuilderColourString() << " gained:" << std::endl;
+                        if (b.b4.at(Resource::BRICK) > 0) {
+                            out << b.b4.at(Resource::BRICK) << " BRICK" << std::endl;
+                        }
+                        if (b.b4.at(Resource::ENERGY) > 0) {
+                            out << b.b4.at(Resource::ENERGY) << " ENERGY" << std::endl;
+                        }
+                        if (b.b4.at(Resource::GLASS) > 0) {
+                            out << b.b4.at(Resource::GLASS) << " GLASS" << std::endl;
+                        }
+                        if (b.b4.at(Resource::HEAT) > 0) {
+                            out << b.b4.at(Resource::HEAT) << " HEAT" << std::endl;
+                        }
+                        if (b.b4.at(Resource::WIFI) > 0) {
+                            out << b.b4.at(Resource::WIFI) << " WIFI" << std::endl;
+                        }
                     }
                 }
             }
+            duringTurn(in, out, roll);
+            return;
         }
-        duringTurn(in, out, roll);
-    }
-    else {
-        out << "Invalid command." << std::endl;
+        else {
+            out << "Invalid command." << std::endl;
+        }
     }
 }
 
 void Game::duringTurn(std::istream& in, std::ostream& out, int roll) {
     std::string command;
-    while (in >> command || builders[0]->getBuildingPoints() < 10 || builders[1]->getBuildingPoints() < 10 || builders[2]->getBuildingPoints() < 10 || builders[3]->getBuildingPoints() < 10) {
+    while (in >> command && builders[0]->getBuildingPoints() < 10 && builders[1]->getBuildingPoints() < 10 && builders[2]->getBuildingPoints() < 10 && builders[3]->getBuildingPoints() < 10) {
         Builder& builder = *builders.at(currentBuilder);
         if (command == "board") {
             board->printBoard(out);
@@ -306,7 +308,8 @@ void Game::duringTurn(std::istream& in, std::ostream& out, int roll) {
             }
         }
         else if (command == "next") {
-            nextTurn();
+            nextTurn(in, out);
+            return;
         }
         else if (command.substr(0, 4) == "save") {
             save(command.substr(5, command.length() - 5));
@@ -330,11 +333,12 @@ void Game::duringTurn(std::istream& in, std::ostream& out, int roll) {
     }
 }
 
-void Game::nextTurn() {
+void Game::nextTurn(std::istream& in, std::ostream& out) {
     currentBuilder++;
     if (currentBuilder == 4) {
         currentBuilder = 0;
     }
+    beginTurn(in, out);
 }
 
 void Game::play(std::istream& in, std::ostream& out) {

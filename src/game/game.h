@@ -4,13 +4,13 @@
 #include "../board/board.h"
 #include "../common/forward.h"
 #include "../common/resource.h"
+#include "../common/trade.h"
 #include "builder.h"
 #include <algorithm>
 #include <chrono>
 #include <memory>
 #include <random>
 #include <vector>
-#include "../common/trade.h"
 
 class Game final {
   private:
@@ -26,7 +26,7 @@ class Game final {
     void buildInitialResidences(std::istream&, std::ostream&);
     void discardHalfOfTotalResources(); // Invoked when a 7 is rolled and Builders' hands are too large
     void manageTrade(Builder&, Trade, std::ostream&);
-    void nextTurn();
+    void nextTurn(std::istream&, std::ostream&);
 
     void printBoard() const;
     void printResidences() const;
