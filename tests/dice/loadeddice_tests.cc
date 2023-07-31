@@ -1,9 +1,11 @@
 #include "../../src/dice/dice.h"
-#include "../../src/dice/fairdice.h"
 #include "../../src/dice/loadeddice.h"
 #include "gtest/gtest.h"
 
-TEST(dice, TestLoadedDice) {
+TEST(LoadedDice, RollDice) {
     LoadedDice loadedDice;
+
+    EXPECT_EQ(loadedDice.rollDice(2), 2);
     EXPECT_EQ(loadedDice.rollDice(5), 5);
+    EXPECT_EQ(loadedDice.rollDice(6), 6);
 }
