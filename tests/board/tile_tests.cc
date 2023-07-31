@@ -7,6 +7,7 @@
 
 TEST(Tile, GetTilePrivateFields) {
     Tile tile = Tile(33, 3, GLASS);
+
     EXPECT_EQ(tile.getTileNumber(), 33);
     EXPECT_EQ(tile.getTileValue(), 3);
     EXPECT_EQ(tile.getResource(), GLASS);
@@ -14,6 +15,7 @@ TEST(Tile, GetTilePrivateFields) {
 
 TEST(Tile, HasGeese) {
     Tile tile = Tile(15, 5, ENERGY);
+
     EXPECT_EQ(tile.hasGeese(), false);
 }
 
@@ -40,6 +42,8 @@ TEST(Tile, GiveResourcesToBuilders) {
     tile.addNeighbouringVertex(&vertex2);
     tile.addNeighbouringVertex(&vertex3);
     tile.addNeighbouringVertex(&vertex4);
+
+    tile.giveResourcesToBuilders();
 
     EXPECT_EQ(builder1.inventory[BRICK], 1);
     EXPECT_EQ(builder2.inventory[BRICK], 5);
