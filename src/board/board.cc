@@ -1,4 +1,5 @@
 #include "board.h"
+#include "../common/inventoryupdate.h"
 #include "../game/builder.h"
 #include "../structures/basement.h"
 #include "../structures/house.h"
@@ -178,12 +179,14 @@ void Board::setGeeseTile(int newGeeseTile) {
     tiles.at(newGeeseTile) = std::make_unique<GeeseTile>(std::move(tiles.at(newGeeseTile)));
 }
 
-void Board::getResourcesFromDiceRoll(int rollNumber) const {
+BuilderInventoryUpdate Board::getResourcesFromDiceRoll(int rollNumber) const {
+    BuilderInventoryUpdate update;
     for (size_t i = 0; i < tiles.size(); i++) {
         if (tiles.at(i)->getTileValue() == rollNumber) {
-            tiles.at(i)->giveResourcesToBuilders();
+            update += tiles.at(i)->giveResourcesToBuilders();
         }
     }
+    return update;
 }
 
 void Board::printBoard(std::ostream& out) const {

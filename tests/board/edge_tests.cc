@@ -1,9 +1,9 @@
 #include "../../src/board/edge.h"
 #include "../../src/board/vertex.h"
 #include "../../src/game/builder.h"
-#include "../../src/structures/road.h"
-#include "../../src/structures/residence.h"
 #include "../../src/structures/basement.h"
+#include "../../src/structures/residence.h"
+#include "../../src/structures/road.h"
 #include "gtest/gtest.h"
 
 TEST(Edge, GetEdgeNumber) {

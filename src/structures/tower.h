@@ -5,7 +5,7 @@
 #include "residence.h"
 
 class Tower final : public Residence {
-public:
+  public:
     Tower(Builder&, Vertex&);
     ~Tower();
 

@@ -1,4 +1,5 @@
 #include "../../src/board/tile.h"
+#include "../../src/common/inventoryupdate.h"
 #include "../../src/game/builder.h"
 #include "../../src/structures/basement.h"
 #include "../../src/structures/house.h"

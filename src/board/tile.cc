@@ -1,4 +1,5 @@
 #include "tile.h"
+#include "../common/inventoryupdate.h"
 #include "../game/builder.h"
 #include "../structures/residence.h"
 #include "vertex.h"
@@ -23,13 +24,16 @@ Resource Tile::getResource() const {
     return resource;
 }
 
-void Tile::giveResourcesToBuilders() const {
+BuilderInventoryUpdate Tile::giveResourcesToBuilders() const {
     // Assume that tileNumber was rolled by Dice
+    BuilderInventoryUpdate update;
     for (Vertex* vertex : neighbouringVertices) {
         if (vertex->getResidence() != nullptr) {
             vertex->getResidence()->getOwner().inventory[resource] += vertex->getResidence()->getResourceMultiplier();
+            update[vertex->getResidence()->getOwner().getBuilderNumber()][resource] += vertex->getResidence()->getResourceMultiplier();
         }
     }
+    return update;
 }
 
 std::unique_ptr<AbstractTile> Tile::removeGeese() {

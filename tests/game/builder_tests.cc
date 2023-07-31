@@ -85,8 +85,8 @@ TEST(Builder, ProposeTrade) {
     std::istringstream in("R BRICK ENERGY");
     std::ostringstream out;
 
-    Trade trade = builder.proposeTrade(in, out);
-    EXPECT_EQ(trade.proposeeColour, 'R');
+    Trade trade = builder.proposeTrade("RED", "BRICK", "ENERGY", out);
+    EXPECT_EQ(trade.proposeeColour, "RED");
     EXPECT_EQ(trade.resourceToGive, BRICK);
     EXPECT_EQ(trade.resourceToTake, ENERGY);
 }

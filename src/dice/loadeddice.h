@@ -5,7 +5,7 @@
 #include "dice.h"
 
 class LoadedDice final : public Dice {
-public:
+  public:
     LoadedDice();
     ~LoadedDice();
 

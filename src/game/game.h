@@ -4,6 +4,7 @@
 #include "../board/board.h"
 #include "../common/forward.h"
 #include "../common/resource.h"
+#include "../common/trade.h"
 #include "builder.h"
 #include <algorithm>
 #include <chrono>
@@ -20,17 +21,12 @@ class Game final {
     std::vector<TileInitData> generateRandomBoard(unsigned);
 
     Builder& getBuilder(std::string);
-    void beginTurn(Builder&, std::istream&, std::ostream&);
-    void duringTurn(Builder&, std::istream&, std::ostream&, int);
+    void beginTurn(std::istream&, std::ostream&);
+    void duringTurn(std::istream&, std::ostream&, int);
     void buildInitialResidences(std::istream&, std::ostream&);
     void discardHalfOfTotalResources(); // Invoked when a 7 is rolled and Builders' hands are too large
-    void nextTurn();
-
-    void printBoard() const;
-    void printResidences() const;
-    void printHelp() const;
-
-    void save(std::string);
+    void manageTrade(Builder&, Trade, std::ostream&);
+    void nextTurn(std::istream&, std::ostream&);
 
   public:
     Game(unsigned);
@@ -46,6 +42,7 @@ class Game final {
     const Board& getBoard() const;
 
     void play(std::istream&, std::ostream&);
+    void save(std::string);
 };
 
 #endif

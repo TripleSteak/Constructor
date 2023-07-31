@@ -58,7 +58,7 @@ class Board final {
     bool buildInitialResidence(Builder&, int, std::ostream&);
     bool upgradeResidence(Builder&, int, std::ostream&);
 
-    void getResourcesFromDiceRoll(int) const;
+    BuilderInventoryUpdate getResourcesFromDiceRoll(int) const;
 
     int getGeeseTile() const;
     void setGeeseTile(int);

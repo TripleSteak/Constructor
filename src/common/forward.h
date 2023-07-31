@@ -3,6 +3,7 @@
 
 // To break circular dependencies, all of our structs and classes are forward-declared here
 
+struct BuilderInventoryUpdate;
 struct BuilderResourceData;
 struct BuilderStructureData;
 struct TileInitData;

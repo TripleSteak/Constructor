@@ -9,6 +9,7 @@
 #include "../structures/residence.h"
 #include "../structures/road.h"
 #include "../structures/tower.h"
+#include "../common/trade.h"
 #include <memory>
 #include <sstream>
 
@@ -54,7 +55,7 @@ std::string Builder::getBuilderColourString() const {
             colourString = "Red";
             break;
         default:
-            colourString = "Invalid Colour";
+            colourString = "Invalid colour";
             break;
     }
     return colourString;
@@ -106,13 +107,13 @@ char Builder::steal(std::istream& in, std::ostream& out) const {
     return stealFrom;
 }
 
-Trade Builder::proposeTrade(std::istream& in, std::ostream& out) const {
+Trade Builder::proposeTrade(std::string proposee, std::string resourceToGive, std::string resourceToTake, std::ostream& out) const {
     Trade trade;
-    std::string resourceToGive;
-    std::string resourceToTake;
-    in >> trade.proposeeColour >> resourceToGive >> resourceToTake;
+    trade.proposeeColour = proposee;
     trade.resourceToGive = resourceFromString(resourceToGive);
     trade.resourceToTake = resourceFromString(resourceToTake);
+    out << getBuilderColour() << " offers " << trade.proposeeColour << " one " << resourceToGive << " for one " << resourceToTake << "." << std::endl;
+    out << "Does " << trade.proposeeColour << " accept this offer?" << std::endl;
     return trade;
 }
 
