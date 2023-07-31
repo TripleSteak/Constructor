@@ -36,9 +36,8 @@ int main(int argc, char* argv[]) {
     }
 
     // Create the game
-    unsigned seed;
     if (args["-seed"].empty()) {
-        seed = std::chrono::system_clock::now().time_since_epoch().count();
+        RandomEngine::setSeed(std::chrono::system_clock::now().time_since_epoch().count());
     }
     else {
         RandomEngine::setSeed(std::stoul(args["-seed"]));

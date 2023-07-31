@@ -121,18 +121,18 @@ void Game::buildInitialResidences(std::istream& in, std::ostream& out) {
     int vertex;
     // build initial residences
     for (int i = 0; i < NUM_BUILDERS; i++) {
-        out << "Builder " << builders[i]->getBuilderColourString() << ", where do you want to build a basement?";
+        out << "Builder " << builders[i]->getBuilderColourString() << ", where do you want to build a basement?" << std::endl;
         in >> vertex;
         while (!board->buildInitialResidence(*builders[i], vertex, out)) {
-            out << "Builder " << builders[i]->getBuilderColourString() << ", where do you want to build a basement?";
+            out << "Builder " << builders[i]->getBuilderColourString() << ", where do you want to build a basement?" << std::endl;
             in >> vertex;
         }
     }
     for (int i = NUM_BUILDERS - 1; i >= 0; i--) {
-        out << "Builder " << builders[i]->getBuilderColourString() << ", where do you want to build a basement?";
+        out << "Builder " << builders[i]->getBuilderColourString() << ", where do you want to build a basement?" << std::endl;
         in >> vertex;
         while (!board->buildInitialResidence(*builders[i], vertex, out)) {
-            out << "Builder " << builders[i]->getBuilderColourString() << ", where do you want to build a basement?";
+            out << "Builder " << builders[i]->getBuilderColourString() << ", where do you want to build a basement?" << std::endl;
             in >> vertex;
         }
     }
@@ -245,6 +245,7 @@ void Game::beginTurn(std::istream& in, std::ostream& out) {
 
     out << "Builder " << builder.getBuilderColourString() << "'s turn." << std::endl;
     out << builder.getStatus() << std::endl;
+    out << (in.fail() ? "1" : "0") << std::endl;
 
     while (in >> command) {
         if (command == "load") {
@@ -257,7 +258,10 @@ void Game::beginTurn(std::istream& in, std::ostream& out) {
             if (builder.getDice()) {
                 while (loaded < 2 || loaded > 12) {
                     out << "Input a roll between 2 and 12:" << std::endl;
+                    out << loaded << std::endl;
+                    out << (in.fail() ? "1" : "0") << std::endl;
                     in >> loaded;
+                    out << "1";
                     if (loaded < 2 || loaded > 12) {
                         out << "Invalid roll." << std::endl;
                     }
