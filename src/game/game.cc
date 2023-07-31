@@ -35,7 +35,7 @@ std::vector<const Builder*> Game::getBuilders() const {
     return builders;
 }
 
-int Game::getGooseLocation() const {
+int Game::getGeeseLocation() const {
     return board->getGeeseTile();
 }
 

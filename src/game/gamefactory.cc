@@ -17,6 +17,15 @@ GameFactory::~GameFactory() {}
 
 std::unique_ptr<Game> GameFactory::loadFromGame(std::string filename) {
     // TODO
+    std::vector<TileInitData> tileData;
+    std::vector<BuilderResourceData> builderResourceData;
+    std::vector<BuilderStructureData> builderStructureData;
+    int currentBuilder;
+    int geeseTile;
+    std::ifstream dataFile{filename};
+
+    dataFile.close();
+    return std::make_unique<Game>(seed, tileData, builderResourceData, builderStructureData, currentBuilder, geeseTile);
 }
 
 std::unique_ptr<Game> GameFactory::loadFromBoard(std::string filename) {
@@ -55,6 +64,6 @@ void GameFactory::save(std::string filename, Game& game) {
         outputFile << game.getBoard().getTile(i)->getResource() << " " << game.getBoard().getTile(i)->getTileValue();
     }
     outputFile << std::endl;
-    outputFile << game.getGooseLocation() << std::endl;
+    outputFile << game.getGeeseLocation() << std::endl;
     outputFile.close();
 }
