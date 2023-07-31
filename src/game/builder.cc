@@ -61,6 +61,14 @@ std::string Builder::getBuilderColourString() const {
     return colourString;
 }
 
+int Builder::getInventoryNum() {
+    int inventoryNum = 0;
+    for (auto& resource : inventory) {
+        inventoryNum += resource.second;
+    }
+    return inventoryNum;
+}
+
 std::string Builder::getStatus() const {
     std::ostringstream oss;
 

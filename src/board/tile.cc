@@ -3,6 +3,8 @@
 #include "../game/builder.h"
 #include "../structures/residence.h"
 #include "vertex.h"
+#include <vector>
+#include <algorithm>
 
 Tile::Tile(int tileNumber, int tileValue, Resource resource) : AbstractTile(), tileNumber{tileNumber}, tileValue{tileValue}, resource{resource} {}
 
@@ -34,6 +36,18 @@ BuilderInventoryUpdate Tile::giveResourcesToBuilders() const {
         }
     }
     return update;
+}
+
+std::vector<int> Tile::getNeighbouringResidences(Builder& builder) const {
+    std::vector<int> builders;
+    for (Vertex* vertex : neighbouringVertices) {
+        if (vertex->getResidence() != nullptr && vertex->getResidence()->getOwner().getBuilderNumber() != builder.getBuilderNumber() && vertex->getResidence()->getOwner().getInventoryNum() > 0) {
+            if (std::find(builders.begin(), builders.end(), vertex->getResidence()->getOwner().getBuilderNumber()) == builders.end()){
+                builders.emplace_back(vertex->getResidence()->getOwner().getBuilderNumber());
+            } 
+        }
+    }
+    return builders;
 }
 
 std::unique_ptr<AbstractTile> Tile::removeGeese() {

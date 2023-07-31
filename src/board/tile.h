@@ -18,7 +18,7 @@ class Tile final : public AbstractTile {
     ~Tile();
 
     void addNeighbouringVertex(Vertex*) override;
-
+    std::vector<int> getNeighbouringResidences(Builder&) const override;
     int getTileNumber() const override;
     int getTileValue() const override;
     Resource getResource() const override;

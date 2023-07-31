@@ -10,8 +10,9 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <map>
 
-Game::Game(unsigned seed) : currentBuilder{0} {
+Game::Game(unsigned seed) : currentBuilder{0}, rng(seed) {
     board = std::make_unique<Board>(generateRandomBoard(seed));
     builders.push_back(std::make_unique<Builder>(0, 'B', seed));
     builders.push_back(std::make_unique<Builder>(1, 'R', seed));
@@ -19,7 +20,7 @@ Game::Game(unsigned seed) : currentBuilder{0} {
     builders.push_back(std::make_unique<Builder>(3, 'Y', seed));
 }
 
-Game::Game(unsigned seed, std::vector<TileInitData> data) : currentBuilder{0} {
+Game::Game(unsigned seed, std::vector<TileInitData> data) : currentBuilder{0}, rng(seed) {
     board = std::make_unique<Board>(data);
     builders.push_back(std::make_unique<Builder>(0, 'B', seed));
     builders.push_back(std::make_unique<Builder>(1, 'R', seed));
@@ -27,7 +28,7 @@ Game::Game(unsigned seed, std::vector<TileInitData> data) : currentBuilder{0} {
     builders.push_back(std::make_unique<Builder>(3, 'Y', seed));
 }
 
-Game::Game(unsigned seed, std::vector<TileInitData> data, std::vector<BuilderResourceData> resourceData, std::vector<BuilderStructureData> structureData, int currentBuilder, int GeeseTile) : currentBuilder{currentBuilder} {
+Game::Game(unsigned seed, std::vector<TileInitData> data, std::vector<BuilderResourceData> resourceData, std::vector<BuilderStructureData> structureData, int currentBuilder, int GeeseTile) : currentBuilder{currentBuilder},  rng{seed} {
     builders.push_back(std::make_unique<Builder>(0, 'B', seed, resourceData[0]));
     builders.push_back(std::make_unique<Builder>(1, 'R', seed, resourceData[1]));
     builders.push_back(std::make_unique<Builder>(2, 'O', seed, resourceData[2]));
@@ -41,7 +42,6 @@ Game::Game(unsigned seed, std::vector<TileInitData> data, std::vector<BuilderRes
 Game::~Game() {}
 
 std::vector<TileInitData> Game::generateRandomBoard(unsigned seed) {
-    std::default_random_engine rng{seed};
     std::vector<TileInitData> data;
     std::vector<int> tileValues = {2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12};
     std::vector<Resource> resources;
@@ -61,6 +61,7 @@ std::vector<TileInitData> Game::generateRandomBoard(unsigned seed) {
     shuffle(data.begin(), data.end(), rng);
     return data;
 }
+
 int Game::getCurrentBuilder() const {
     return currentBuilder;
 }
@@ -136,6 +137,105 @@ void Game::buildInitialResidences(std::istream& in, std::ostream& out) {
     }
 }
 
+std::vector<Resource> Game::discardRandomResource(Builder &builder, bool half){
+    std::vector<Resource> resources;
+    for (auto const& resource : builder.inventory){
+        for (int i = 0; i < resource.second; i++){
+            resources.push_back(resource.first);
+        }
+    }
+    std::shuffle(resources.begin(), resources.end(), rng);
+    std::vector<Resource> resourcesToDiscard;
+    if (half && resources.size() >= 10){ //discard half 
+        for (int i = 0; i < resources.size() / 2; i++){
+            resourcesToDiscard.push_back(resources[i]);
+        }
+    }
+    else if (!half){  //steal one
+        resourcesToDiscard.push_back(resources[0]);
+    }
+    return resourcesToDiscard;  //if empty then less than 10
+}
+
+void Game::moveGeese(std::istream& in, std::ostream& out){
+    Builder& builder = *builders.at(currentBuilder);
+    for (int i = 0; i < NUM_BUILDERS; i++){
+        std::vector<Resource> discard = discardRandomResource(*builders[i], true);
+        std::map<Resource, int> discardNum;
+        if (discard.size() > 0){
+            out << "Builder " << builders[i]->getBuilderColourString() << " loses" << discard.size() << " resources to the geese. They lose:" << std::endl;
+            for (int i = 0; i < discard.size(); i++){
+                out << discard[i] << std::endl;
+                builders[i]->inventory[discard[i]]--;   
+                discardNum[discard[i]]++;
+            }
+            //print out discarded resources
+            for (auto const& resource : discardNum){
+                out << resource.first << " " << resource.second << std::endl;
+            }
+        }
+    }
+    int tile;
+    out << "Choose where to place the GEESE.";
+    in >> tile;
+    while (tile != getGeeseLocation()) {
+        out << "Where do you want to place the GEESE?";
+        in >> tile;
+    }
+    board->setGeeseTile(tile);
+
+    AbstractTile* t = board->getTile(tile);
+    std::vector<int> neighbouringBuilders = t->getNeighbouringResidences(builder);
+    out << "Builder " << builder.getBuilderColourString() << " can choose to steal from:";
+
+    if (neighbouringBuilders.size() == 0){
+        out << "Builder " << builder.getBuilderColourString() << " has no builders to steal from." << std::endl;
+        return;
+    }
+
+    for (int i = 0; i < neighbouringBuilders.size() - 1; i++){
+        out << " " << builders[neighbouringBuilders[i]]->getBuilderColourString() << ",";
+    }
+    out << " " << builders[neighbouringBuilders[neighbouringBuilders.size() - 1]]->getBuilderColourString() << std::endl;
+
+    out << "Choose a builder to steal from." << std::endl;
+
+    std::string builderToStealFromColour;
+    in >> builderToStealFromColour; 
+    Builder &builderToStealFrom = getBuilder(builderToStealFromColour);  
+
+    Resource resourceToSteal = discardRandomResource(builderToStealFrom, false)[0];
+    builder.inventory[resourceToSteal]++;
+    builderToStealFrom.inventory[resourceToSteal]--;
+    out << "Builder " << builder.getBuilderColourString() << " steals " << resourceToString(resourceToSteal) << " from builder " << builderToStealFrom.getBuilderColourString() << std::endl;
+}       
+
+void Game::save(std::string filename) {
+    std::ofstream outputFile{filename};
+    outputFile << getCurrentBuilder() << std::endl;
+    for (const Builder* b : getBuilders()) {
+        // Resource inventory
+        outputFile << b->inventory.at(Resource::BRICK) << " " << b->inventory.at(Resource::ENERGY) << " " << b->inventory.at(Resource::GLASS) << " " << b->inventory.at(Resource::HEAT) << " " << b->inventory.at(Resource::WIFI) << std::endl;
+        // Roads
+        outputFile << "r";
+        for (const std::shared_ptr<Road>& r : b->roads) {
+            outputFile << " " << r->getLocation().getEdgeNumber();
+        }
+        // Residences
+        outputFile << " h";
+        for (const std::shared_ptr<Residence>& h : b->residences) {
+            outputFile << " " << h->getLocation().getVertexNumber() << " " << h->getResidenceLetter();
+        }
+        outputFile << std::endl;
+    }
+    for (int i = 0; i < Board::NUM_TILES; i++) {
+        outputFile << getBoard().getTile(i)->getResource() << " " << getBoard().getTile(i)->getTileValue();
+    }
+    outputFile << std::endl;
+    outputFile << getGeeseLocation() << std::endl;
+    outputFile.close();
+}
+
 void Game::beginTurn(std::istream& in, std::ostream& out) {
     Builder& builder = *builders.at(currentBuilder);
     std::string command;
@@ -164,10 +264,9 @@ void Game::beginTurn(std::istream& in, std::ostream& out) {
             }
             roll = builder.rollDice(loaded);
             if (roll == 7) {
-                // discardHalfOfTotalResources(); //to do
-                // steal  // to do
+                moveGeese(in, out);
             }
-            else {
+            else { //distribute resources
                 BuilderInventoryUpdate b = board->getResourcesFromDiceRoll(roll);
                 if (!b.changed()) {
                     out << "No builder gained resources." << std::endl;
@@ -345,30 +444,4 @@ void Game::play(std::istream& in, std::ostream& out) {
     buildInitialResidences(in, out);
     board->printBoard(out);
     beginTurn(in, out);
-}
-
-void Game::save(std::string filename) {
-    std::ofstream outputFile{filename};
-    outputFile << getCurrentBuilder() << std::endl;
-    for (const Builder* b : getBuilders()) {
-        // Resource inventory
-        outputFile << b->inventory.at(Resource::BRICK) << " " << b->inventory.at(Resource::ENERGY) << " " << b->inventory.at(Resource::GLASS) << " " << b->inventory.at(Resource::HEAT) << " " << b->inventory.at(Resource::WIFI) << std::endl;
-        // Roads
-        outputFile << "r";
-        for (const std::shared_ptr<Road>& r : b->roads) {
-            outputFile << " " << r->getLocation().getEdgeNumber();
-        }
-        // Residences
-        outputFile << " h";
-        for (const std::shared_ptr<Residence>& h : b->residences) {
-            outputFile << " " << h->getLocation().getVertexNumber() << " " << h->getResidenceLetter();
-        }
-        outputFile << std::endl;
-    }
-    for (int i = 0; i < Board::NUM_TILES; i++) {
-        outputFile << getBoard().getTile(i)->getResource() << " " << getBoard().getTile(i)->getTileValue();
-    }
-    outputFile << std::endl;
-    outputFile << getGeeseLocation() << std::endl;
-    outputFile.close();
 }

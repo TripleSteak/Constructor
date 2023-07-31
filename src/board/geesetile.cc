@@ -23,6 +23,10 @@ Resource GeeseTile::getResource() const {
     return tile->getResource();
 }
 
+std::vector<int> GeeseTile::getNeighbouringResidences(Builder& b) const {
+    return tile->getNeighbouringResidences(b);
+}
+
 BuilderInventoryUpdate GeeseTile::giveResourcesToBuilders() const {
     // Geese tiles give no resources
     return BuilderInventoryUpdate();

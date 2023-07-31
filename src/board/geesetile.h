@@ -17,6 +17,7 @@ class GeeseTile final : public AbstractTile {
 
     int getTileNumber() const override;
     int getTileValue() const override;
+    std::vector<int> getNeighbouringResidences(Builder&) const override;
     Resource getResource() const override;
     BuilderInventoryUpdate giveResourcesToBuilders() const override;
 

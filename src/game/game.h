@@ -17,6 +17,7 @@ class Game final {
     std::unique_ptr<Board> board;
     std::vector<std::unique_ptr<Builder>> builders;
     int currentBuilder; // Index of current builder in builders
+    std::default_random_engine rng;
 
     std::vector<TileInitData> generateRandomBoard(unsigned);
 
@@ -24,7 +25,8 @@ class Game final {
     void beginTurn(std::istream&, std::ostream&);
     void duringTurn(std::istream&, std::ostream&, int);
     void buildInitialResidences(std::istream&, std::ostream&);
-    void discardHalfOfTotalResources(); // Invoked when a 7 is rolled and Builders' hands are too large
+    void moveGeese(std::istream&, std::ostream&);
+    std::vector<Resource> discardRandomResource(Builder&, bool);
     void manageTrade(Builder&, Trade, std::ostream&);
     void nextTurn(std::istream&, std::ostream&);
 

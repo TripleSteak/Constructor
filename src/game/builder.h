@@ -44,6 +44,7 @@ class Builder final {
 
     bool operator==(const Builder&) const;
 
+    int getInventoryNum();
     int getBuilderNumber() const;
     char getBuilderColour() const;
     std::string getBuilderColourString() const;
