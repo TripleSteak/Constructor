@@ -41,12 +41,12 @@ void GameFactory::save(std::string filename, Game& game) {
         outputFile << b->inventory.at(Resource::BRICK) << " " << b->inventory.at(Resource::ENERGY) << " " << b->inventory.at(Resource::GLASS) << " " << b->inventory.at(Resource::HEAT) << " " << b->inventory.at(Resource::WIFI) << std::endl;
         // Roads
         outputFile << 'r';
-        for (const std::shared_ptr<Road> r : b->roads) {
+        for (const std::shared_ptr<Road>& r : b->roads) {
             outputFile << " " << r->getLocation().getEdgeNumber();
         }
         // Residences
         outputFile << ' h';
-        for (const std::shared_ptr<Residence> h : b->residences) {
+        for (const std::shared_ptr<Residence>& h : b->residences) {
             outputFile << " " << h->getLocation().getVertexNumber() << " " << h->getResidenceLetter();
         }
         outputFile << std::endl;

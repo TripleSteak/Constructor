@@ -1,10 +1,6 @@
 #include "game.h"
 #include "builder.h"
 
-Game::Game() {
-    // TODO
-}
-
 Game::~Game() {}
 
 std::vector<TileInitData> Game::generateRandomBoard(unsigned seed) {
