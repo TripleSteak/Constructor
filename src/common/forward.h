@@ -1,7 +1,12 @@
 #ifndef FORWARD_H
 #define FORWARD_H
 
-// To break circular dependencies, all of our classes are forward-declared here
+// To break circular dependencies, all of our structs and classes are forward-declared here
+
+struct BuilderResourceData;
+struct BuilderStructureData;
+struct TileInitData;
+struct Trade;
 
 struct TileInitData;
 struct BuilderResourceData;
