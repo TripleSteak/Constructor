@@ -4,6 +4,7 @@
 #include "../common/forward.h"
 #include "../common/resource.h"
 #include <vector>
+#include <memory>
 
 class AbstractTile {
   public:
@@ -17,6 +18,7 @@ class AbstractTile {
     virtual Resource getResource() const = 0;
     virtual void giveResourcesToBuilders() const = 0;
 
+    virtual std::unique_ptr<AbstractTile> removeGeese() = 0;
     virtual bool hasGeese() const = 0;
 };
 

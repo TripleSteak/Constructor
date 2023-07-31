@@ -6,29 +6,29 @@
 #include "geesetile.h"
 #include "tile.h"
 #include "vertex.h"
-#include <memory>
 
 const int NUM_TILES = 19;
 const int NUM_EDGES = 72;
 const int NUM_VERTICES = 54;
 
-Board::Board(std::vector<TileInitData> tileInitData) {
+Board::Board(std::vector<TileInitData> tileInitData) : geeseTile{-1} {
     for (int i = 0; i < NUM_TILES; i++) {
+        tiles.push_back(std::make_unique<Tile>(i, tileInitData.at(i).tileValue, tileInitData.at(i).resource));
+
         // Assume there is only one park tile
         if (tileInitData.at(i).resource == Resource::PARK) {
-            tiles.push_back(std::make_unique<GeeseTile>(std::make_unique<Tile>(i, tileInitData.at(i).tileValue, tileInitData.at(i).resource)));
-        }
-        else {
-            tiles.push_back(std::make_unique<Tile>(i, tileInitData.at(i).tileValue, tileInitData.at(i).resource));
+            setGeeseTile(i);
         }
     }
 
     for (int i = 0; i < NUM_EDGES; i++) {
         edges.push_back(std::make_unique<Edge>(i));
     }
+
     for (int i = 0; i < NUM_VERTICES; i++) {
         vertices.push_back(std::make_unique<Vertex>(i));
     }
+
     setupVertices();
     setupEdges();
     setupTiles();
@@ -125,6 +125,20 @@ bool Board::upgradeResidence(Builder& builder, int vertexNumber, std::ostream& o
     return false;
 }
 
+int Board::getGeeseTile() const {
+    return geeseTile;
+}
+
+void Board::setGeeseTile(int newGeeseTile) {
+    // Remove existing geese tiles, if applicable
+    if(geeseTile != -1) {
+	tiles.at(geeseTile) = tiles.at(geeseTile).get()->removeGeese();
+    }
+
+    // Incorporate the new geese tile
+    tiles.at(newGeeseTile) = std::make_unique<GeeseTile>(std::move(tiles.at(newGeeseTile)));
+}
+
 void Board::printBoard(std::ostream& out) const {
     out << "                          " + printVertex(0) + printEdge(0, true) + printVertex(1) << std::endl;
     out << "                            |         |" << std::endl;
@@ -172,6 +186,7 @@ void Board::printBoard(std::ostream& out) const {
 std::string Board::printVertex(int vertexNumber) const {
     Vertex* vertex = getVertex(vertexNumber);
     std::string vertexString = "|";
+
     if (vertex->getResidence() == nullptr) {
         if (vertexNumber < 10) {
             vertexString += " ";
@@ -179,18 +194,20 @@ std::string Board::printVertex(int vertexNumber) const {
         vertexString += std::to_string(vertexNumber) + "|";
     }
     else {
-        vertexString += vertex->getResidence()->getOwner().getBuilderColour() + vertex->getResidence()->getResidenceLetter() + "|";
-        ;
+        vertexString += std::to_string(vertex->getResidence()->getOwner().getBuilderColour()) + std::to_string(vertex->getResidence()->getResidenceLetter()) + "|";
     }
+
     return vertexString;
 }
 
 std::string Board::printEdge(int edgeNumber, bool isHorizontal) const {
     Edge* edge = getEdge(edgeNumber);
     std::string edgeString = "";
+
     if (isHorizontal) {
         edgeString += "--";
     }
+
     if (edge->getRoad() == nullptr) {
         if (edgeNumber < 10) {
             edgeString += " ";
@@ -198,24 +215,29 @@ std::string Board::printEdge(int edgeNumber, bool isHorizontal) const {
         edgeString += std::to_string(edgeNumber);
     }
     else {
-        edgeString += edge->getRoad()->getOwner().getBuilderColour() + "R";
+        edgeString += std::to_string(edge->getRoad()->getOwner().getBuilderColour()) + "R";
     }
+
     if (isHorizontal) {
         edgeString += "--";
     }
+
     return edgeString;
 }
 
 std::string Board::printTile(int tileNumber) const {
     AbstractTile* tile = getTile(tileNumber);
     std::string tileString = "  ";
+
     if (tile->getTileValue() == 7) {
         tileString += "    ";
         return tileString;
     }
+
     if (tile->getTileValue() < 10) {
         tileString += " ";
     }
+
     tileString += std::to_string(tile->getTileValue());
     tileString += "  ";
     return tileString;
@@ -223,37 +245,31 @@ std::string Board::printTile(int tileNumber) const {
 
 std::string Board::printResource(int tileNumber) const {
     AbstractTile* tile = getTile(tileNumber);
-    std::string tileString = "";
-    if (tile->getResource() == Resource::BRICK) {
-        tileString += "  BRICK  ";
-    }
-    else if (tile->getResource() == Resource::ENERGY) {
-        tileString += " ENERGY  ";
-    }
-    else if (tile->getResource() == Resource::GLASS) {
-        tileString += "  GLASS  ";
-    }
-    else if (tile->getResource() == Resource::HEAT) {
-        tileString += "  HEAT   ";
-    }
-    else if (tile->getResource() == Resource::PARK) {
-        tileString += "  PARK   ";
-    }
-    else if (tile->getResource() == Resource::WIFI) {
-        tileString += "  WIFI   ";
-    }
+    Resource resource = tile->getResource();
+    
+    // Add leading spaces
+    std::string tileString = resource == ENERGY ? " " : "  ";
+
+    // Append Resource as string
+    tileString += resourceToString(resource);
+
+    // Append trailing spaces
+    tileString += resource <= GLASS ? "  " : "   "; 
+
     return tileString;
 }
 
 std::string Board::printGeese(int tileNumber) const {
     AbstractTile* tile = getTile(tileNumber);
     std::string tileString = "";
+
     if (tile->hasGeese()) {
         tileString += "  GEESE  ";
     }
     else {
         tileString += "         ";
     }
+
     return tileString;
 }
 

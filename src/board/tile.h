@@ -24,6 +24,7 @@ class Tile final : public AbstractTile {
     Resource getResource() const override;
     void giveResourcesToBuilders() const override;
 
+    std::unique_ptr<AbstractTile> removeGeese() override;
     bool hasGeese() const override;
 };
 
