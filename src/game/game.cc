@@ -6,6 +6,7 @@
 #include "../board/board.h"
 #include "../structures/road.h"
 #include "../structures/residence.h"
+#include "../common/trade.h"
 #include <vector>
 #include <string>
 #include <fstream>
@@ -92,6 +93,24 @@ Builder& Game::getBuilder(std::string colour){
     else if (colour == "Yellow"){
         return *builders.at(3);
     }
+    return *builders.at(0);
+}
+
+void Game::manageTrade(Builder &proposee, Trade trade, std::ostream& out){
+    Builder &builder = *builders.at(currentBuilder);
+    if (builder.inventory[trade.resourceToGive] > 0 && proposee.inventory[trade.resourceToTake] > 0){
+        builder.inventory[trade.resourceToGive]--;
+        builder.inventory[trade.resourceToTake]++;
+        proposee.inventory[trade.resourceToGive]++;
+        proposee.inventory[trade.resourceToTake]--;
+        out << "Trade completed." << std::endl;
+    }
+    else if (builder.inventory[trade.resourceToGive] == 0){
+        out << "You do not have any " << trade.resourceToGive << " to trade." << std::endl;
+    }
+    else if (proposee.inventory[trade.resourceToTake] == 0){
+        out << proposee.getBuilderColourString() << " does not have any " << trade.resourceToTake << " to trade." << std::endl;
+    }
 }
 
 void Game::buildInitialResidences(std::istream& in, std::ostream& out){
@@ -115,7 +134,8 @@ void Game::buildInitialResidences(std::istream& in, std::ostream& out){
     } 
 }
 
-void Game::beginTurn(Builder& builder, std::istream& in , std::ostream& out) {
+void Game::beginTurn(std::istream& in , std::ostream& out) {
+    Builder &builder = *builders.at(currentBuilder);
     std::string command;
     int roll;
     int loaded = 0;
@@ -148,16 +168,17 @@ void Game::beginTurn(Builder& builder, std::istream& in , std::ostream& out) {
         else{
             board->getResourcesFromDiceRoll(roll);
         }
-        duringTurn(builder, in, out, roll);
+        duringTurn(in, out, roll);
     }
     else{
         out << "Invalid command." << std::endl;
     }
 }
 
-void Game::duringTurn(Builder& builder, std::istream& in , std::ostream& out, int roll){
+void Game::duringTurn(std::istream& in , std::ostream& out, int roll){
     std::string command; 
-    while(in >> command){
+    while(in >> command || builders[0]->getBuildingPoints() < 10 || builders[1]->getBuildingPoints() < 10 || builders[2]->getBuildingPoints() < 10 || builders[3]->getBuildingPoints() < 10){
+        Builder& builder = *builders.at(currentBuilder);
         if (command == "board"){
             board->printBoard(out);
         }
@@ -182,11 +203,30 @@ void Game::duringTurn(Builder& builder, std::istream& in , std::ostream& out, in
             board->upgradeResidence(builder, std::stoi(command.substr(8, 1)), out);
         }
         else if (command.substr(0, 5) == "trade"){
-            
+            std::string space = " ";
+            command.erase(0, 6);
 
+            //get builder
+            int pos = command.find_first_of(space);
+            std::string proposeeColour = command.substr(0, pos);  
+            command.erase(0, pos + 1);
+
+            //get give
+            pos = command.find_first_of(space);
+            std::string give = command.substr(0, pos);
+            command.erase(0, pos + 1);
+
+            //get take
+            std::string take = command;
+
+            Trade trade = builder.proposeTrade(proposeeColour, give, take, out);
+            Builder & proposee = getBuilder(proposeeColour);    
+            if (proposee.respondToTrade(in, out)){
+                manageTrade(proposee, trade, out);
+            }
         }
         else if (command == "next"){
-            return;
+            nextTurn();
         }
         else if (command.substr(0, 4) == "save"){
             save(command.substr(5, command.length() - 5));
@@ -221,10 +261,7 @@ void Game::nextTurn(){
 void Game::play(std::istream& in, std::ostream& out) {     
     buildInitialResidences(in, out);
     board->printBoard(out);  
-    while (builders[0]->getBuildingPoints() < 10 || builders[1]->getBuildingPoints() < 10 || builders[2]->getBuildingPoints() < 10 || builders[3]->getBuildingPoints() < 10){
-            beginTurn(*builders[currentBuilder], in, out);
-            nextTurn();
-    }
+    beginTurn(in, out);
 }
 
 

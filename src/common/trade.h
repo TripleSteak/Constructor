@@ -2,9 +2,10 @@
 #define TRADE_H
 
 #include "resource.h"
+#include <string>
 
 struct Trade {
-    char proposeeColour;
+    std::string proposee;
     Resource resourceToGive;
     Resource resourceToTake;
 };
