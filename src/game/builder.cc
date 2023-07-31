@@ -109,11 +109,11 @@ char Builder::steal(std::istream& in, std::ostream& out) const {
 
 Trade Builder::proposeTrade(std::string proposee, std::string resourceToGive, std::string resourceToTake, std::ostream& out) const {
     Trade trade;
-    trade.proposee = proposee;
+    trade.proposeeColour = proposee;
     trade.resourceToGive = resourceFromString(resourceToGive);
     trade.resourceToTake = resourceFromString(resourceToTake);
-    out << getBuilderColour() << " offers " << trade.proposee << " one " << resourceToGive << " for one " << resourceToTake << "." << std::endl;
-    out << "Does " << trade.proposee << " accept this offer?" << std::endl;
+    out << getBuilderColour() << " offers " << trade.proposeeColour << " one " << resourceToGive << " for one " << resourceToTake << "." << std::endl;
+    out << "Does " << trade.proposeeColour << " accept this offer?" << std::endl;
     return trade;
 }
 

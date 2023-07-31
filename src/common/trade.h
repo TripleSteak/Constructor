@@ -5,7 +5,7 @@
 #include <string>
 
 struct Trade {
-    std::string proposee;
+    std::string proposeeColour;
     Resource resourceToGive;
     Resource resourceToTake;
 };
