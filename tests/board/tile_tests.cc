@@ -7,3 +7,36 @@ TEST(Tile, GetTilePrivateFields) {
     EXPECT_EQ(tile.getTileValue(), 3);
     EXPECT_EQ(tile.getResource(), GLASS);
 }
+
+TEST(Tile, HasGeese) {
+    Tile tile = Tile(15, 5, ENERGY);
+    EXPECT_EQ(tile.hasGeese(), false);
+}
+
+TEST(Tile, GiveResourcesToBuilders) {
+    Tile tile = Tile(22, 4, BRICK);
+
+    Vertex vertex1 = Vertex(44);
+    Vertex vertex2 = Vertex(45);
+    Vertex vertex3 = Vertex(46);
+    Vertex vertex4 = Vertex(47);
+
+    Builder builder1 = Builder(0, 'B', 0);
+    Builder builder2 = Builder(1, 'R', 0);
+
+    std::shared_ptr<Residence> res1 = std::make_shared<Basement>(builder1, vertex1);
+    std::shared_ptr<Residence> res2 = std::make_shared<House>(builder2, vertex2);
+    std::shared_ptr<Residence> res3 = std::make_shared<Tower>(builder2, vertex3);
+
+    vertex1.buildResidence(res1);
+    vertex2.buildResidence(res2);
+    vertex3.buildResidence(res3);
+
+    tile.addNeighbouringVertex(vertex1);
+    tile.addNeighbouringVertex(vertex2);
+    tile.addNeighbouringVertex(vertex3);
+    tile.addNeighbouringVertex(vertex4);
+
+    EXPECT_EQ(builder1.inventory[BRICK], 1);
+    EXPECT_EQ(builder2.inventory[BRICK], 5);
+}
