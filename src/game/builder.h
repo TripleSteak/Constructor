@@ -56,7 +56,7 @@ class Builder final {
 
     int chooseGeeseSpot(std::istream&, std::ostream&) const; // Select tile number to place geese on
     char steal(std::istream&, std::ostream&) const;          // Select which other Builder to steal from
-    Trade proposeTrade(std::istream&, std::ostream&) const;
+    Trade proposeTrade(std::string, std::string, std::string, std::ostream&) const;
     bool respondToTrade(std::istream&, std::ostream&) const;
 
     std::unordered_map<Resource, int> getResourcesFromDiceRoll(int);

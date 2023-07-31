@@ -3,6 +3,7 @@
 #include "../board/edge.h"
 #include "../board/vertex.h"
 #include "../common/inventoryupdate.h"
+#include "../common/trade.h"
 #include "../structures/residence.h"
 #include "../structures/road.h"
 #include "builder.h"
@@ -94,6 +95,23 @@ Builder& Game::getBuilder(std::string colour) {
     }
     else {
         throw std::invalid_argument("Invalid colour");
+    }
+}
+
+void Game::manageTrade(Builder& proposee, Trade trade, std::ostream& out) {
+    Builder& builder = *builders.at(currentBuilder);
+    if (builder.inventory[trade.resourceToGive] > 0 && proposee.inventory[trade.resourceToTake] > 0) {
+        builder.inventory[trade.resourceToGive]--;
+        builder.inventory[trade.resourceToTake]++;
+        proposee.inventory[trade.resourceToGive]++;
+        proposee.inventory[trade.resourceToTake]--;
+        out << "Trade completed." << std::endl;
+    }
+    else if (builder.inventory[trade.resourceToGive] == 0) {
+        out << "You do not have any " << trade.resourceToGive << " to trade." << std::endl;
+    }
+    else if (proposee.inventory[trade.resourceToTake] == 0) {
+        out << proposee.getBuilderColourString() << " does not have any " << trade.resourceToTake << " to trade." << std::endl;
     }
 }
 
@@ -238,9 +256,9 @@ void Game::beginTurn(std::istream& in, std::ostream& out) {
 }
 
 void Game::duringTurn(std::istream& in, std::ostream& out, int roll) {
-    Builder& builder = *builders.at(currentBuilder);
     std::string command;
-    while (in >> command) {
+    while (in >> command || builders[0]->getBuildingPoints() < 10 || builders[1]->getBuildingPoints() < 10 || builders[2]->getBuildingPoints() < 10 || builders[3]->getBuildingPoints() < 10) {
+        Builder& builder = *builders.at(currentBuilder);
         if (command == "board") {
             board->printBoard(out);
         }
@@ -265,9 +283,30 @@ void Game::duringTurn(std::istream& in, std::ostream& out, int roll) {
             board->upgradeResidence(builder, std::stoi(command.substr(8, 1)), out);
         }
         else if (command.substr(0, 5) == "trade") {
+            std::string space = " ";
+            command.erase(0, 6);
+
+            // get builder
+            int pos = command.find_first_of(space);
+            std::string proposeeColour = command.substr(0, pos);
+            command.erase(0, pos + 1);
+
+            // get give
+            pos = command.find_first_of(space);
+            std::string give = command.substr(0, pos);
+            command.erase(0, pos + 1);
+
+            // get take
+            std::string take = command;
+
+            Trade trade = builder.proposeTrade(proposeeColour, give, take, out);
+            Builder& proposee = getBuilder(proposeeColour);
+            if (proposee.respondToTrade(in, out)) {
+                manageTrade(proposee, trade, out);
+            }
         }
         else if (command == "next") {
-            return;
+            nextTurn();
         }
         else if (command.substr(0, 4) == "save") {
             save(command.substr(5, command.length() - 5));
@@ -301,10 +340,7 @@ void Game::nextTurn() {
 void Game::play(std::istream& in, std::ostream& out) {
     buildInitialResidences(in, out);
     board->printBoard(out);
-    while (builders[0]->getBuildingPoints() < 10 || builders[1]->getBuildingPoints() < 10 || builders[2]->getBuildingPoints() < 10 || builders[3]->getBuildingPoints() < 10) {
-        beginTurn(in, out);
-        nextTurn();
-    }
+    beginTurn(in, out);
 }
 
 void Game::save(std::string filename) {
