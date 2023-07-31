@@ -7,7 +7,7 @@
 #include <fstream>
 #include <sstream>
 
-GameFactory::GameFactory(unsigned seed) : seed{seed} {}
+GameFactory::GameFactory() {}
 
 GameFactory::~GameFactory() {}
 
@@ -62,7 +62,7 @@ std::unique_ptr<Game> GameFactory::loadFromGame(std::string filename) {
     int geeseTile;
     dataFile >> geeseTile;
     dataFile.close();
-    return std::make_unique<Game>(seed, tileData, builderResourceData, builderStructureData, std::stoi(currentBuilder), geeseTile);
+    return std::make_unique<Game>(tileData, builderResourceData, builderStructureData, std::stoi(currentBuilder), geeseTile);
 }
 
 std::unique_ptr<Game> GameFactory::loadFromBoard(std::string filename) {
@@ -76,5 +76,9 @@ std::unique_ptr<Game> GameFactory::loadFromBoard(std::string filename) {
     }
 
     dataFile.close();
-    return std::make_unique<Game>(seed, data);
+    return std::make_unique<Game>(data);
+}
+
+std::unique_ptr<Game> GameFactory::loadFromRandomBoard() {
+    return std::make_unique<Game>();
 }

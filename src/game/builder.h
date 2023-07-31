@@ -29,7 +29,6 @@ class Builder final {
   private:
     const int builderNumber;
     const char builderColour;
-    const unsigned seed;
     bool hasLoaded;
     std::unique_ptr<Dice> dice;
 
@@ -38,8 +37,8 @@ class Builder final {
     std::vector<std::shared_ptr<Road>> roads;
     std::unordered_map<Resource, int> inventory; // "PARK" should never be one of the keys in this map
 
-    Builder(int, char, unsigned);
-    Builder(int, char, unsigned, BuilderResourceData);
+    Builder(int, char);
+    Builder(int, char, BuilderResourceData);
     ~Builder();
 
     bool operator==(const Builder&) const;

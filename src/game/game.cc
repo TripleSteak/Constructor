@@ -3,6 +3,7 @@
 #include "../board/edge.h"
 #include "../board/vertex.h"
 #include "../common/inventoryupdate.h"
+#include "../common/randomengine.h"
 #include "../common/trade.h"
 #include "../structures/residence.h"
 #include "../structures/road.h"
@@ -12,27 +13,27 @@
 #include <vector>
 #include <map>
 
-Game::Game(unsigned seed) : currentBuilder{0}, rng(seed) {
-    board = std::make_unique<Board>(generateRandomBoard(seed));
-    builders.push_back(std::make_unique<Builder>(0, 'B', seed));
-    builders.push_back(std::make_unique<Builder>(1, 'R', seed));
-    builders.push_back(std::make_unique<Builder>(2, 'O', seed));
-    builders.push_back(std::make_unique<Builder>(3, 'Y', seed));
+Game::Game() : currentBuilder{0} {
+    board = std::make_unique<Board>(generateRandomBoard());
+    builders.push_back(std::make_unique<Builder>(0, 'B'));
+    builders.push_back(std::make_unique<Builder>(1, 'R'));
+    builders.push_back(std::make_unique<Builder>(2, 'O'));
+    builders.push_back(std::make_unique<Builder>(3, 'Y'));
 }
 
-Game::Game(unsigned seed, std::vector<TileInitData> data) : currentBuilder{0}, rng(seed) {
+Game::Game(std::vector<TileInitData> data) : currentBuilder{0} {
     board = std::make_unique<Board>(data);
-    builders.push_back(std::make_unique<Builder>(0, 'B', seed));
-    builders.push_back(std::make_unique<Builder>(1, 'R', seed));
-    builders.push_back(std::make_unique<Builder>(2, 'O', seed));
-    builders.push_back(std::make_unique<Builder>(3, 'Y', seed));
+    builders.push_back(std::make_unique<Builder>(0, 'B'));
+    builders.push_back(std::make_unique<Builder>(1, 'R'));
+    builders.push_back(std::make_unique<Builder>(2, 'O'));
+    builders.push_back(std::make_unique<Builder>(3, 'Y'));
 }
 
-Game::Game(unsigned seed, std::vector<TileInitData> data, std::vector<BuilderResourceData> resourceData, std::vector<BuilderStructureData> structureData, int currentBuilder, int GeeseTile) : currentBuilder{currentBuilder},  rng{seed} {
-    builders.push_back(std::make_unique<Builder>(0, 'B', seed, resourceData[0]));
-    builders.push_back(std::make_unique<Builder>(1, 'R', seed, resourceData[1]));
-    builders.push_back(std::make_unique<Builder>(2, 'O', seed, resourceData[2]));
-    builders.push_back(std::make_unique<Builder>(3, 'Y', seed, resourceData[3]));
+Game::Game(std::vector<TileInitData> data, std::vector<BuilderResourceData> resourceData, std::vector<BuilderStructureData> structureData, int currentBuilder, int GeeseTile) : currentBuilder{currentBuilder} {
+    builders.push_back(std::make_unique<Builder>(0, 'B', resourceData[0]));
+    builders.push_back(std::make_unique<Builder>(1, 'R', resourceData[1]));
+    builders.push_back(std::make_unique<Builder>(2, 'O', resourceData[2]));
+    builders.push_back(std::make_unique<Builder>(3, 'Y', resourceData[3]));
 
     std::vector<std::pair<Builder*, BuilderStructureData>> structures = {{builders.at(0).get(), structureData.at(0)}, {builders.at(1).get(), structureData.at(1)}, {builders.at(2).get(), structureData.at(2)}, {builders.at(3).get(), structureData.at(3)}};
     board = std::make_unique<Board>(data, structures);
@@ -41,7 +42,7 @@ Game::Game(unsigned seed, std::vector<TileInitData> data, std::vector<BuilderRes
 
 Game::~Game() {}
 
-std::vector<TileInitData> Game::generateRandomBoard(unsigned seed) {
+std::vector<TileInitData> Game::generateRandomBoard() {
     std::vector<TileInitData> data;
     std::vector<int> tileValues = {2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12};
     std::vector<Resource> resources;
@@ -53,12 +54,12 @@ std::vector<TileInitData> Game::generateRandomBoard(unsigned seed) {
     resources.insert(resources.end(), 4, Resource::GLASS);
 
     // Shuffle resources
-    shuffle(resources.begin(), resources.end(), rng);
+    shuffle(resources.begin(), resources.end(), RandomEngine::getEngine());
     for (int i = 0; i < 18; i++) {
         data.push_back(TileInitData{tileValues[i], resources[i]});
     }
     data.push_back(TileInitData{7, Resource::PARK});
-    shuffle(data.begin(), data.end(), rng);
+    shuffle(data.begin(), data.end(), RandomEngine::getEngine());
     return data;
 }
 

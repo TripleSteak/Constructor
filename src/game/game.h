@@ -19,7 +19,7 @@ class Game final {
     int currentBuilder; // Index of current builder in builders
     std::default_random_engine rng;
 
-    std::vector<TileInitData> generateRandomBoard(unsigned);
+    std::vector<TileInitData> generateRandomBoard();
 
     Builder& getBuilder(std::string);
     void beginTurn(std::istream&, std::ostream&);
@@ -30,16 +30,10 @@ class Game final {
     void manageTrade(Builder&, Trade, std::ostream&);
     void nextTurn(std::istream&, std::ostream&);
 
-    void printBoard() const;
-    void printResidences() const;
-    void printHelp() const;
-
-    void save(std::string);
-
   public:
-    Game(unsigned);
-    Game(unsigned, std::vector<TileInitData>);
-    Game(unsigned, std::vector<TileInitData>, std::vector<BuilderResourceData>, std::vector<BuilderStructureData>, int currentBuilder, int GeeseTile);
+    Game();
+    Game(std::vector<TileInitData>);
+    Game(std::vector<TileInitData>, std::vector<BuilderResourceData>, std::vector<BuilderStructureData>, int currentBuilder, int GeeseTile);
     ~Game();
 
     static const int NUM_BUILDERS = 4;
@@ -50,6 +44,7 @@ class Game final {
     const Board& getBoard() const;
 
     void play(std::istream&, std::ostream&);
+    void save(std::string);
 };
 
 #endif

@@ -1,9 +1,7 @@
 #include "board.h"
 #include "../common/inventoryupdate.h"
-#include "../game/builder.h"
 #include "../structures/basement.h"
 #include "../structures/house.h"
-#include "../structures/residence.h"
 #include "../structures/road.h"
 #include "../structures/tower.h"
 #include "edge.h"
@@ -177,6 +175,7 @@ void Board::setGeeseTile(int newGeeseTile) {
 
     // Incorporate the new geese tile
     tiles.at(newGeeseTile) = std::make_unique<GeeseTile>(std::move(tiles.at(newGeeseTile)));
+    geeseTile = newGeeseTile;
 }
 
 BuilderInventoryUpdate Board::getResourcesFromDiceRoll(int rollNumber) const {
@@ -244,7 +243,9 @@ std::string Board::printVertex(int vertexNumber) const {
         vertexString += std::to_string(vertexNumber) + "|";
     }
     else {
-        vertexString += std::to_string(vertex->getResidence()->getOwner().getBuilderColour()) + std::to_string(vertex->getResidence()->getResidenceLetter()) + "|";
+        vertexString += vertex->getResidence()->getOwner().getBuilderColour();
+        vertexString += vertex->getResidence()->getResidenceLetter();
+        vertexString += "|";
     }
 
     return vertexString;
@@ -265,7 +266,8 @@ std::string Board::printEdge(int edgeNumber, bool isHorizontal) const {
         edgeString += std::to_string(edgeNumber);
     }
     else {
-        edgeString += std::to_string(edge->getRoad()->getOwner().getBuilderColour()) + "R";
+        edgeString += edge->getRoad()->getOwner().getBuilderColour();
+        edgeString += "R";
     }
 
     if (isHorizontal) {

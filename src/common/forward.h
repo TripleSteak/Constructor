@@ -21,6 +21,7 @@ class GameFactory;
 class GeeseTile;
 class House;
 class LoadedDice;
+class RandomEngine;
 class Residence;
 class Road;
 class Tile;
