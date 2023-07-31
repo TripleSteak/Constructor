@@ -1,6 +1,5 @@
 #include "resource.h"
 #include <algorithm>
-#include <vector>
 
 // Converts a Resource enum to a string
 std::string resourceToString(Resource resource) {
