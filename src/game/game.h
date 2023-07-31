@@ -10,6 +10,22 @@
 #include <random>
 #include <vector>
 
+// Stores information used to builders
+struct BuilderResourceData {
+    int brickNum;
+    int energyNum;
+    int glassNum;
+    int heatNum;
+    int wifiNum;
+    int parkNum;  
+};
+
+struct BuilderStructureData{
+  std::vector<std::pair<int, char>> residences;  
+  std::vector<int> roads; 
+};
+
+
 class Game final {
   private:
     std::unique_ptr<Board> board;
@@ -17,8 +33,7 @@ class Game final {
     int currentBuilder; // Index of current builder in builders
 
     std::vector<TileInitData> generateRandomBoard(unsigned);
-    std::vector<TileInitData> generateCustomBoard();
-
+ 
     void beginTurn(const Builder&);
     void buildInitialResidences();
     void discardHalfOfTotalResources(); // Invoked when a 7 is rolled and Builders' hands are too large

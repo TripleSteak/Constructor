@@ -13,8 +13,8 @@ class Builder final {
   private:
     const int builderNumber;
     const char builderColour;
-    std::unique_ptr<Dice> dice;
     const unsigned seed;
+    std::unique_ptr<Dice> dice;
 
   public:
     std::vector<std::shared_ptr<Residence>> residences;
