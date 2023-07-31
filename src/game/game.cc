@@ -21,18 +21,18 @@ Game::Game(unsigned seed, std::vector<TileInitData> data) {
 }
 
 Game::Game(unsigned seed, std::vector<TileInitData>data, std::vector<BuilderResourceData> resourceData, std::vector<BuilderStructureData> structureData, int currentBuilder, int GeeseTile) {
-    std::vector<std::pair<Builder&, BuilderStructureData>> structures; 
+    std::vector<std::pair<Builder*, BuilderStructureData>> structures;
     builders.push_back(std::make_unique<Builder>(0, 'B', seed));
     builders.push_back(std::make_unique<Builder>(1, 'R', seed));
     builders.push_back(std::make_unique<Builder>(2, 'O', seed));
     builders.push_back(std::make_unique<Builder>(3, 'Y', seed));
-    for (int i = 0; i < builders.size(); i++) {
+    for (size_t i = 0; i < builders.size(); i++) {
         builders[i]->inventory[Resource::BRICK] = resourceData[i].brickNum;
         builders[i]->inventory[Resource::ENERGY] = resourceData[i].energyNum;
         builders[i]->inventory[Resource::GLASS] = resourceData[i].glassNum;
         builders[i]->inventory[Resource::HEAT] = resourceData[i].heatNum;
         builders[i]->inventory[Resource::WIFI] = resourceData[i].wifiNum;
-        structures.emplace_back(std::make_pair(builders[i], structureData[i]));
+        structures.push_back(std::make_pair(builders[i].get(), structureData[i]));
     }
     board = std::make_unique<Board>(data, structures);  
     this->currentBuilder = currentBuilder;

@@ -42,7 +42,7 @@ class Board final {
      *  (The park tile must have a tileValue of 7)
      */
     Board(std::vector<TileInitData>);
-    Board(std::vector<TileInitData>, std::vector<std::pair<Builder&, BuilderStructureData>>);
+    Board(std::vector<TileInitData>, std::vector<std::pair<Builder*, BuilderStructureData>>);
     ~Board();
 
     static const int NUM_TILES = 19;

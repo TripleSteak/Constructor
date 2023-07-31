@@ -1,5 +1,4 @@
 #include "board.h"
-#include "../game/builder.h"
 #include "../structures/residence.h"
 #include "../structures/tower.h"    
 #include "../structures/basement.h" 
@@ -33,31 +32,34 @@ Board::Board(std::vector<TileInitData> tileInitData) : geeseTile{-1} {
     setupTiles();
 }
 
-Board::Board(std::vector<TileInitData> tileInitData, std::vector<std::pair<Builder&, BuilderStructureData>> structureData) : Board(tileInitData) {
+Board::Board(std::vector<TileInitData> tileInitData, std::vector<std::pair<Builder*, BuilderStructureData>> structureData) : Board(tileInitData) {
     for (auto& pair : structureData) {
-        Builder& builder = pair.first;
+        Builder* builder = pair.first;
         BuilderStructureData data = pair.second;
-        for (int i = 0; i < data.roads.size(); i++) {
-            setRoad(builder, data.roads.at(i));
+
+        for (size_t i = 0; i < data.roads.size(); i++) {
+            setRoad(*builder, data.roads.at(i));
         }   
-        for (int i = 0; i < data.residences.size(); i++) {
-            setResidence(builder, data.residences.at(i).first, data.residences.at(i).second);
+        for (size_t i = 0; i < data.residences.size(); i++) {
+            setResidence(*builder, data.residences.at(i).first, data.residences.at(i).second);
         }   
     }
 }
 
+Board::~Board() {}
+
 void Board::setResidence(Builder& builder, int vertexNumber, char residenceType) {
     Vertex* vertex = getVertex(vertexNumber);
     if (residenceType == 'B') {
-        std::shared_ptr<Residence> residence = std::make_shared<Basement>(builder, vertex);
+        std::shared_ptr<Residence> residence = std::make_shared<Basement>(builder, *vertex);
         builder.residences.push_back(residence);    
         vertex->buildResidence(residence);
     } else if (residenceType == 'H') {
-        std::shared_ptr<Residence> residence = std::make_shared<House>(builder, vertex);
+        std::shared_ptr<Residence> residence = std::make_shared<House>(builder, *vertex);
         builder.residences.push_back(residence);    
         vertex->buildResidence(residence);
     } else if (residenceType == 'T') {
-        std::shared_ptr<Residence> residence = std::make_shared<Tower>(builder, vertex);
+        std::shared_ptr<Residence> residence = std::make_shared<Tower>(builder, *vertex);
         builder.residences.push_back(residence);    
         vertex->buildResidence(residence);
     }
@@ -65,12 +67,10 @@ void Board::setResidence(Builder& builder, int vertexNumber, char residenceType)
 
 void Board::setRoad(Builder& builder, int edgeNumber) {
     Edge* edge = getEdge(edgeNumber);
-    std::shared_ptr<Road> road = std::make_shared<Road>(builder, edge);
+    std::shared_ptr<Road> road = std::make_shared<Road>(builder, *edge);
     builder.roads.push_back(road);
     edge->buildRoad(road);
 }
-
-Board::~Board() {}
 
 AbstractTile* Board::getTile(int tileNumber) const {
     return tiles.at(tileNumber).get();

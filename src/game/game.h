@@ -11,21 +11,6 @@
 #include <random>
 #include <vector>
 
-// Stores information used to builders
-struct BuilderResourceData {
-    int brickNum;
-    int energyNum;
-    int glassNum;
-    int heatNum;
-    int wifiNum;
-};
-
-struct BuilderStructureData{
-  std::vector<std::pair<int, char>> residences;  
-  std::vector<int> roads; 
-};
-
-
 class Game final {
   private:
     std::unique_ptr<Board> board;
