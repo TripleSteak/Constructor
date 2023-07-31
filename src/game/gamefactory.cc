@@ -17,7 +17,6 @@ GameFactory::GameFactory(unsigned seed) : seed{seed} {}
 GameFactory::~GameFactory() {}
 
 std::unique_ptr<Game> GameFactory::loadFromGame(std::string filename) {
-#include <iostream>
     std::vector<TileInitData> tileData;
     std::vector<BuilderResourceData> builderResourceData;
     std::vector<BuilderStructureData> builderStructureData;

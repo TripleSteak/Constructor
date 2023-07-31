@@ -17,7 +17,6 @@ class GameFactory final {
                                                       // Builder turns, residences, points, etc.
     std::unique_ptr<Game> loadFromBoard(std::string); // Pre-existing board configuration, which
                                                       // only includes resource placement
-    void save(std::string, Game&);
 };
 
 #endif

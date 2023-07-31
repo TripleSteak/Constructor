@@ -54,7 +54,7 @@ std::string Builder::getBuilderColourString() const {
             colourString = "Red";
             break;
         default:
-            colourString = "Invalid Colour";
+            colourString = "Invalid colour";
             break;
     }
     return colourString;

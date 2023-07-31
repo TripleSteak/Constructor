@@ -1,4 +1,5 @@
 #include "geesetile.h"
+#include "../common/inventoryupdate.h"
 #include "abstracttile.h"
 #include "tile.h"
 
@@ -22,9 +23,9 @@ Resource GeeseTile::getResource() const {
     return tile->getResource();
 }
 
-void GeeseTile::giveResourcesToBuilders() const {
+BuilderInventoryUpdate GeeseTile::giveResourcesToBuilders() const {
     // Geese tiles give no resources
-    return;
+    return BuilderInventoryUpdate();
 }
 
 std::unique_ptr<AbstractTile> GeeseTile::removeGeese() {
