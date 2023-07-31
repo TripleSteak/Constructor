@@ -9,6 +9,20 @@
 #include <unordered_map>
 #include <vector>
 
+// Stores information used to initialize builder
+struct BuilderResourceData {
+    int brickNum;
+    int energyNum;
+    int glassNum;
+    int heatNum;
+    int wifiNum;
+};
+
+struct BuilderStructureData {
+    std::vector<std::pair<int, char>> residences;
+    std::vector<int> roads;
+};
+
 class Builder final {
   private:
     const int builderNumber;
