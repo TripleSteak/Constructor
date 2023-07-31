@@ -36,8 +36,8 @@ class Game final {
     ~Game();
 
     int getCurrentBuilder() const;
-    std::vector<const Builder*> getBuilders() const;
-    int getGooseLocation() const;
+    const std::vector<const Builder*> getBuilders() const;
+    int getGeeseLocation() const;
     const Board& getBoard() const;
 
     void play();
