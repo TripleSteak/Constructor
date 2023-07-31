@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
         seed = std::chrono::system_clock::now().time_since_epoch().count();
     }
     else {
-        RandomGenerator::setSeed(std::stoul(args["-seed"]));
+        RandomEngine::setSeed(std::stoul(args["-seed"]));
     }
     GameFactory factory;
     std::unique_ptr<Game> game;
