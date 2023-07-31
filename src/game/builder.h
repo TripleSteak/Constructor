@@ -37,6 +37,7 @@ class Builder final {
     std::unordered_map<Resource, int> inventory; // "PARK" should never be one of the keys in this map
 
     Builder(int, char, unsigned);
+    Builder(int, char, unsigned, BuilderResourceData);
     ~Builder();
 
     bool operator==(const Builder&) const;
@@ -56,6 +57,7 @@ class Builder final {
     Trade proposeTrade(std::istream&, std::ostream&) const;
     bool respondToTrade(std::istream&, std::ostream&) const;
 
+    std::unordered_map<Resource, int> getResourcesFromDiceRoll(int);
     std::shared_ptr<Road> tryBuildRoad(Edge);
     std::shared_ptr<Residence> tryBuildResidence(Vertex);
     std::shared_ptr<Residence> tryBuildInitialResidence(Vertex);

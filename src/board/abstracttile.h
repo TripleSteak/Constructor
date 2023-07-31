@@ -3,8 +3,8 @@
 
 #include "../common/forward.h"
 #include "../common/resource.h"
-#include <vector>
 #include <memory>
+#include <vector>
 
 class AbstractTile {
   public:

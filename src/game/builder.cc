@@ -12,13 +12,9 @@
 #include <memory>
 #include <sstream>
 
-Builder::Builder(int builderNumber, char builderColour, unsigned seed) : builderNumber{builderNumber}, builderColour{builderColour}, seed{seed}, hasLoaded{true}, dice{std::unique_ptr<LoadedDice>()} {
-    inventory.insert(std::make_pair(BRICK, 0));
-    inventory.insert(std::make_pair(ENERGY, 0));
-    inventory.insert(std::make_pair(GLASS, 0));
-    inventory.insert(std::make_pair(HEAT, 0));
-    inventory.insert(std::make_pair(WIFI, 0));
-}
+Builder::Builder(int builderNumber, char builderColour, unsigned seed) : builderNumber{builderNumber}, builderColour{builderColour}, seed{seed}, hasLoaded{true}, dice{std::unique_ptr<LoadedDice>()}, inventory{{BRICK, 0}, {ENERGY, 0}, {GLASS, 0}, {HEAT, 0}, {WIFI, 0}} {}
+
+Builder::Builder(int builderNumber, char builderColour, unsigned seed, BuilderResourceData brd) : builderNumber{builderNumber}, builderColour{builderColour}, seed{seed}, hasLoaded{true}, dice{std::unique_ptr<LoadedDice>()}, inventory{{BRICK, brd.brickNum}, {ENERGY, brd.energyNum}, {GLASS, brd.glassNum}, {HEAT, brd.heatNum}, {WIFI, brd.wifiNum}} {}
 
 Builder::~Builder() {}
 
@@ -87,13 +83,13 @@ void Builder::setDice(bool isLoaded) {
     }
 }
 
-bool Builder::getDice(){
+bool Builder::getDice() {
     if (hasLoaded) {
         return true;
     }
     else {
         return false;
-    }   
+    }
 }
 
 int Builder::chooseGeeseSpot(std::istream& in, std::ostream& out) const {
