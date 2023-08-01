@@ -381,7 +381,7 @@ void Game::beginTurn(std::istream& in, std::ostream& out) {
                     }
                 }
             }
-            duringTurn(in, out, roll);
+            duringTurn(in, out);
             return;
         }
         else {
@@ -390,7 +390,7 @@ void Game::beginTurn(std::istream& in, std::ostream& out) {
     }
 }
 
-void Game::duringTurn(std::istream& in, std::ostream& out, int roll) {
+void Game::duringTurn(std::istream& in, std::ostream& out) {
     std::string command;
 
     while (builders[0]->getBuildingPoints() < 10 && builders[1]->getBuildingPoints() < 10 && builders[2]->getBuildingPoints() < 10 && builders[3]->getBuildingPoints() < 10 && in >> command) {
@@ -478,13 +478,18 @@ void Game::nextTurn(std::istream& in, std::ostream& out) {
 }
 
 bool Game::play(std::istream& in, std::ostream& out, bool newGame) {
+    Builder& builder = *builders.at(currentBuilder);
     if (newGame){
         board->printBoard(out);
         buildInitialResidences(in, out);
         board->printBoard(out);
+        beginTurn(in, out);
+    } else {
+        out << "Builder " << builder.getBuilderColourString() << "'s turn." << std::endl;
+        duringTurn(in, out);    
     }
-    beginTurn(in, out);
     if (builders[0]->getBuildingPoints() == 10 || builders[1]->getBuildingPoints() == 10 || builders[2]->getBuildingPoints() == 10 || builders[3]->getBuildingPoints() == 10) {
+        out << "Player " << builder.getBuilderColourString() << " wins!" << std::endl;
         return true;
     }
     return false;

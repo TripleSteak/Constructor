@@ -24,7 +24,7 @@ class Game final {
     std::vector<Resource> discardRandomResource(Builder&, bool);
 
     void beginTurn(std::istream&, std::ostream&);
-    void duringTurn(std::istream&, std::ostream&, int);
+    void duringTurn(std::istream&, std::ostream&);
     void buildInitialResidences(std::istream&, std::ostream&);
     void moveGeese(std::istream&, std::ostream&);
     void facilitateTrade(Builder&, Trade, std::ostream&);
