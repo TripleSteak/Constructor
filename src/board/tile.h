@@ -18,10 +18,12 @@ class Tile final : public AbstractTile {
     ~Tile();
 
     void addNeighbouringVertex(Vertex*) override;
-    std::vector<int> getNeighbouringResidences(Builder&) const override;
+
     int getTileNumber() const override;
     int getTileValue() const override;
     Resource getResource() const override;
+
+    std::vector<int> getStealCandidates(Builder&) const override;
     BuilderInventoryUpdate giveResourcesToBuilders() const override;
 
     std::unique_ptr<AbstractTile> removeGeese() override;

@@ -186,7 +186,7 @@ void Game::moveGeese(std::istream& in, std::ostream& out) {
     board->setGeeseTile(tile);
 
     AbstractTile* t = board->getTile(tile);
-    std::vector<int> neighbouringBuilders = t->getNeighbouringResidences(builder);
+    std::vector<int> neighbouringBuilders = t->getStealCandidates(builder);
     if (neighbouringBuilders.size() == 0) {
         out << "Builder " << builder.getBuilderColourString() << " has no builders to steal from." << std::endl;
         return;

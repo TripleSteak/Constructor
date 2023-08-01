@@ -1,5 +1,6 @@
 #include "../../src/board/board.h"
 #include "../../src/board/edge.h"
+#include "../../src/common/inventoryupdate.h"
 #include "gtest/gtest.h"
 #include <fstream>
 
@@ -263,4 +264,56 @@ TEST(Board, SetGetGeeseTile) {
     EXPECT_EQ(board.getGeeseTile(), 15);
     EXPECT_EQ(board.getTile(4)->hasGeese(), false);
     EXPECT_EQ(board.getTile(15)->hasGeese(), true);
+}
+
+TEST(Board, GetResourcesFromDiceRoll) {
+    Builder builder1{0, 'Y'};
+    Builder builder2{1, 'R'};
+    Builder builder3{2, 'B'};
+    Builder builder4{3, 'O'};
+
+    std::vector<std::pair<int, char>> builder1Residences = {{22, 'T'}, {27, 'B'}};
+    std::vector<std::pair<int, char>> builder2Residences = {{11, 'T'}, {42, 'H'}};
+    std::vector<std::pair<int, char>> builder3Residences = {{44, 'B'}, {52, 'T'}};
+    std::vector<std::pair<int, char>> builder4Residences = {{3, 'H'}, {7, 'T'}, {19, 'B'}};
+
+    std::vector<int> builder1Roads = {33, 36, 40, 44, 48, 52};
+    std::vector<int> builder2Roads = {11, 17, 25, 34, 42, 51};
+    std::vector<int> builder3Roads = {64, 67, 69, 47, 55, 63};
+    std::vector<int> builder4Roads = {3, 5, 13, 21, 30, 35, 31};
+
+    BuilderStructureData builderData1(builder1Residences, builder1Roads);
+    BuilderStructureData builderData2(builder2Residences, builder2Roads);
+    BuilderStructureData builderData3(builder3Residences, builder3Roads);
+    BuilderStructureData builderData4(builder4Residences, builder4Roads);
+
+    std::vector<std::pair<Builder*, BuilderStructureData>> sampleStructureData = {{&builder1, builderData1}, {&builder2, builderData2}, {&builder3, builderData3}, {&builder4, builderData4}};
+    Board board(sampleTileInitData, sampleStructureData);
+
+    BuilderInventoryUpdate update = board.getResourcesFromDiceRoll(10);
+
+    EXPECT_EQ(update[0][BRICK], 0);
+    EXPECT_EQ(update[1][BRICK], 0);
+    EXPECT_EQ(update[2][BRICK], 0);
+    EXPECT_EQ(update[3][BRICK], 0);
+
+    EXPECT_EQ(update[0][ENERGY], 0);
+    EXPECT_EQ(update[1][ENERGY], 0);
+    EXPECT_EQ(update[2][ENERGY], 0);
+    EXPECT_EQ(update[3][ENERGY], 5);
+
+    EXPECT_EQ(update[0][HEAT], 3);
+    EXPECT_EQ(update[1][HEAT], 3);
+    EXPECT_EQ(update[2][HEAT], 0);
+    EXPECT_EQ(update[3][HEAT], 0);
+
+    EXPECT_EQ(update[0][GLASS], 0);
+    EXPECT_EQ(update[1][GLASS], 0);
+    EXPECT_EQ(update[2][GLASS], 0);
+    EXPECT_EQ(update[3][GLASS], 0);
+
+    EXPECT_EQ(update[0][WIFI], 0);
+    EXPECT_EQ(update[1][WIFI], 0);
+    EXPECT_EQ(update[2][WIFI], 0);
+    EXPECT_EQ(update[3][WIFI], 0);
 }

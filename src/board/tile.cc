@@ -3,7 +3,6 @@
 #include "../game/builder.h"
 #include "../structures/residence.h"
 #include "vertex.h"
-#include <vector>
 #include <algorithm>
 
 Tile::Tile(int tileNumber, int tileValue, Resource resource) : AbstractTile(), tileNumber{tileNumber}, tileValue{tileValue}, resource{resource} {}
@@ -29,17 +28,20 @@ Resource Tile::getResource() const {
 BuilderInventoryUpdate Tile::giveResourcesToBuilders() const {
     // Assume that tileNumber was rolled by Dice
     BuilderInventoryUpdate update;
+
     for (Vertex* vertex : neighbouringVertices) {
         if (vertex->getResidence() != nullptr) {
             vertex->getResidence()->getOwner().inventory[resource] += vertex->getResidence()->getResourceMultiplier();
             update[vertex->getResidence()->getOwner().getBuilderNumber()][resource] += vertex->getResidence()->getResourceMultiplier();
         }
     }
+
     return update;
 }
 
-std::vector<int> Tile::getNeighbouringResidences(Builder& builder) const {
+std::vector<int> Tile::getStealCandidates(Builder& builder) const {
     std::vector<int> builders;
+
     for (Vertex* vertex : neighbouringVertices) {
         if (vertex->getResidence() != nullptr && vertex->getResidence()->getOwner().getBuilderNumber() != builder.getBuilderNumber() && vertex->getResidence()->getOwner().getInventoryNum() > 0) {
             if (std::find(builders.begin(), builders.end(), vertex->getResidence()->getOwner().getBuilderNumber()) == builders.end()){
@@ -47,6 +49,7 @@ std::vector<int> Tile::getNeighbouringResidences(Builder& builder) const {
             } 
         }
     }
+
     return builders;
 }
 

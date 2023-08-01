@@ -44,8 +44,43 @@ TEST(Tile, GiveResourcesToBuilders) {
     tile.addNeighbouringVertex(&vertex3);
     tile.addNeighbouringVertex(&vertex4);
 
-    tile.giveResourcesToBuilders();
+    BuilderInventoryUpdate update = tile.giveResourcesToBuilders();
 
     EXPECT_EQ(builder1.inventory[BRICK], 1);
     EXPECT_EQ(builder2.inventory[BRICK], 5);
+    EXPECT_EQ(update[0][BRICK], 1);
+    EXPECT_EQ(update[1][BRICK], 5);
+}
+
+TEST(Tile, GetStealCandidates) {
+    Tile tile(22, 4, BRICK);
+
+    Vertex vertex1(44);
+    Vertex vertex2(45);
+    Vertex vertex3(46);
+    Vertex vertex4(47);
+
+    Builder builder1(0, 'B');
+    Builder builder2(1, 'R');
+    Builder builder3(2, 'Y');
+    Builder builder4(3, 'O');
+
+    std::shared_ptr<Residence> res1 = std::make_shared<Basement>(builder1, vertex1);
+    std::shared_ptr<Residence> res2 = std::make_shared<House>(builder2, vertex2);
+    std::shared_ptr<Residence> res3 = std::make_shared<Tower>(builder3, vertex3);
+
+    vertex1.buildResidence(res1);
+    vertex2.buildResidence(res2);
+    vertex3.buildResidence(res3);
+
+    tile.addNeighbouringVertex(&vertex1);
+    tile.addNeighbouringVertex(&vertex2);
+    tile.addNeighbouringVertex(&vertex3);
+    tile.addNeighbouringVertex(&vertex4);
+
+    builder2.inventory[BRICK] = 2;
+    builder4.inventory[GLASS] = 5;
+
+    std::vector<int> stealCandidates = tile.getStealCandidates(builder1);
+    EXPECT_EQ(stealCandidates[0], 1); // Every other builder either has no residence or has no resources
 }

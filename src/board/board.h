@@ -36,6 +36,10 @@ class Board final {
     void setResidence(Builder&, int, char);
 
   public:
+    static const int NUM_TILES = 19;
+    static const int NUM_EDGES = 72;
+    static const int NUM_VERTICES = 54;
+
     /**
      * TileInitData #0 is meant for Tile #0, TileInitData #1 is meant for Tile #1, etc.
      * There must be 19 elements in the TileInitData array, with exactly ONE park tile.
@@ -44,10 +48,6 @@ class Board final {
     Board(std::vector<TileInitData>);
     Board(std::vector<TileInitData>, std::vector<std::pair<Builder*, BuilderStructureData>>);
     ~Board();
-
-    static const int NUM_TILES = 19;
-    static const int NUM_EDGES = 72;
-    static const int NUM_VERTICES = 54;
 
     AbstractTile* getTile(int) const;
     Vertex* getVertex(int) const;

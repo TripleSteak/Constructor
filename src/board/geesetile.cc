@@ -23,8 +23,8 @@ Resource GeeseTile::getResource() const {
     return tile->getResource();
 }
 
-std::vector<int> GeeseTile::getNeighbouringResidences(Builder& b) const {
-    return tile->getNeighbouringResidences(b);
+std::vector<int> GeeseTile::getStealCandidates(Builder& b) const {
+    return tile->getStealCandidates(b);
 }
 
 BuilderInventoryUpdate GeeseTile::giveResourcesToBuilders() const {

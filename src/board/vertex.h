@@ -11,7 +11,6 @@ class Vertex final {
   private:
     int vertexNumber;
     std::shared_ptr<Residence> residence;
-
     std::vector<Edge*> neighbouringEdges;
 
   public:

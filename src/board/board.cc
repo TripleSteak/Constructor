@@ -50,6 +50,7 @@ Board::~Board() {}
 
 void Board::setResidence(Builder& builder, int vertexNumber, char residenceType) {
     Vertex* vertex = getVertex(vertexNumber);
+
     if (residenceType == 'B') {
         std::shared_ptr<Residence> residence = std::make_shared<Basement>(builder, *vertex);
         builder.residences.push_back(residence);
@@ -183,11 +184,13 @@ void Board::setGeeseTile(int newGeeseTile) {
 
 BuilderInventoryUpdate Board::getResourcesFromDiceRoll(int rollNumber) const {
     BuilderInventoryUpdate update;
+
     for (size_t i = 0; i < tiles.size(); i++) {
         if (tiles.at(i)->getTileValue() == rollNumber) {
             update += tiles.at(i)->giveResourcesToBuilders();
         }
     }
+
     return update;
 }
 

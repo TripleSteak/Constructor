@@ -15,8 +15,9 @@ class AbstractTile {
 
     virtual int getTileNumber() const = 0; // Unique identifier assigned to each tile on the board
     virtual int getTileValue() const = 0;  // The dice roll needed to obtain resources from this tile
-    virtual std::vector<int> getNeighbouringResidences(Builder&) const = 0;
     virtual Resource getResource() const = 0;
+
+    virtual std::vector<int> getStealCandidates(Builder&) const = 0;
     virtual BuilderInventoryUpdate giveResourcesToBuilders() const = 0;
 
     virtual std::unique_ptr<AbstractTile> removeGeese() = 0;

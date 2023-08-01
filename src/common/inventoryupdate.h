@@ -9,6 +9,7 @@ struct BuilderInventoryUpdate {
     std::unordered_map<Resource, int> b2;
     std::unordered_map<Resource, int> b3;
     std::unordered_map<Resource, int> b4;
+
     // Default constructor creates entry for each resource with value 0
     BuilderInventoryUpdate() {
         for (int i = 0; i < static_cast<int>(Resource::PARK); i++) {
@@ -19,6 +20,7 @@ struct BuilderInventoryUpdate {
             b4[resource] = 0;
         }
     }
+
     // Returns true if any builder gained a non-zero amount of any resource
     bool changed() {
         for (int i = 0; i < static_cast<int>(Resource::PARK); i++) {
@@ -29,6 +31,7 @@ struct BuilderInventoryUpdate {
         }
         return false;
     }
+
     // Overloaded subscript operator
     std::unordered_map<Resource, int>& operator[](int i) {
         if (i == 0) {
@@ -47,6 +50,7 @@ struct BuilderInventoryUpdate {
             throw std::out_of_range("BuilderInventoryUpdate index out of range");
         }
     }
+
     // Overloaded += operator
     BuilderInventoryUpdate& operator+=(const BuilderInventoryUpdate& rhs) {
         for (int i = 0; i < static_cast<int>(Resource::PARK); i++) {

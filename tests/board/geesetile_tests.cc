@@ -64,3 +64,37 @@ TEST(GeeseTile, RemoveGeese) {
     EXPECT_EQ(movedTile.get()->getTileValue(), 10);
     EXPECT_EQ(movedTile.get()->getResource(), GLASS);
 }
+
+TEST(GeeseTile, GetStealCandidates) {
+    std::unique_ptr<AbstractTile> tile = std::make_unique<Tile>(22, 4, BRICK);
+    GeeseTile geeseTile(std::move(tile));
+
+    Vertex vertex1(44);
+    Vertex vertex2(45);
+    Vertex vertex3(46);
+    Vertex vertex4(47);
+
+    Builder builder1(0, 'B');
+    Builder builder2(1, 'R');
+    Builder builder3(2, 'Y');
+    Builder builder4(3, 'O');
+
+    std::shared_ptr<Residence> res1 = std::make_shared<Basement>(builder1, vertex1);
+    std::shared_ptr<Residence> res2 = std::make_shared<House>(builder2, vertex2);
+    std::shared_ptr<Residence> res3 = std::make_shared<Tower>(builder3, vertex3);
+
+    vertex1.buildResidence(res1);
+    vertex2.buildResidence(res2);
+    vertex3.buildResidence(res3);
+
+    geeseTile.addNeighbouringVertex(&vertex1);
+    geeseTile.addNeighbouringVertex(&vertex2);
+    geeseTile.addNeighbouringVertex(&vertex3);
+    geeseTile.addNeighbouringVertex(&vertex4);
+
+    builder2.inventory[BRICK] = 2;
+    builder4.inventory[GLASS] = 5;
+
+    std::vector<int> stealCandidates = geeseTile.getStealCandidates(builder1);
+    EXPECT_EQ(stealCandidates[0], 1); // Every other builder either has no residence or has no resources
+}
