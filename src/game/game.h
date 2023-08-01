@@ -21,21 +21,22 @@ class Game final {
     std::vector<TileInitData> generateRandomBoard();
 
     Builder& getBuilder(std::string);
+    std::vector<Resource> discardRandomResource(Builder&, bool);
+
     void beginTurn(std::istream&, std::ostream&);
     void duringTurn(std::istream&, std::ostream&, int);
     void buildInitialResidences(std::istream&, std::ostream&);
     void moveGeese(std::istream&, std::ostream&);
-    std::vector<Resource> discardRandomResource(Builder&, bool);
-    void manageTrade(Builder&, Trade, std::ostream&);
+    void facilitateTrade(Builder&, Trade, std::ostream&);
     void nextTurn(std::istream&, std::ostream&);
 
   public:
+    static const int NUM_BUILDERS = 4;
+
     Game();
     Game(std::vector<TileInitData>);
     Game(std::vector<TileInitData>, std::vector<BuilderResourceData>, std::vector<BuilderStructureData>, int currentBuilder, int GeeseTile);
     ~Game();
-
-    static const int NUM_BUILDERS = 4;
 
     int getCurrentBuilder() const;
     const std::vector<const Builder*> getBuilders() const;

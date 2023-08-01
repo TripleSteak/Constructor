@@ -1,21 +1,16 @@
 #include "game.h"
-#include "../board/board.h"
 #include "../board/edge.h"
-#include "../board/vertex.h"
 #include "../common/inventoryupdate.h"
 #include "../common/randomengine.h"
-#include "../common/trade.h"
 #include "../structures/residence.h"
 #include "../structures/road.h"
-#include "../common/resource.h"
 #include "builder.h"
 #include <fstream>
 #include <map>
-#include <string>
-#include <vector>
 
 Game::Game() : currentBuilder{0} {
     board = std::make_unique<Board>(generateRandomBoard());
+
     builders.push_back(std::make_unique<Builder>(0, 'B'));
     builders.push_back(std::make_unique<Builder>(1, 'R'));
     builders.push_back(std::make_unique<Builder>(2, 'O'));
@@ -24,13 +19,14 @@ Game::Game() : currentBuilder{0} {
 
 Game::Game(std::vector<TileInitData> data) : currentBuilder{0} {
     board = std::make_unique<Board>(data);
+
     builders.push_back(std::make_unique<Builder>(0, 'B'));
     builders.push_back(std::make_unique<Builder>(1, 'R'));
     builders.push_back(std::make_unique<Builder>(2, 'O'));
     builders.push_back(std::make_unique<Builder>(3, 'Y'));
 }
 
-Game::Game(std::vector<TileInitData> data, std::vector<BuilderResourceData> resourceData, std::vector<BuilderStructureData> structureData, int currentBuilder, int GeeseTile) : currentBuilder{currentBuilder} {
+Game::Game(std::vector<TileInitData> data, std::vector<BuilderResourceData> resourceData, std::vector<BuilderStructureData> structureData, int currentBuilder, int geeseTile) : currentBuilder{currentBuilder} {
     builders.push_back(std::make_unique<Builder>(0, 'B', resourceData[0]));
     builders.push_back(std::make_unique<Builder>(1, 'R', resourceData[1]));
     builders.push_back(std::make_unique<Builder>(2, 'O', resourceData[2]));
@@ -38,7 +34,7 @@ Game::Game(std::vector<TileInitData> data, std::vector<BuilderResourceData> reso
 
     std::vector<std::pair<Builder*, BuilderStructureData>> structures = {{builders.at(0).get(), structureData.at(0)}, {builders.at(1).get(), structureData.at(1)}, {builders.at(2).get(), structureData.at(2)}, {builders.at(3).get(), structureData.at(3)}};
     board = std::make_unique<Board>(data, structures);
-    board->setGeeseTile(GeeseTile);
+    board->setGeeseTile(geeseTile);
 }
 
 Game::~Game() {}
@@ -59,7 +55,11 @@ std::vector<TileInitData> Game::generateRandomBoard() {
     for (int i = 0; i < 18; i++) {
         data.push_back(TileInitData{tileValues[i], resources[i]});
     }
+
+    // Ensure that the tileValue of 7 is paired with the PARK resource
     data.push_back(TileInitData{7, Resource::PARK});
+
+    // Reshuffle the geese tile back into the board
     shuffle(data.begin(), data.end(), RandomEngine::getEngine());
     return data;
 }
@@ -70,8 +70,10 @@ int Game::getCurrentBuilder() const {
 
 const std::vector<const Builder*> Game::getBuilders() const {
     std::vector<const Builder*> builders;
-    for (const std::unique_ptr<Builder>& b : this->builders)
+    for (const std::unique_ptr<Builder>& b : this->builders) {
         builders.push_back(b.get());
+    }
+
     return builders;
 }
 
@@ -96,13 +98,13 @@ Builder& Game::getBuilder(std::string colour) {
     else if (colour == "Yellow") {
         return *builders.at(3);
     }
-    else {
-        throw std::invalid_argument("Invalid colour");
-    }
+
+    throw std::invalid_argument("Invalid colour");
 }
 
-void Game::manageTrade(Builder& proposee, Trade trade, std::ostream& out) {
+void Game::facilitateTrade(Builder& proposee, Trade trade, std::ostream& out) {
     Builder& builder = *builders.at(currentBuilder);
+
     if (builder.inventory[trade.resourceToGive] > 0 && proposee.inventory[trade.resourceToTake] > 0) {
         builder.inventory[trade.resourceToGive]--;
         builder.inventory[trade.resourceToTake]++;
@@ -120,18 +122,23 @@ void Game::manageTrade(Builder& proposee, Trade trade, std::ostream& out) {
 
 void Game::buildInitialResidences(std::istream& in, std::ostream& out) {
     int vertex;
-    // build initial residences
+
+    // First round of building, in ascending order of builderNumber
     for (int i = 0; i < NUM_BUILDERS; i++) {
         out << "Builder " << builders[i]->getBuilderColourString() << ", where do you want to build a basement?" << std::endl;
         in >> vertex;
+
         while (!board->buildInitialResidence(*builders[i], vertex, out)) {
             out << "Builder " << builders[i]->getBuilderColourString() << ", where do you want to build a basement?" << std::endl;
             in >> vertex;
         }
     }
+
+    // Second round of building, in descending order of builderNumber
     for (int i = NUM_BUILDERS - 1; i >= 0; i--) {
         out << "Builder " << builders[i]->getBuilderColourString() << ", where do you want to build a basement?" << std::endl;
         in >> vertex;
+
         while (!board->buildInitialResidence(*builders[i], vertex, out)) {
             out << "Builder " << builders[i]->getBuilderColourString() << ", where do you want to build a basement?" << std::endl;
             in >> vertex;
@@ -139,54 +146,66 @@ void Game::buildInitialResidences(std::istream& in, std::ostream& out) {
     }
 }
 
+// "half" = true means discard half of total resources, "half" = false means steal just one
 std::vector<Resource> Game::discardRandomResource(Builder& builder, bool half) {
-    std::vector<Resource> resources;
+    std::vector<Resource> builderResources;
     for (auto const& resource : builder.inventory) {
         for (int i = 0; i < resource.second; i++) {
-            resources.push_back(resource.first);
+            builderResources.push_back(resource.first);
         }
     }
-    std::shuffle(resources.begin(), resources.end(), RandomEngine::getEngine());
+
+    std::shuffle(builderResources.begin(), builderResources.end(), RandomEngine::getEngine());
     std::vector<Resource> resourcesToDiscard;
-    if (half && resources.size() >= 10) { // discard half
-        for (size_t i = 0; i < resources.size() / 2; i++) {
-            resourcesToDiscard.push_back(resources[i]);
+
+    if (half && builderResources.size() >= 10) { // discard half
+        for (size_t i = 0; i < builderResources.size() / 2; i++) {
+            resourcesToDiscard.push_back(builderResources[i]);
         }
     }
     else if (!half) { // steal one
-        resourcesToDiscard.push_back(resources[0]);
+        resourcesToDiscard.push_back(builderResources[0]);
     }
-    return resourcesToDiscard; // if empty then less than 10
+
+    // An empty return vector means we tried to discard half when the builder had less than 10 resources
+    return resourcesToDiscard;
 }
 
 void Game::moveGeese(std::istream& in, std::ostream& out) {
     Builder& builder = *builders.at(currentBuilder);
+
     for (int i = 0; i < NUM_BUILDERS; i++) {
         std::vector<Resource> discard = discardRandomResource(*builders[i], true);
         std::map<Resource, int> discardNum;
+
         if (discard.size() > 0) {
             out << "Builder " << builders[i]->getBuilderColourString() << " loses " << discard.size() << " resources to the geese. They lose:" << std::endl;
+
             for (size_t j = 0; j < discard.size(); j++) {
                 builders[i]->inventory[discard[j]]--;
                 discardNum[discard[j]]++;
             }
+
             // print out discarded resources
             for (auto const& resource : discardNum) {
                 out << resource.second << " " << resource.first << std::endl;
             }
         }
     }
+
     int tile;
-    out << "Choose where to place the GEESE." << std::endl;;
+    out << "Choose where to place the GEESE." << std::endl;
     in >> tile;
     while (tile == getGeeseLocation()) {
-        out << "Choose somewhere else to place the GEESE." << std::endl;;
+        out << "Choose somewhere else to place the GEESE." << std::endl;
         in >> tile;
     }
+
     board->setGeeseTile(tile);
 
     AbstractTile* t = board->getTile(tile);
     std::vector<int> neighbouringBuilders = t->getStealCandidates(builder);
+
     if (neighbouringBuilders.size() == 0) {
         out << "Builder " << builder.getBuilderColourString() << " has no builders to steal from." << std::endl;
         return;
@@ -215,24 +234,30 @@ void Game::moveGeese(std::istream& in, std::ostream& out) {
 void Game::save(std::string filename) {
     std::ofstream outputFile{filename};
     outputFile << getCurrentBuilder() << std::endl;
+
     for (const Builder* b : getBuilders()) {
         // Resource inventory
         outputFile << b->inventory.at(Resource::BRICK) << " " << b->inventory.at(Resource::ENERGY) << " " << b->inventory.at(Resource::GLASS) << " " << b->inventory.at(Resource::HEAT) << " " << b->inventory.at(Resource::WIFI) << " ";
+
         // Roads
         outputFile << "r";
         for (const std::shared_ptr<Road>& r : b->roads) {
             outputFile << " " << r->getLocation().getEdgeNumber();
         }
+
         // Residences
         outputFile << " h";
         for (const std::shared_ptr<Residence>& h : b->residences) {
             outputFile << " " << h->getLocation().getVertexNumber() << " " << h->getResidenceLetter();
         }
+
         outputFile << std::endl;
     }
+
     for (int i = 0; i < Board::NUM_TILES - 1; i++) {
         outputFile << (int)(getBoard().getTile(i)->getResource()) << " " << getBoard().getTile(i)->getTileValue() << " ";
     }
+
     outputFile << (int)(getBoard().getTile(Board::NUM_TILES - 1)->getResource()) << " " << getBoard().getTile(Board::NUM_TILES - 1)->getTileValue() << std::endl;
     outputFile << getGeeseLocation() << std::endl;
     outputFile.close();
@@ -264,13 +289,16 @@ void Game::beginTurn(std::istream& in, std::ostream& out) {
                     }
                 }
             }
+
             roll = builder.rollDice(loaded);
             out << "Builder " << builder.getBuilderColourString() << " rolled " << roll << std::endl;
+
             if (roll == 7) {
                 moveGeese(in, out);
             }
             else { // distribute resources
                 BuilderInventoryUpdate b = board->getResourcesFromDiceRoll(roll);
+
                 if (!b.changed()) {
                     out << "No builder gained resources." << std::endl;
                 }
@@ -294,6 +322,7 @@ void Game::beginTurn(std::istream& in, std::ostream& out) {
                             out << b.builder1Inventory.at(Resource::WIFI) << " WIFI" << std::endl;
                         }
                     }
+
                     if (b.builder2Inventory.at(Resource::BRICK) > 0 || b.builder2Inventory.at(Resource::ENERGY) > 0 || b.builder2Inventory.at(Resource::GLASS) > 0 || b.builder2Inventory.at(Resource::HEAT) > 0 || b.builder2Inventory.at(Resource::WIFI) > 0) {
                         out << "Builder " << builders.at(1)->getBuilderColourString() << " gained:" << std::endl;
                         if (b.builder2Inventory.at(Resource::BRICK) > 0) {
@@ -312,6 +341,7 @@ void Game::beginTurn(std::istream& in, std::ostream& out) {
                             out << b.builder2Inventory.at(Resource::WIFI) << " WIFI" << std::endl;
                         }
                     }
+
                     if (b.builder3Inventory.at(Resource::BRICK) > 0 || b.builder3Inventory.at(Resource::ENERGY) > 0 || b.builder3Inventory.at(Resource::GLASS) > 0 || b.builder3Inventory.at(Resource::HEAT) > 0 || b.builder3Inventory.at(Resource::WIFI) > 0) {
                         out << "Builder " << builders.at(2)->getBuilderColourString() << " gained:" << std::endl;
                         if (b.builder3Inventory.at(Resource::BRICK) > 0) {
@@ -330,6 +360,7 @@ void Game::beginTurn(std::istream& in, std::ostream& out) {
                             out << b.builder3Inventory.at(Resource::WIFI) << " WIFI" << std::endl;
                         }
                     }
+
                     if (b.builder4Inventory.at(Resource::BRICK) > 0 || b.builder4Inventory.at(Resource::ENERGY) > 0 || b.builder4Inventory.at(Resource::GLASS) > 0 || b.builder4Inventory.at(Resource::HEAT) > 0 || b.builder4Inventory.at(Resource::WIFI) > 0) {
                         out << "Builder " << builders.at(3)->getBuilderColourString() << " gained:" << std::endl;
                         if (b.builder4Inventory.at(Resource::BRICK) > 0) {
@@ -361,8 +392,10 @@ void Game::beginTurn(std::istream& in, std::ostream& out) {
 
 void Game::duringTurn(std::istream& in, std::ostream& out, int roll) {
     std::string command;
+
     while (builders[0]->getBuildingPoints() < 10 && builders[1]->getBuildingPoints() < 10 && builders[2]->getBuildingPoints() < 10 && builders[3]->getBuildingPoints() < 10 && in >> command) {
         Builder& builder = *builders.at(currentBuilder);
+
         if (command == "board") {
             board->printBoard(out);
         }
@@ -398,11 +431,12 @@ void Game::duringTurn(std::istream& in, std::ostream& out, int roll) {
             std::string give;
             in >> give; 
             std::string take;
-            in >> take; 
+            in >> take;
+
             Trade trade = builder.proposeTrade(proposeeColour, give, take, out);
             Builder& proposee = getBuilder(proposeeColour);
             if (proposee.respondToTrade(in, out)) {
-                manageTrade(proposee, trade, out);
+                facilitateTrade(proposee, trade, out);
             }
         }
         else if (command == "next") {
