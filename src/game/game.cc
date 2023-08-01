@@ -478,17 +478,18 @@ void Game::nextTurn(std::istream& in, std::ostream& out) {
 }
 
 bool Game::play(std::istream& in, std::ostream& out, bool newGame) {
-    Builder& builder = *builders.at(currentBuilder);
     if (newGame){
         board->printBoard(out);
         buildInitialResidences(in, out);
         board->printBoard(out);
         beginTurn(in, out);
     } else {
+        Builder& builder = *builders.at(currentBuilder);
         out << "Builder " << builder.getBuilderColourString() << "'s turn." << std::endl;
         duringTurn(in, out);    
     }
     if (builders[0]->getBuildingPoints() == 10 || builders[1]->getBuildingPoints() == 10 || builders[2]->getBuildingPoints() == 10 || builders[3]->getBuildingPoints() == 10) {
+        Builder& builder = *builders.at(currentBuilder);
         out << "Player " << builder.getBuilderColourString() << " wins!" << std::endl;
         return true;
     }
