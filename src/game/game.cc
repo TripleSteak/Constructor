@@ -146,7 +146,7 @@ std::vector<Resource> Game::discardRandomResource(Builder& builder, bool half) {
             resources.push_back(resource.first);
         }
     }
-    std::shuffle(resources.begin(), resources.end(), rng);
+    std::shuffle(resources.begin(), resources.end(), RandomEngine::getEngine());
     std::vector<Resource> resourcesToDiscard;
     if (half && resources.size() >= 10) { // discard half
         for (size_t i = 0; i < resources.size() / 2; i++) {

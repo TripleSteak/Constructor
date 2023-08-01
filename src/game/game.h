@@ -17,7 +17,6 @@ class Game final {
     std::unique_ptr<Board> board;
     std::vector<std::unique_ptr<Builder>> builders;
     int currentBuilder; // Index of current builder in builders
-    std::default_random_engine rng;
 
     std::vector<TileInitData> generateRandomBoard();
 
