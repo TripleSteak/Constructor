@@ -1,21 +1,22 @@
 #include "builder.h"
 #include "../board/edge.h"
-#include "../board/vertex.h"
-#include "../common/trade.h"
 #include "../dice/dice.h"
 #include "../dice/fairdice.h"
 #include "../dice/loadeddice.h"
 #include "../structures/basement.h"
 #include "../structures/house.h"
-#include "../structures/residence.h"
 #include "../structures/road.h"
 #include "../structures/tower.h"
-#include <memory>
 #include <sstream>
+#include <algorithm>
 
-Builder::Builder(int builderNumber, char builderColour) : builderNumber{builderNumber}, builderColour{builderColour}, hasLoaded{true}, dice{std::make_unique<LoadedDice>()}, inventory{{BRICK, 0}, {ENERGY, 0}, {GLASS, 0}, {HEAT, 0}, {WIFI, 0}} {}
+Builder::Builder(int builderNumber, char builderColour) : builderNumber{builderNumber},
+    builderColour{builderColour}, hasLoadedDice{true}, dice{std::make_unique<LoadedDice>()},
+    inventory{{BRICK, 0}, {ENERGY, 0}, {GLASS, 0}, {HEAT, 0}, {WIFI, 0}} {}
 
-Builder::Builder(int builderNumber, char builderColour, BuilderResourceData brd) : builderNumber{builderNumber}, builderColour{builderColour}, hasLoaded{true}, dice{std::make_unique<LoadedDice>()}, inventory{{BRICK, brd.brickNum}, {ENERGY, brd.energyNum}, {GLASS, brd.glassNum}, {HEAT, brd.heatNum}, {WIFI, brd.wifiNum}} {}
+Builder::Builder(int builderNumber, char builderColour, BuilderResourceData brd) : builderNumber{builderNumber},
+    builderColour{builderColour}, hasLoadedDice{true}, dice{std::make_unique<LoadedDice>()},
+    inventory{{BRICK, brd.brickNum}, {ENERGY, brd.energyNum}, {GLASS, brd.glassNum}, {HEAT, brd.heatNum}, {WIFI, brd.wifiNum}} {}
 
 Builder::~Builder() {}
 
@@ -26,6 +27,7 @@ bool Builder::operator==(const Builder& other) const {
 int Builder::getBuilderNumber() const {
     return builderNumber;
 }
+
 char Builder::getBuilderColour() const {
     return builderColour;
 }
@@ -61,7 +63,7 @@ std::string Builder::getBuilderColourString() const {
     return colourString;
 }
 
-int Builder::getInventoryNum() {
+int Builder::getTotalResourceQuantity() {
     int inventoryNum = 0;
     for (auto& resource : inventory) {
         inventoryNum += resource.second;
@@ -72,7 +74,9 @@ int Builder::getInventoryNum() {
 std::string Builder::getStatus() const {
     std::ostringstream oss;
 
-    oss << getBuilderColourString() << " has " << getBuildingPoints() << " building points, " << inventory.at(BRICK) << " brick, " << inventory.at(ENERGY) << " energy, " << inventory.at(GLASS) << " glass, " << inventory.at(HEAT) << " heat, and " << inventory.at(WIFI) << " WiFi.";
+    oss << getBuilderColourString() << " has " << getBuildingPoints() << " building points, "
+        << inventory.at(BRICK) << " brick, " << inventory.at(ENERGY) << " energy, " << inventory.at(GLASS)
+        << " glass, " << inventory.at(HEAT) << " heat, and " << inventory.at(WIFI) << " WiFi.";
 
     return oss.str();
 }
@@ -84,21 +88,16 @@ int Builder::rollDice(int roll) const {
 void Builder::setDice(bool isLoaded) {
     if (isLoaded) {
         dice.reset(new LoadedDice());
-        hasLoaded = true;
+        hasLoadedDice = true;
     }
     else {
         dice.reset(new FairDice());
-        hasLoaded = false;
+        hasLoadedDice = false;
     }
 }
 
-bool Builder::getDice() {
-    if (hasLoaded) {
-        return true;
-    }
-    else {
-        return false;
-    }
+bool Builder::getHasLoadedDice() {
+    return hasLoadedDice;
 }
 
 int Builder::chooseGeeseSpot(std::istream& in, std::ostream& out) const {
@@ -117,9 +116,17 @@ char Builder::steal(std::istream& in, std::ostream& out) const {
 
 Trade Builder::proposeTrade(std::string proposee, std::string resourceToGive, std::string resourceToTake, std::ostream& out) const {
     Trade trade;
+
+    // Adjust proposee colour to match standard builder colour casing
+    if(proposee.length() > 1) {
+        std::transform(proposee.begin(), proposee.end(), proposee.begin(), ::tolower);
+        std::transform(proposee.begin(), proposee.begin() + 1, proposee.begin(), ::toupper);
+    }
+
     trade.proposeeColour = proposee;
     trade.resourceToGive = resourceFromString(resourceToGive);
     trade.resourceToTake = resourceFromString(resourceToTake);
+
     out << getBuilderColourString() << " offers " << trade.proposeeColour << " one " << resourceToGive << " for one " << resourceToTake << "." << std::endl;
     return trade;
 }
@@ -135,6 +142,7 @@ std::shared_ptr<Road> Builder::tryBuildRoad(Edge& edge) {
     if (inventory.at(HEAT) < 1 || inventory.at(WIFI) < 1) {
         return nullptr;
     }
+
     std::shared_ptr<Road> road = std::make_shared<Road>(*this, edge);
     inventory.at(HEAT) -= 1;
     inventory.at(WIFI) -= 1;
@@ -146,6 +154,7 @@ std::shared_ptr<Residence> Builder::tryBuildResidence(Vertex& vertex) {
     if (inventory.at(BRICK) < 1 || inventory.at(ENERGY) < 1 || inventory.at(GLASS) < 1 || inventory.at(WIFI) < 1) {
         return nullptr;
     }
+
     std::shared_ptr<Residence> residence = std::make_shared<Basement>(*this, vertex);
     inventory.at(BRICK) -= 1;
     inventory.at(ENERGY) -= 1;
@@ -162,12 +171,19 @@ std::shared_ptr<Residence> Builder::tryBuildInitialResidence(Vertex& vertex) {
 }
 
 std::shared_ptr<Residence> Builder::tryUpgradeResidence(Vertex& vertex) {
-    std::shared_ptr<Residence> residence;
+    std::shared_ptr<Residence> residence = nullptr;
+
+    // Cannot upgrade a non-existent residence!
+    if(vertex.getResidence() == nullptr) {
+        return nullptr;
+    }
+
     switch (vertex.getResidence()->getResidenceLetter()) {
         case 'B':
             if (inventory.at(GLASS) < 2 || inventory.at(HEAT) < 3) {
                 return nullptr;
             }
+
             residence = std::make_shared<House>(*this, vertex);
             inventory.at(GLASS) -= 2;
             inventory.at(HEAT) -= 3;
@@ -177,10 +193,14 @@ std::shared_ptr<Residence> Builder::tryUpgradeResidence(Vertex& vertex) {
                     return residence;
                 }
             }
+
+            // Should not ever get reached
+            return nullptr;
         case 'H':
             if (inventory.at(BRICK) < 3 || inventory.at(ENERGY) < 2 || inventory.at(GLASS) < 2 || inventory.at(HEAT) < 2 || inventory.at(WIFI) < 1) {
                 return nullptr;
             }
+
             residence = std::make_shared<Tower>(*this, vertex);
             inventory.at(BRICK) -= 3;
             inventory.at(ENERGY) -= 2;
@@ -193,8 +213,10 @@ std::shared_ptr<Residence> Builder::tryUpgradeResidence(Vertex& vertex) {
                     return residence;
                 }
             }
+
+            // Should not ever get reached
+            return nullptr;
         default:
             return nullptr;
-            break;
     }
 }

@@ -29,7 +29,7 @@ class Builder final {
   private:
     const int builderNumber;
     const char builderColour;
-    bool hasLoaded;
+    bool hasLoadedDice;
     std::unique_ptr<Dice> dice;
 
   public:
@@ -43,23 +43,24 @@ class Builder final {
 
     bool operator==(const Builder&) const;
 
-    int getInventoryNum();
     int getBuilderNumber() const;
     char getBuilderColour() const;
     std::string getBuilderColourString() const;
     int getBuildingPoints() const;
+    int getTotalResourceQuantity();
     std::string getStatus() const;
 
     int rollDice(int) const;
     void setDice(bool);
-    bool getDice();
+    bool getHasLoadedDice();
 
     int chooseGeeseSpot(std::istream&, std::ostream&) const; // Select tile number to place geese on
-    char steal(std::istream&, std::ostream&) const;          // Select which other Builder to steal from
+    char steal(std::istream&, std::ostream&) const; // Select which other Builder to steal from
     Trade proposeTrade(std::string, std::string, std::string, std::ostream&) const;
     bool respondToTrade(std::istream&, std::ostream&) const;
 
     std::unordered_map<Resource, int> getResourcesFromDiceRoll(int);
+
     std::shared_ptr<Road> tryBuildRoad(Edge&);
     std::shared_ptr<Residence> tryBuildResidence(Vertex&);
     std::shared_ptr<Residence> tryBuildInitialResidence(Vertex&);

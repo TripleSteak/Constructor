@@ -255,7 +255,7 @@ void Game::beginTurn(std::istream& in, std::ostream& out) {
             builder.setDice(false);
         }
         else if (command == "roll") {
-            if (builder.getDice()) {
+            if (builder.getHasLoadedDice()) {
                 while (loaded < 2 || loaded > 12) {
                     out << "Input a roll between 2 and 12:" << std::endl;
                     in >> loaded;

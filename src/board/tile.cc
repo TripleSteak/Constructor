@@ -43,7 +43,7 @@ std::vector<int> Tile::getStealCandidates(Builder& builder) const {
     std::vector<int> builders;
 
     for (Vertex* vertex : neighbouringVertices) {
-        if (vertex->getResidence() != nullptr && vertex->getResidence()->getOwner().getBuilderNumber() != builder.getBuilderNumber() && vertex->getResidence()->getOwner().getInventoryNum() > 0) {
+        if (vertex->getResidence() != nullptr && vertex->getResidence()->getOwner().getBuilderNumber() != builder.getBuilderNumber() && vertex->getResidence()->getOwner().getTotalResourceQuantity() > 0) {
             if (std::find(builders.begin(), builders.end(), vertex->getResidence()->getOwner().getBuilderNumber()) == builders.end()){
                 builders.emplace_back(vertex->getResidence()->getOwner().getBuilderNumber());
             } 
