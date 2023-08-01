@@ -72,7 +72,7 @@ int Builder::getInventoryNum() {
 std::string Builder::getStatus() const {
     std::ostringstream oss;
 
-    oss << getBuilderColour() << " has " << getBuildingPoints() << " building points, " << inventory.at(BRICK) << " brick, " << inventory.at(ENERGY) << " energy, " << inventory.at(GLASS) << " glass, " << inventory.at(HEAT) << " heat, and " << inventory.at(WIFI) << " WiFi.";
+    oss << getBuilderColourString() << " has " << getBuildingPoints() << " building points, " << inventory.at(BRICK) << " brick, " << inventory.at(ENERGY) << " energy, " << inventory.at(GLASS) << " glass, " << inventory.at(HEAT) << " heat, and " << inventory.at(WIFI) << " WiFi.";
 
     return oss.str();
 }

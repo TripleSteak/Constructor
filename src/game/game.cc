@@ -7,6 +7,7 @@
 #include "../common/trade.h"
 #include "../structures/residence.h"
 #include "../structures/road.h"
+#include "../common/resource.h"
 #include "builder.h"
 #include <fstream>
 #include <map>
@@ -216,7 +217,7 @@ void Game::save(std::string filename) {
     outputFile << getCurrentBuilder() << std::endl;
     for (const Builder* b : getBuilders()) {
         // Resource inventory
-        outputFile << b->inventory.at(Resource::BRICK) << " " << b->inventory.at(Resource::ENERGY) << " " << b->inventory.at(Resource::GLASS) << " " << b->inventory.at(Resource::HEAT) << " " << b->inventory.at(Resource::WIFI) << std::endl;
+        outputFile << b->inventory.at(Resource::BRICK) << " " << b->inventory.at(Resource::ENERGY) << " " << b->inventory.at(Resource::GLASS) << " " << b->inventory.at(Resource::HEAT) << " " << b->inventory.at(Resource::WIFI) << " ";
         // Roads
         outputFile << "r";
         for (const std::shared_ptr<Road>& r : b->roads) {
@@ -229,10 +230,10 @@ void Game::save(std::string filename) {
         }
         outputFile << std::endl;
     }
-    for (int i = 0; i < Board::NUM_TILES; i++) {
-        outputFile << getBoard().getTile(i)->getResource() << " " << getBoard().getTile(i)->getTileValue();
+    for (int i = 0; i < Board::NUM_TILES - 1; i++) {
+        outputFile << resourceToInt(getBoard().getTile(i)->getResource()) << " " << getBoard().getTile(i)->getTileValue() << " ";
     }
-    outputFile << std::endl;
+    outputFile << resourceToInt(getBoard().getTile(Board::NUM_TILES - 1)->getResource()) << " " << getBoard().getTile(Board::NUM_TILES - 1)->getTileValue() << std::endl;
     outputFile << getGeeseLocation() << std::endl;
     outputFile.close();
 }
@@ -373,7 +374,7 @@ void Game::duringTurn(std::istream& in, std::ostream& out, int roll) {
         else if (command == "residences") {
             out << "Builder " << builder.getBuilderColourString() << " has built:" << std::endl;
             for (size_t i = 0; i < builder.residences.size(); i++) {
-                out << std::to_string(builder.residences[0]->getLocation().getVertexNumber()) << " " << builder.residences[i]->getResidenceLetter() << std::endl;
+                out << std::to_string(builder.residences[i]->getLocation().getVertexNumber()) << " " << builder.residences[i]->getResidenceLetter() << std::endl;
             }
         }
         else if (command.substr(0, 10) == "build-road") {
@@ -444,6 +445,7 @@ void Game::nextTurn(std::istream& in, std::ostream& out) {
 
 bool Game::play(std::istream& in, std::ostream& out, bool newGame) {
     if (newGame){
+        board->printBoard(out);
         buildInitialResidences(in, out);
         board->printBoard(out);
     }
