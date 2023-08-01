@@ -149,7 +149,7 @@ bool Board::upgradeResidence(Builder& builder, int vertexNumber, std::ostream& o
 
     // check if can upgrade residence on vertex
     if (!vertex->canUpgradeResidence(builder)) {
-        out << "You cannot build here." << std::endl;
+        out << "You cannot upgrade this residence." << std::endl;
         return false;
     }
 

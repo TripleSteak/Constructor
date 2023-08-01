@@ -180,7 +180,7 @@ void Game::moveGeese(std::istream& in, std::ostream& out) {
     out << "Choose where to place the GEESE." << std::endl;;
     in >> tile;
     while (tile == getGeeseLocation()) {
-        out << "Where do you want to place the GEESE?" << std::endl;;
+        out << "Choose somewhere else to place the GEESE." << std::endl;;
         in >> tile;
     }
     board->setGeeseTile(tile);
@@ -361,7 +361,7 @@ void Game::beginTurn(std::istream& in, std::ostream& out) {
 
 void Game::duringTurn(std::istream& in, std::ostream& out, int roll) {
     std::string command;
-    while (in >> command && builders[0]->getBuildingPoints() < 10 && builders[1]->getBuildingPoints() < 10 && builders[2]->getBuildingPoints() < 10 && builders[3]->getBuildingPoints() < 10) {
+    while (builders[0]->getBuildingPoints() < 10 && builders[1]->getBuildingPoints() < 10 && builders[2]->getBuildingPoints() < 10 && builders[3]->getBuildingPoints() < 10 && in >> command) {
         Builder& builder = *builders.at(currentBuilder);
         if (command == "board") {
             board->printBoard(out);

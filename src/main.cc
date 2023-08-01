@@ -73,6 +73,8 @@ int main(int argc, char* argv[]) {
                     args["-load"] = "";
                     args["-board"] = "";
                     args["-random-board"] = "T";
+                    newGame = true;
+                    break;
                 }
                 else if (resp == "no") {
                     return 0;
