@@ -13,5 +13,7 @@ TEST(LoadedDice, RollDice) {
 
 TEST(LoadedDice, RollDiceWithBuilder) {
     Builder builder(1, 'B');
-    builder.rollDice(1);
+    int roll = builder.rollDice(1);
+
+    EXPECT_EQ(roll, 1);
 }

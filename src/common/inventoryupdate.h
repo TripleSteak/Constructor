@@ -5,19 +5,19 @@
 #include <unordered_map>
 
 struct BuilderInventoryUpdate {
-    std::unordered_map<Resource, int> b1;
-    std::unordered_map<Resource, int> b2;
-    std::unordered_map<Resource, int> b3;
-    std::unordered_map<Resource, int> b4;
+    std::unordered_map<Resource, int> builder1Inventory;
+    std::unordered_map<Resource, int> builder2Inventory;
+    std::unordered_map<Resource, int> builder3Inventory;
+    std::unordered_map<Resource, int> builder4Inventory;
 
     // Default constructor creates entry for each resource with value 0
     BuilderInventoryUpdate() {
         for (int i = 0; i < static_cast<int>(Resource::PARK); i++) {
             Resource resource = static_cast<Resource>(i);
-            b1[resource] = 0;
-            b2[resource] = 0;
-            b3[resource] = 0;
-            b4[resource] = 0;
+            builder1Inventory[resource] = 0;
+            builder2Inventory[resource] = 0;
+            builder3Inventory[resource] = 0;
+            builder4Inventory[resource] = 0;
         }
     }
 
@@ -25,40 +25,32 @@ struct BuilderInventoryUpdate {
     bool changed() {
         for (int i = 0; i < static_cast<int>(Resource::PARK); i++) {
             Resource resource = static_cast<Resource>(i);
-            if (b1[resource] != 0 || b2[resource] != 0 || b3[resource] != 0 || b4[resource] != 0) {
+            if (builder1Inventory[resource] != 0 || builder2Inventory[resource] != 0 || builder3Inventory[resource] != 0 || builder4Inventory[resource] != 0) {
                 return true;
             }
         }
         return false;
     }
 
-    // Overloaded subscript operator
+    // Overloaded subscript operator to index inventories by builderNumber
     std::unordered_map<Resource, int>& operator[](int i) {
-        if (i == 0) {
-            return b1;
-        }
-        else if (i == 1) {
-            return b2;
-        }
-        else if (i == 2) {
-            return b3;
-        }
-        else if (i == 3) {
-            return b4;
-        }
-        else {
-            throw std::out_of_range("BuilderInventoryUpdate index out of range");
+        switch(i) {
+            case 0: return builder1Inventory;
+            case 1: return builder2Inventory;
+            case 2: return builder3Inventory;
+            case 3: return builder4Inventory;
+            default: throw std::out_of_range("BuilderInventoryUpdate index out of range");
         }
     }
 
-    // Overloaded += operator
+    // Overloaded += operator to combine BuilderInventoryUpdate objects
     BuilderInventoryUpdate& operator+=(const BuilderInventoryUpdate& rhs) {
         for (int i = 0; i < static_cast<int>(Resource::PARK); i++) {
             Resource resource = static_cast<Resource>(i);
-            b1[resource] += rhs.b1.at(resource);
-            b2[resource] += rhs.b2.at(resource);
-            b3[resource] += rhs.b3.at(resource);
-            b4[resource] += rhs.b4.at(resource);
+            builder1Inventory[resource] += rhs.builder1Inventory.at(resource);
+            builder2Inventory[resource] += rhs.builder2Inventory.at(resource);
+            builder3Inventory[resource] += rhs.builder3Inventory.at(resource);
+            builder4Inventory[resource] += rhs.builder4Inventory.at(resource);
         }
         return *this;
     }

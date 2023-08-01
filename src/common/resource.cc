@@ -22,29 +22,10 @@ std::string resourceToString(Resource resource) {
     throw std::invalid_argument("Error converting resource to string!");
 }
 
-int resourceToInt(Resource resource) {
-    switch (resource) {
-        case BRICK:
-            return 0;
-        case ENERGY:
-            return 1;
-        case GLASS:
-            return 2;
-        case HEAT:
-            return 3;
-        case WIFI:
-            return 4;
-        case PARK:
-            return 5;
-    }
-
-    // Should never run
-    throw std::invalid_argument("Error converting resource to int!");
-}
-
 // Converts a string to a Resource enum
 Resource resourceFromString(std::string str) {
     std::transform(str.begin(), str.end(), str.begin(), ::toupper);
+
     if (str == "BRICK") {
         return BRICK;
     }

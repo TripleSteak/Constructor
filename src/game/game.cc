@@ -231,9 +231,9 @@ void Game::save(std::string filename) {
         outputFile << std::endl;
     }
     for (int i = 0; i < Board::NUM_TILES - 1; i++) {
-        outputFile << resourceToInt(getBoard().getTile(i)->getResource()) << " " << getBoard().getTile(i)->getTileValue() << " ";
+        outputFile << (int)(getBoard().getTile(i)->getResource()) << " " << getBoard().getTile(i)->getTileValue() << " ";
     }
-    outputFile << resourceToInt(getBoard().getTile(Board::NUM_TILES - 1)->getResource()) << " " << getBoard().getTile(Board::NUM_TILES - 1)->getTileValue() << std::endl;
+    outputFile << (int)(getBoard().getTile(Board::NUM_TILES - 1)->getResource()) << " " << getBoard().getTile(Board::NUM_TILES - 1)->getTileValue() << std::endl;
     outputFile << getGeeseLocation() << std::endl;
     outputFile.close();
 }
@@ -276,76 +276,76 @@ void Game::beginTurn(std::istream& in, std::ostream& out) {
                 }
                 else {
                     // Output resources gained
-                    if (b.b1.at(Resource::BRICK) > 0 || b.b1.at(Resource::ENERGY) > 0 || b.b1.at(Resource::GLASS) > 0 || b.b1.at(Resource::HEAT) > 0 || b.b1.at(Resource::WIFI) > 0) {
+                    if (b.builder1Inventory.at(Resource::BRICK) > 0 || b.builder1Inventory.at(Resource::ENERGY) > 0 || b.builder1Inventory.at(Resource::GLASS) > 0 || b.builder1Inventory.at(Resource::HEAT) > 0 || b.builder1Inventory.at(Resource::WIFI) > 0) {
                         out << "Builder " << builders.at(0)->getBuilderColourString() << " gained:" << std::endl;
-                        if (b.b1.at(Resource::BRICK) > 0) {
-                            out << b.b1.at(Resource::BRICK) << " BRICK" << std::endl;
+                        if (b.builder1Inventory.at(Resource::BRICK) > 0) {
+                            out << b.builder1Inventory.at(Resource::BRICK) << " BRICK" << std::endl;
                         }
-                        if (b.b1.at(Resource::ENERGY) > 0) {
-                            out << b.b1.at(Resource::ENERGY) << " ENERGY" << std::endl;
+                        if (b.builder1Inventory.at(Resource::ENERGY) > 0) {
+                            out << b.builder1Inventory.at(Resource::ENERGY) << " ENERGY" << std::endl;
                         }
-                        if (b.b1.at(Resource::GLASS) > 0) {
-                            out << b.b1.at(Resource::GLASS) << " GLASS" << std::endl;
+                        if (b.builder1Inventory.at(Resource::GLASS) > 0) {
+                            out << b.builder1Inventory.at(Resource::GLASS) << " GLASS" << std::endl;
                         }
-                        if (b.b1.at(Resource::HEAT) > 0) {
-                            out << b.b1.at(Resource::HEAT) << " HEAT" << std::endl;
+                        if (b.builder1Inventory.at(Resource::HEAT) > 0) {
+                            out << b.builder1Inventory.at(Resource::HEAT) << " HEAT" << std::endl;
                         }
-                        if (b.b1.at(Resource::WIFI) > 0) {
-                            out << b.b1.at(Resource::WIFI) << " WIFI" << std::endl;
+                        if (b.builder1Inventory.at(Resource::WIFI) > 0) {
+                            out << b.builder1Inventory.at(Resource::WIFI) << " WIFI" << std::endl;
                         }
                     }
-                    if (b.b2.at(Resource::BRICK) > 0 || b.b2.at(Resource::ENERGY) > 0 || b.b2.at(Resource::GLASS) > 0 || b.b2.at(Resource::HEAT) > 0 || b.b2.at(Resource::WIFI) > 0) {
+                    if (b.builder2Inventory.at(Resource::BRICK) > 0 || b.builder2Inventory.at(Resource::ENERGY) > 0 || b.builder2Inventory.at(Resource::GLASS) > 0 || b.builder2Inventory.at(Resource::HEAT) > 0 || b.builder2Inventory.at(Resource::WIFI) > 0) {
                         out << "Builder " << builders.at(1)->getBuilderColourString() << " gained:" << std::endl;
-                        if (b.b2.at(Resource::BRICK) > 0) {
-                            out << b.b2.at(Resource::BRICK) << " BRICK" << std::endl;
+                        if (b.builder2Inventory.at(Resource::BRICK) > 0) {
+                            out << b.builder2Inventory.at(Resource::BRICK) << " BRICK" << std::endl;
                         }
-                        if (b.b2.at(Resource::ENERGY) > 0) {
-                            out << b.b2.at(Resource::ENERGY) << " ENERGY" << std::endl;
+                        if (b.builder2Inventory.at(Resource::ENERGY) > 0) {
+                            out << b.builder2Inventory.at(Resource::ENERGY) << " ENERGY" << std::endl;
                         }
-                        if (b.b2.at(Resource::GLASS) > 0) {
-                            out << b.b2.at(Resource::GLASS) << " GLASS" << std::endl;
+                        if (b.builder2Inventory.at(Resource::GLASS) > 0) {
+                            out << b.builder2Inventory.at(Resource::GLASS) << " GLASS" << std::endl;
                         }
-                        if (b.b2.at(Resource::HEAT) > 0) {
-                            out << b.b2.at(Resource::HEAT) << " HEAT" << std::endl;
+                        if (b.builder2Inventory.at(Resource::HEAT) > 0) {
+                            out << b.builder2Inventory.at(Resource::HEAT) << " HEAT" << std::endl;
                         }
-                        if (b.b2.at(Resource::WIFI) > 0) {
-                            out << b.b2.at(Resource::WIFI) << " WIFI" << std::endl;
+                        if (b.builder2Inventory.at(Resource::WIFI) > 0) {
+                            out << b.builder2Inventory.at(Resource::WIFI) << " WIFI" << std::endl;
                         }
                     }
-                    if (b.b3.at(Resource::BRICK) > 0 || b.b3.at(Resource::ENERGY) > 0 || b.b3.at(Resource::GLASS) > 0 || b.b3.at(Resource::HEAT) > 0 || b.b3.at(Resource::WIFI) > 0) {
+                    if (b.builder3Inventory.at(Resource::BRICK) > 0 || b.builder3Inventory.at(Resource::ENERGY) > 0 || b.builder3Inventory.at(Resource::GLASS) > 0 || b.builder3Inventory.at(Resource::HEAT) > 0 || b.builder3Inventory.at(Resource::WIFI) > 0) {
                         out << "Builder " << builders.at(2)->getBuilderColourString() << " gained:" << std::endl;
-                        if (b.b3.at(Resource::BRICK) > 0) {
-                            out << b.b3.at(Resource::BRICK) << " BRICK" << std::endl;
+                        if (b.builder3Inventory.at(Resource::BRICK) > 0) {
+                            out << b.builder3Inventory.at(Resource::BRICK) << " BRICK" << std::endl;
                         }
-                        if (b.b3.at(Resource::ENERGY) > 0) {
-                            out << b.b3.at(Resource::ENERGY) << " ENERGY" << std::endl;
+                        if (b.builder3Inventory.at(Resource::ENERGY) > 0) {
+                            out << b.builder3Inventory.at(Resource::ENERGY) << " ENERGY" << std::endl;
                         }
-                        if (b.b3.at(Resource::GLASS) > 0) {
-                            out << b.b3.at(Resource::GLASS) << " GLASS" << std::endl;
+                        if (b.builder3Inventory.at(Resource::GLASS) > 0) {
+                            out << b.builder3Inventory.at(Resource::GLASS) << " GLASS" << std::endl;
                         }
-                        if (b.b3.at(Resource::HEAT) > 0) {
-                            out << b.b3.at(Resource::HEAT) << " HEAT" << std::endl;
+                        if (b.builder3Inventory.at(Resource::HEAT) > 0) {
+                            out << b.builder3Inventory.at(Resource::HEAT) << " HEAT" << std::endl;
                         }
-                        if (b.b3.at(Resource::WIFI) > 0) {
-                            out << b.b3.at(Resource::WIFI) << " WIFI" << std::endl;
+                        if (b.builder3Inventory.at(Resource::WIFI) > 0) {
+                            out << b.builder3Inventory.at(Resource::WIFI) << " WIFI" << std::endl;
                         }
                     }
-                    if (b.b4.at(Resource::BRICK) > 0 || b.b4.at(Resource::ENERGY) > 0 || b.b4.at(Resource::GLASS) > 0 || b.b4.at(Resource::HEAT) > 0 || b.b4.at(Resource::WIFI) > 0) {
+                    if (b.builder4Inventory.at(Resource::BRICK) > 0 || b.builder4Inventory.at(Resource::ENERGY) > 0 || b.builder4Inventory.at(Resource::GLASS) > 0 || b.builder4Inventory.at(Resource::HEAT) > 0 || b.builder4Inventory.at(Resource::WIFI) > 0) {
                         out << "Builder " << builders.at(3)->getBuilderColourString() << " gained:" << std::endl;
-                        if (b.b4.at(Resource::BRICK) > 0) {
-                            out << b.b4.at(Resource::BRICK) << " BRICK" << std::endl;
+                        if (b.builder4Inventory.at(Resource::BRICK) > 0) {
+                            out << b.builder4Inventory.at(Resource::BRICK) << " BRICK" << std::endl;
                         }
-                        if (b.b4.at(Resource::ENERGY) > 0) {
-                            out << b.b4.at(Resource::ENERGY) << " ENERGY" << std::endl;
+                        if (b.builder4Inventory.at(Resource::ENERGY) > 0) {
+                            out << b.builder4Inventory.at(Resource::ENERGY) << " ENERGY" << std::endl;
                         }
-                        if (b.b4.at(Resource::GLASS) > 0) {
-                            out << b.b4.at(Resource::GLASS) << " GLASS" << std::endl;
+                        if (b.builder4Inventory.at(Resource::GLASS) > 0) {
+                            out << b.builder4Inventory.at(Resource::GLASS) << " GLASS" << std::endl;
                         }
-                        if (b.b4.at(Resource::HEAT) > 0) {
-                            out << b.b4.at(Resource::HEAT) << " HEAT" << std::endl;
+                        if (b.builder4Inventory.at(Resource::HEAT) > 0) {
+                            out << b.builder4Inventory.at(Resource::HEAT) << " HEAT" << std::endl;
                         }
-                        if (b.b4.at(Resource::WIFI) > 0) {
-                            out << b.b4.at(Resource::WIFI) << " WIFI" << std::endl;
+                        if (b.builder4Inventory.at(Resource::WIFI) > 0) {
+                            out << b.builder4Inventory.at(Resource::WIFI) << " WIFI" << std::endl;
                         }
                     }
                 }
