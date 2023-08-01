@@ -9,5 +9,5 @@
 # Compiled files
 constructor
 
-# Test files
-*.out
+# ./run_tests.sh test file
+tests/tests.out
