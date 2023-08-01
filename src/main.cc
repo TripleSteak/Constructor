@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
 
     // Create the game
     if (args["-seed"].empty()) {
-        RandomEngine::setSeed(std::chrono::system_clock::now().time_since_epoch().count());
+        RandomEngine::setSeed(1); //set to default to same 
     }
     else {
         RandomEngine::setSeed(std::stoul(args["-seed"]));
@@ -46,9 +46,11 @@ int main(int argc, char* argv[]) {
     std::unique_ptr<Game> game;
 
     // Game loop
+    bool newGame = true;
     while (true) {
         if (!args["-load"].empty()) {
             game = factory.loadFromGame(args["-load"]);
+            newGame = false;
         }
         else if (!args["-board"].empty()) {
             game = factory.loadFromBoard(args["-board"]);
@@ -61,7 +63,7 @@ int main(int argc, char* argv[]) {
             return 1;
         }
         // Play game, returns true if finished and false if unfinished
-        if (game->play(std::cin, std::cout)) {
+        if (game->play(std::cin, std::cout, newGame)) {
             std::cout << "Would you like to play again?" << std::endl;
             std::string resp;
             while (std::cin >> resp) {

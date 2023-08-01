@@ -120,19 +120,18 @@ Trade Builder::proposeTrade(std::string proposee, std::string resourceToGive, st
     trade.proposeeColour = proposee;
     trade.resourceToGive = resourceFromString(resourceToGive);
     trade.resourceToTake = resourceFromString(resourceToTake);
-    out << getBuilderColour() << " offers " << trade.proposeeColour << " one " << resourceToGive << " for one " << resourceToTake << "." << std::endl;
-    out << "Does " << trade.proposeeColour << " accept this offer?" << std::endl;
+    out << getBuilderColourString() << " offers " << trade.proposeeColour << " one " << resourceToGive << " for one " << resourceToTake << "." << std::endl;
     return trade;
 }
 
 bool Builder::respondToTrade(std::istream& in, std::ostream& out) const {
     std::string response;
-    out << "Does " << builderColour << " accept this offer?" << std::endl;
+    out << "Does " << getBuilderColourString() << " accept this offer?" << std::endl;
     in >> response;
     return response == "yes";
 }
 
-std::shared_ptr<Road> Builder::tryBuildRoad(Edge edge) {
+std::shared_ptr<Road> Builder::tryBuildRoad(Edge& edge) {
     if (inventory.at(HEAT) < 1 || inventory.at(WIFI) < 1) {
         return nullptr;
     }
@@ -143,7 +142,7 @@ std::shared_ptr<Road> Builder::tryBuildRoad(Edge edge) {
     return road;
 }
 
-std::shared_ptr<Residence> Builder::tryBuildResidence(Vertex vertex) {
+std::shared_ptr<Residence> Builder::tryBuildResidence(Vertex& vertex) {
     if (inventory.at(BRICK) < 1 || inventory.at(ENERGY) < 1 || inventory.at(GLASS) < 1 || inventory.at(WIFI) < 1) {
         return nullptr;
     }
@@ -156,13 +155,13 @@ std::shared_ptr<Residence> Builder::tryBuildResidence(Vertex vertex) {
     return residence;
 }
 
-std::shared_ptr<Residence> Builder::tryBuildInitialResidence(Vertex vertex) {
+std::shared_ptr<Residence> Builder::tryBuildInitialResidence(Vertex& vertex) {
     std::shared_ptr<Residence> residence = std::make_shared<Basement>(*this, vertex);
     residences.emplace_back(residence);
     return residence;
 }
 
-std::shared_ptr<Residence> Builder::tryUpgradeResidence(Vertex vertex) {
+std::shared_ptr<Residence> Builder::tryUpgradeResidence(Vertex& vertex) {
     std::shared_ptr<Residence> residence;
     switch (vertex.getResidence()->getResidenceLetter()) {
         case 'B':

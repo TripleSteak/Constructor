@@ -17,6 +17,7 @@ TEST(Basement, GetLocation) {
     Basement basement(builder, location);
 
     EXPECT_EQ(basement.getLocation(), location);
+    EXPECT_EQ(basement.getLocation().getVertexNumber(), 15);
 }
 
 TEST(Basement, GetBuildingPoints) {

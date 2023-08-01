@@ -43,7 +43,7 @@ class Game final {
     int getGeeseLocation() const;
     const Board& getBoard() const;
 
-    bool play(std::istream&, std::ostream&);
+    bool play(std::istream&, std::ostream&, bool);
     void save(std::string);
 };
 

@@ -177,21 +177,22 @@ void Game::moveGeese(std::istream& in, std::ostream& out) {
         }
     }
     int tile;
-    out << "Choose where to place the GEESE.";
+    out << "Choose where to place the GEESE." << std::endl;;
     in >> tile;
-    while (tile != getGeeseLocation()) {
-        out << "Where do you want to place the GEESE?";
+    while (tile == getGeeseLocation()) {
+        out << "Where do you want to place the GEESE?" << std::endl;;
         in >> tile;
     }
     board->setGeeseTile(tile);
 
     AbstractTile* t = board->getTile(tile);
     std::vector<int> neighbouringBuilders = t->getNeighbouringResidences(builder);
-    out << "Builder " << builder.getBuilderColourString() << " can choose to steal from:";
-
     if (neighbouringBuilders.size() == 0) {
         out << "Builder " << builder.getBuilderColourString() << " has no builders to steal from." << std::endl;
         return;
+    }
+    else{
+        out << "Builder " << builder.getBuilderColourString() << " can choose to steal from:";
     }
 
     for (size_t i = 0; i < neighbouringBuilders.size() - 1; i++) {
@@ -245,7 +246,6 @@ void Game::beginTurn(std::istream& in, std::ostream& out) {
 
     out << "Builder " << builder.getBuilderColourString() << "'s turn." << std::endl;
     out << builder.getStatus() << std::endl;
-    out << (in.fail() ? "1" : "0") << std::endl;
 
     while (in >> command) {
         if (command == "load") {
@@ -258,16 +258,14 @@ void Game::beginTurn(std::istream& in, std::ostream& out) {
             if (builder.getDice()) {
                 while (loaded < 2 || loaded > 12) {
                     out << "Input a roll between 2 and 12:" << std::endl;
-                    out << loaded << std::endl;
-                    out << (in.fail() ? "1" : "0") << std::endl;
                     in >> loaded;
-                    out << "1";
                     if (loaded < 2 || loaded > 12) {
                         out << "Invalid roll." << std::endl;
                     }
                 }
             }
             roll = builder.rollDice(loaded);
+            out << "Builder " << builder.getBuilderColourString() << " rolled " << roll << std::endl;
             if (roll == 7) {
                 moveGeese(in, out);
             }
@@ -376,35 +374,31 @@ void Game::duringTurn(std::istream& in, std::ostream& out, int roll) {
         else if (command == "residences") {
             out << "Builder " << builder.getBuilderColourString() << " has built:" << std::endl;
             for (size_t i = 0; i < builder.residences.size(); i++) {
-                out << builder.residences[i]->getLocation().getVertexNumber() << " " << builder.residences[i]->getResidenceLetter();
+                out << std::to_string(builder.residences[0]->getLocation().getVertexNumber()) << " " << builder.residences[i]->getResidenceLetter() << std::endl;
             }
         }
         else if (command.substr(0, 10) == "build-road") {
-            board->buildRoad(builder, std::stoi(command.substr(11, 1)), out);
+            int edge;
+            in >> edge;
+            board->buildRoad(builder, edge, out);
         }
         else if (command.substr(0, 9) == "build-res") {
-            board->buildResidence(builder, std::stoi(command.substr(10, 1)), out);
+            int vertex;
+            in >> vertex;
+            board->buildResidence(builder, vertex, out);
         }
         else if (command.substr(0, 7) == "improve") {
-            board->upgradeResidence(builder, std::stoi(command.substr(8, 1)), out);
+            int vertex;
+            in >> vertex;
+            board->upgradeResidence(builder, vertex, out);
         }
         else if (command.substr(0, 5) == "trade") {
-            std::string space = " ";
-            command.erase(0, 6);
-
-            // get builder
-            int pos = command.find_first_of(space);
-            std::string proposeeColour = command.substr(0, pos);
-            command.erase(0, pos + 1);
-
-            // get give
-            pos = command.find_first_of(space);
-            std::string give = command.substr(0, pos);
-            command.erase(0, pos + 1);
-
-            // get take
-            std::string take = command;
-
+            std::string proposeeColour;
+            in >> proposeeColour;
+            std::string give;
+            in >> give; 
+            std::string take;
+            in >> take; 
             Trade trade = builder.proposeTrade(proposeeColour, give, take, out);
             Builder& proposee = getBuilder(proposeeColour);
             if (proposee.respondToTrade(in, out)) {
@@ -416,7 +410,9 @@ void Game::duringTurn(std::istream& in, std::ostream& out, int roll) {
             return;
         }
         else if (command.substr(0, 4) == "save") {
-            save(command.substr(5, command.length() - 5));
+            std::string fileName;
+            in >> fileName;
+            save(fileName);
         }
         else if (command == "help") {
             out << "Valid commands:" << std::endl;
@@ -445,9 +441,11 @@ void Game::nextTurn(std::istream& in, std::ostream& out) {
     beginTurn(in, out);
 }
 
-bool Game::play(std::istream& in, std::ostream& out) {
-    buildInitialResidences(in, out);
-    board->printBoard(out);
+bool Game::play(std::istream& in, std::ostream& out, bool newGame) {
+    if (newGame){
+        buildInitialResidences(in, out);
+        board->printBoard(out);
+    }
     beginTurn(in, out);
     if (builders[0]->getBuildingPoints() == 10 || builders[1]->getBuildingPoints() == 10 || builders[2]->getBuildingPoints() == 10 || builders[3]->getBuildingPoints() == 10) {
         return true;
