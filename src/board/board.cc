@@ -100,6 +100,7 @@ bool Board::buildRoad(Builder& builder, int edgeNumber, std::ostream& out) {
 
     if (road != nullptr) {
         edge->buildRoad(road);
+        out << "You have successfully built a road." << std::endl;
         return true;
     }
 
@@ -121,6 +122,7 @@ bool Board::buildResidence(Builder& builder, int vertexNumber, std::ostream& out
 
     if (residence != nullptr) {
         vertex->buildResidence(residence);
+        out << "You have successfully built a residence." << std::endl;
         return true;
     }
 
@@ -156,6 +158,7 @@ bool Board::upgradeResidence(Builder& builder, int vertexNumber, std::ostream& o
 
     if (residence != nullptr) {
         vertex->upgradeResidence(residence);
+        out << "You have successfully upgraded your residence." << std::endl;
         return true;
     }
 

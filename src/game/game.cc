@@ -164,15 +164,14 @@ void Game::moveGeese(std::istream& in, std::ostream& out) {
         std::vector<Resource> discard = discardRandomResource(*builders[i], true);
         std::map<Resource, int> discardNum;
         if (discard.size() > 0) {
-            out << "Builder " << builders[i]->getBuilderColourString() << " loses" << discard.size() << " resources to the geese. They lose:" << std::endl;
-            for (size_t i = 0; i < discard.size(); i++) {
-                out << discard[i] << std::endl;
-                builders[i]->inventory[discard[i]]--;
-                discardNum[discard[i]]++;
+            out << "Builder " << builders[i]->getBuilderColourString() << " loses " << discard.size() << " resources to the geese. They lose:" << std::endl;
+            for (size_t j = 0; j < discard.size(); j++) {
+                builders[i]->inventory[discard[j]]--;
+                discardNum[discard[j]]++;
             }
             // print out discarded resources
             for (auto const& resource : discardNum) {
-                out << resource.first << " " << resource.second << std::endl;
+                out << resource.second << " " << resource.first << std::endl;
             }
         }
     }
@@ -415,6 +414,7 @@ void Game::duringTurn(std::istream& in, std::ostream& out, int roll) {
             save(fileName);
         }
         else if (command == "help") {
+            out << std::endl;
             out << "Valid commands:" << std::endl;
             out << "board" << std::endl;
             out << "status" << std::endl;
@@ -426,6 +426,7 @@ void Game::duringTurn(std::istream& in, std::ostream& out, int roll) {
             out << "next" << std::endl;
             out << "save <file>" << std::endl;
             out << "help" << std::endl;
+            out << std::endl;
         }
         else {
             out << "Invalid command." << std::endl;
