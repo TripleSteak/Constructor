@@ -8,6 +8,7 @@
 
 # Compiled files
 constructor
-
-# ./run_tests.sh test file
 tests/tests.out
+
+# Save files
+*.sv

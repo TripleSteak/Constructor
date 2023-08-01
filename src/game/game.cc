@@ -255,7 +255,7 @@ void Game::save(std::string filename) {
     }
 
     for (int i = 0; i < Board::NUM_TILES - 1; i++) {
-        outputFile << (int)(getBoard().getTile(i)->getResource()) << " " << getBoard().getTile(i)->getTileValue() << " ";
+        outputFile << static_cast<int>(getBoard().getTile(i)->getResource()) << " " << getBoard().getTile(i)->getTileValue() << " ";
     }
 
     outputFile << (int)(getBoard().getTile(Board::NUM_TILES - 1)->getResource()) << " " << getBoard().getTile(Board::NUM_TILES - 1)->getTileValue() << std::endl;
