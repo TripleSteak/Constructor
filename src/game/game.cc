@@ -105,18 +105,22 @@ Builder& Game::getBuilder(std::string colour) {
 void Game::facilitateTrade(Builder& proposee, Trade trade, std::ostream& out) {
     Builder& builder = *builders.at(currentBuilder);
 
-    if (builder.inventory[trade.resourceToGive] > 0 && proposee.inventory[trade.resourceToTake] > 0) {
-        builder.inventory[trade.resourceToGive]--;
-        builder.inventory[trade.resourceToTake]++;
-        proposee.inventory[trade.resourceToGive]++;
-        proposee.inventory[trade.resourceToTake]--;
+    if (builder.inventory[trade.resourceToGive] >= trade.numToGive && proposee.inventory[trade.resourceToTake] >= trade.numToTake) {
+        for (int i = 0; i < trade.numToGive; i++) {
+            builder.inventory[trade.resourceToGive]--;
+            proposee.inventory[trade.resourceToGive]++;
+        }
+        for (int i = 0; i < trade.numToTake; i++) {
+            builder.inventory[trade.resourceToTake]++;
+            proposee.inventory[trade.resourceToTake]--;
+        }
         out << "Trade completed." << std::endl;
     }
-    else if (builder.inventory[trade.resourceToGive] == 0) {
-        out << "You do not have any " << trade.resourceToGive << " to trade." << std::endl;
+    else if (builder.inventory[trade.resourceToGive] < trade.numToGive) {
+        out << "You do not have enough " << trade.resourceToGive << " to trade." << std::endl;
     }
-    else if (proposee.inventory[trade.resourceToTake] == 0) {
-        out << proposee.getBuilderColourString() << " does not have any " << trade.resourceToTake << " to trade." << std::endl;
+    else if (proposee.inventory[trade.resourceToTake] < trade.numToTake) {
+        out << proposee.getBuilderColourString() << " does not have enough " << trade.resourceToTake << " to trade." << std::endl;
     }
 }
 
@@ -428,12 +432,16 @@ void Game::duringTurn(std::istream& in, std::ostream& out) {
         else if (command.substr(0, 5) == "trade") {
             std::string proposeeColour;
             in >> proposeeColour;
+            int numGive;
+            in >> numGive;
             std::string give;
             in >> give; 
+            int numTake;
+            in >> numTake;
             std::string take;
             in >> take;
 
-            Trade trade = builder.proposeTrade(proposeeColour, give, take, out);
+            Trade trade = builder.proposeTrade(proposeeColour, numGive, give, numTake, take, out);
             Builder& proposee = getBuilder(proposeeColour);
             if (proposee.respondToTrade(in, out)) {
                 facilitateTrade(proposee, trade, out);

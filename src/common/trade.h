@@ -6,7 +6,9 @@
 
 struct Trade {
     std::string proposeeColour;
+    int numToGive;
     Resource resourceToGive;
+    int numToTake;
     Resource resourceToTake;
 };
 

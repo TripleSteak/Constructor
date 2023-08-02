@@ -114,7 +114,7 @@ char Builder::steal(std::istream& in, std::ostream& out) const {
     return stealFrom;
 }
 
-Trade Builder::proposeTrade(std::string proposee, std::string resourceToGive, std::string resourceToTake, std::ostream& out) const {
+Trade Builder::proposeTrade(std::string proposee, int numGive, std::string resourceToGive, int numTake, std::string resourceToTake, std::ostream& out) const {
     Trade trade;
 
     // Adjust proposee colour to match standard builder colour casing
@@ -124,10 +124,12 @@ Trade Builder::proposeTrade(std::string proposee, std::string resourceToGive, st
     }
 
     trade.proposeeColour = proposee;
+    trade.numToGive = numGive;
     trade.resourceToGive = resourceFromString(resourceToGive);
+    trade.numToTake = numTake;
     trade.resourceToTake = resourceFromString(resourceToTake);
 
-    out << getBuilderColourString() << " offers " << trade.proposeeColour << " one " << resourceToGive << " for one " << resourceToTake << "." << std::endl;
+    out << getBuilderColourString() << " offers " << trade.proposeeColour << " " << numGive << " " << resourceToGive << " for " << numTake << " " << resourceToTake << "." << std::endl;
     return trade;
 }
 
