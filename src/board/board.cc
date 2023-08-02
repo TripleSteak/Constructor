@@ -88,7 +88,13 @@ Edge* Board::getEdge(int edgeNumber) const {
 }
 
 bool Board::buildRoad(Builder& builder, int edgeNumber, std::ostream& out) {
-    Edge* edge = getEdge(edgeNumber);
+    Edge* edge;
+    try{
+        edge = getEdge(edgeNumber);
+    } catch (std::out_of_range& e) {
+        out << "Invalid edge number." << std::endl;
+        return false;
+    }
 
     // check if can build road on edge
     if (!edge->canBuildRoad(builder)) {
@@ -110,7 +116,13 @@ bool Board::buildRoad(Builder& builder, int edgeNumber, std::ostream& out) {
 }
 
 bool Board::buildResidence(Builder& builder, int vertexNumber, std::ostream& out) {
-    Vertex* vertex = getVertex(vertexNumber);
+    Vertex* vertex;
+    try{
+        vertex = getVertex(vertexNumber);
+    } catch (std::out_of_range& e) {
+        out << "Invalid vertex number." << std::endl;
+        return false;
+    }
 
     // check if can build residence on vertex
     if (!vertex->canBuildResidence(builder)) {
@@ -132,7 +144,13 @@ bool Board::buildResidence(Builder& builder, int vertexNumber, std::ostream& out
 }
 
 bool Board::buildInitialResidence(Builder& builder, int vertexNumber, std::ostream& out) {
-    Vertex* vertex = getVertex(vertexNumber);
+    Vertex* vertex;
+    try{
+        vertex = getVertex(vertexNumber);
+    } catch (std::out_of_range& e) {
+        out << "Invalid vertex number." << std::endl;
+        return false;
+    }
 
     // check if can build residence on vertex
     if (!vertex->canBuildInitialResidence()) {
@@ -146,7 +164,13 @@ bool Board::buildInitialResidence(Builder& builder, int vertexNumber, std::ostre
 }
 
 bool Board::upgradeResidence(Builder& builder, int vertexNumber, std::ostream& out) {
-    Vertex* vertex = getVertex(vertexNumber);
+    Vertex* vertex;
+    try{
+        vertex = getVertex(vertexNumber);
+    } catch (std::out_of_range& e) {
+        out << "Invalid vertex number." << std::endl;
+        return false;
+    }
 
     // check if can upgrade residence on vertex
     if (!vertex->canUpgradeResidence(builder)) {
