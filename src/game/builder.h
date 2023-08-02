@@ -59,8 +59,6 @@ class Builder final {
     Trade proposeTrade(std::string, std::string, std::string, std::ostream&) const;
     bool respondToTrade(std::istream&, std::ostream&) const;
 
-    std::unordered_map<Resource, int> getResourcesFromDiceRoll(int);
-
     std::shared_ptr<Road> tryBuildRoad(Edge&);
     std::shared_ptr<Residence> tryBuildResidence(Vertex&);
     std::shared_ptr<Residence> tryBuildInitialResidence(Vertex&);
