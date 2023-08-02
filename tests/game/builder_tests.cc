@@ -117,11 +117,11 @@ TEST(Builder, ProposeTrade) {
     Builder builder(1, 'Y');
     std::ostringstream out;
 
-    Trade trade = builder.proposeTrade("RED", "BRICK", "ENERGY", out);
+    Trade trade = builder.proposeTrade("RED", 1, "BRICK", 1, "ENERGY", out);
     EXPECT_EQ(trade.proposeeColour, "Red");
     EXPECT_EQ(trade.resourceToGive, BRICK);
     EXPECT_EQ(trade.resourceToTake, ENERGY);
-    EXPECT_EQ(out.str(), "Yellow offers Red one BRICK for one ENERGY.\n");
+    EXPECT_EQ(out.str(), "Yellow offers Red 1 BRICK for 1 ENERGY.\n");
 }
 
 TEST(Builder, RespondToTradeWithNo) {
