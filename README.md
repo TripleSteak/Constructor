@@ -14,4 +14,4 @@ Welcome to **Constructor**, a UWaterloo-themed remake of the popular board game 
 All of our unit tests are located in the `tests` folder under the root directory. To run the entire unit test suite, `cd` into `tests` and execute `./run_tests.sh`.
 Remember that you may need to grant file permissions to the test execution script with something like `chmod +x run_tests.sh`.
 
-![Untitled-3](https://github.com/TripleSteak/Constructor/assets/24597462/f3d13598-719a-4e4e-9fc0-0e6f4e5e81cc)
+![Untitled-3](https://github.com/TripleSteak/Constructor/assets/24597462/22054c95-9a62-4344-a493-04b603e6d80a)
